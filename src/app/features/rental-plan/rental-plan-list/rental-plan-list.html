@@ -1,0 +1,143 @@
+<div class="page">
+
+  <!-- Cabeçalho -->
+  <div class="page-header">
+
+    <div>
+      <h1>Planos de Locação</h1>
+
+      <p>
+        Gerencie os planos e condições de locação da sua frota.
+      </p>
+    </div>
+
+    <button
+      class="primary-button"
+      type="button"
+      (click)="abrirModalCriar()"
+    >
+      <span>+</span>
+      Novo plano
+    </button>
+
+  </div>
+
+
+  <!-- Conteúdo -->
+  <div class="content-card">
+
+    <div class="table-header">
+
+      <div>
+        <h2>Planos cadastrados</h2>
+
+        <span>
+          Consulte e gerencie os planos disponíveis.
+        </span>
+      </div>
+
+    </div>
+
+
+    <div class="table-container">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>Nome</th>
+            <th>Preço diário</th>
+            <th>Preço mensal</th>
+            <th>Km / dia</th>
+            <th>Km / mês</th>
+            <th>Ações</th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          @for (plano of planos(); track plano.id) {
+
+            <tr>
+
+              <td>
+                <div class="plan-name">
+                  {{ plano.name }}
+                </div>
+              </td>
+
+              <td>
+                <span class="price">
+                  {{ plano.dailyPrice | currency:'BRL' }}
+                </span>
+              </td>
+
+              <td>
+                <span class="price">
+                  {{ plano.monthlyPrice | currency:'BRL' }}
+                </span>
+              </td>
+
+              <td>
+                <span class="mileage">
+                  {{ plano.mileagePerDay }} km
+                </span>
+              </td>
+
+              <td>
+                <span class="mileage">
+                  {{ plano.mileagePerMonthly }} km
+                </span>
+              </td>
+
+              <td>
+
+                <div class="actions">
+
+                  <button
+                    class="action-button edit"
+                    type="button"
+                    (click)="abrirModalEditar(plano)"
+                  >
+                    Editar
+                  </button>
+
+                  <button
+                    class="action-button delete"
+                    type="button"
+                    (click)="excluir(plano.id)"
+                  >
+                    Excluir
+                  </button>
+
+                </div>
+
+              </td>
+
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+
+  <!-- Modal -->
+  @if (modalAberto()) {
+
+    <app-rental-plan-form
+      [planoParaEditar]="planoSelecionado()"
+      (salvo)="onSalvo()"
+      (cancelado)="onCancelado()"
+    />
+
+  }
+
+</div>

@@ -1,1 +1,256 @@
-<p>login works!</p>
+<div class="login-page">
+
+  <div class="login-card">
+
+    <!-- Logo / Identidade -->
+    <div class="brand">
+
+      <div class="brand-icon">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M5 17H4C3.45 17 3 16.55 3 16V12.5C3 11.67 3.67 11 4.5 11H5L7.2 5.5C7.5 4.6 8.35 4 9.3 4H14.7C15.65 4 16.5 4.6 16.8 5.5L19 11H19.5C20.33 11 21 11.67 21 12.5V16C21 16.55 20.55 17 20 17H19"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+
+          <path
+            d="M5 17V19C5 19.55 5.45 20 6 20H7C7.55 20 8 19.55 8 19V17"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+          />
+
+          <path
+            d="M16 17V19C16 19.55 16.45 20 17 20H18C18.55 20 19 19.55 19 19V17"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+          />
+
+          <circle cx="7.5" cy="13.5" r="1" fill="currentColor" />
+          <circle cx="16.5" cy="13.5" r="1" fill="currentColor" />
+        </svg>
+      </div>
+
+      <h1>FleetManager</h1>
+
+      <p>Sistema de Gestão de Frotas</p>
+
+    </div>
+
+
+    <!-- Título -->
+    <div class="login-heading">
+
+      <h2>Bem-vindo</h2>
+
+      <p>
+        Entre com suas credenciais para acessar o sistema.
+      </p>
+
+    </div>
+
+
+    <!-- Formulário -->
+    <form
+      [formGroup]="loginForm"
+      (ngSubmit)="onSubmit()"
+    >
+
+      <!-- E-mail -->
+      <div class="form-group">
+
+        <label for="email">
+          E-mail
+        </label>
+
+        <div class="input-wrapper">
+
+          <svg
+            class="input-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              x="3"
+              y="5"
+              width="18"
+              height="14"
+              rx="2"
+              stroke="currentColor"
+              stroke-width="1.7"
+            />
+
+            <path
+              d="M3 7L12 13L21 7"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            placeholder="Digite seu e-mail"
+            autocomplete="email"
+          />
+
+        </div>
+
+        @if (loginForm.controls.email.invalid && loginForm.controls.email.touched) {
+          <span class="field-error">E-mail inválido ou obrigatório</span>
+        }
+
+      </div>
+
+
+      <!-- Senha -->
+      <div class="form-group">
+
+        <label for="password">
+          Senha
+        </label>
+
+        <div class="input-wrapper">
+
+          <svg
+            class="input-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              x="5"
+              y="10"
+              width="14"
+              height="10"
+              rx="2"
+              stroke="currentColor"
+              stroke-width="1.7"
+            />
+
+            <path
+              d="M8 10V7.5C8 5.57 9.57 4 11.5 4H12.5C14.43 4 16 5.57 16 7.5V10"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+            />
+
+            <circle
+              cx="12"
+              cy="15"
+              r="1"
+              fill="currentColor"
+            />
+          </svg>
+
+          <input
+            id="password"
+            type="password"
+            formControlName="password"
+            placeholder="Digite sua senha"
+            autocomplete="current-password"
+          />
+
+        </div>
+
+        @if (loginForm.controls.password.invalid && loginForm.controls.password.touched) {
+          <span class="field-error">Senha obrigatória</span>
+        }
+
+      </div>
+
+
+      <!-- Opções -->
+      <div class="login-options">
+
+        <label class="remember">
+
+          <input
+            type="checkbox"
+            class="remember-checkbox"
+          />
+
+          <span>Lembrar-me</span>
+
+        </label>
+
+        <a href="#" (click)="$event.preventDefault()">
+          Esqueci minha senha
+        </a>
+
+      </div>
+
+
+      <!-- Mensagem que já vem da API -->
+      @if (errorMessage()) {
+
+        <div class="login-error">
+          {{ errorMessage() }}
+        </div>
+
+      }
+
+
+      <!-- Botão -->
+      <button
+        type="submit"
+        class="login-button"
+        [disabled]="loginForm.invalid"
+      >
+
+        <span>Entrar</span>
+
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M5 12H19"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+          />
+
+          <path
+            d="M13 6L19 12L13 18"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+
+        </svg>
+
+      </button>
+
+    </form>
+
+
+    <!-- Rodapé -->
+    <footer class="login-footer">
+
+      <span>
+        © 2026 FleetManager
+      </span>
+
+      <span>
+        Sistema de Gestão de Frotas
+      </span>
+
+    </footer>
+
+  </div>
+
+</div>

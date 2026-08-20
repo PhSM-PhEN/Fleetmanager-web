@@ -1,0 +1,372 @@
+:host {
+  --primary: #5b45e6;
+  --primary-dark: #4935c9;
+
+  --text: #182230;
+  --text-secondary: #6b7280;
+
+  --border: #dfe4ec;
+}
+
+
+// ======================================================
+// OVERLAY
+// ======================================================
+
+.modal-overlay {
+
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 1000;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 20px;
+
+  background: rgba(15, 23, 42, 0.45);
+
+  backdrop-filter: blur(2px);
+}
+
+
+// ======================================================
+// MODAL
+// ======================================================
+
+.modal-content {
+
+  width: 100%;
+
+  max-width: 560px;
+
+  max-height: 90vh;
+
+  overflow-y: auto;
+
+  background: #ffffff;
+
+  border-radius: 14px;
+
+  box-shadow:
+    0 25px 60px rgba(15, 23, 42, 0.18);
+}
+
+
+// ======================================================
+// CABEÇALHO
+// ======================================================
+
+.modal-header {
+
+  display: flex;
+
+  align-items: flex-start;
+
+  justify-content: space-between;
+
+  padding: 23px 25px;
+
+  border-bottom: 1px solid #edf0f4;
+}
+
+
+.modal-header h2 {
+
+  margin: 0 0 5px;
+
+  color: var(--text);
+
+  font-size: 17px;
+
+  font-weight: 700;
+}
+
+
+.modal-header p {
+
+  margin: 0;
+
+  color: var(--text-secondary);
+
+  font-size: 10px;
+}
+
+
+.close-button {
+
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  color: #8b95a3;
+
+  background: transparent;
+
+  border: none;
+
+  border-radius: 6px;
+
+  font-size: 23px;
+
+  cursor: pointer;
+}
+
+
+.close-button:hover {
+
+  color: #374151;
+
+  background: #f3f4f6;
+}
+
+
+// ======================================================
+// FORMULÁRIO
+// ======================================================
+
+form {
+
+  padding: 24px 25px;
+}
+
+
+.form-grid {
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 18px 16px;
+}
+
+
+.form-group {
+
+  display: flex;
+
+  flex-direction: column;
+}
+
+
+.form-group.full {
+
+  grid-column: span 2;
+}
+
+
+.form-group label {
+
+  margin-bottom: 7px;
+
+  color: #374151;
+
+  font-size: 10px;
+
+  font-weight: 650;
+}
+
+
+.form-group input {
+
+  width: 100%;
+
+  height: 40px;
+
+  box-sizing: border-box;
+
+  padding: 0 11px;
+
+  color: var(--text);
+
+  background: #ffffff;
+
+  border: 1px solid var(--border);
+
+  border-radius: 7px;
+
+  outline: none;
+
+  font-size: 11px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.form-group input::placeholder {
+
+  color: #a5adba;
+}
+
+
+.form-group input:focus {
+
+  border-color: var(--primary);
+
+  box-shadow:
+    0 0 0 3px rgba(91, 69, 230, 0.10);
+}
+
+
+// ======================================================
+// ERRO
+// ======================================================
+
+.error {
+
+  margin-top: 18px;
+
+  padding: 10px 12px;
+
+  color: #dc2626;
+
+  background: #fef2f2;
+
+  border: 1px solid #fecaca;
+
+  border-radius: 7px;
+
+  font-size: 10px;
+
+}
+
+
+// ======================================================
+// AÇÕES
+// ======================================================
+
+.modal-actions {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: flex-end;
+
+  gap: 9px;
+
+  margin-top: 25px;
+
+  padding-top: 18px;
+
+  border-top: 1px solid #edf0f4;
+}
+
+
+.cancel-button,
+.save-button {
+
+  height: 38px;
+
+  padding: 0 17px;
+
+  border-radius: 7px;
+
+  font-size: 11px;
+
+  font-weight: 650;
+
+  cursor: pointer;
+}
+
+
+.cancel-button {
+
+  color: #667085;
+
+  background: #ffffff;
+
+  border: 1px solid var(--border);
+}
+
+
+.cancel-button:hover {
+
+  background: #f8f9fb;
+}
+
+
+.save-button {
+
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #6650ee,
+      #4d38d1
+    );
+
+  border: none;
+
+  box-shadow:
+    0 5px 12px rgba(91, 69, 230, 0.18);
+}
+
+
+.save-button:hover:not(:disabled) {
+
+  background:
+    linear-gradient(
+      135deg,
+      #5b45df,
+      #4530c3
+    );
+}
+
+
+.save-button:disabled {
+
+  opacity: 0.5;
+
+  cursor: not-allowed;
+
+  box-shadow: none;
+}
+
+
+// ======================================================
+// RESPONSIVO
+// ======================================================
+
+@media (max-width: 600px) {
+
+  .modal-content {
+
+    max-height: 95vh;
+
+  }
+
+
+  .form-grid {
+
+    grid-template-columns: 1fr;
+
+  }
+
+
+  .form-group.full {
+
+    grid-column: span 1;
+
+  }
+
+
+  form {
+
+    padding: 20px;
+
+  }
+
+}

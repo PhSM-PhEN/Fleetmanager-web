@@ -1,0 +1,191 @@
+<div class="modal-overlay">
+
+  <div class="modal-content">
+
+    <!-- Cabeçalho -->
+
+    <div class="modal-header">
+
+      <div>
+
+        <h2>
+          {{ planoParaEditar() ? 'Editar plano' : 'Novo plano' }}
+        </h2>
+
+        <p>
+          {{ planoParaEditar()
+            ? 'Atualize as informações do plano.'
+            : 'Cadastre um novo plano de locação.'
+          }}
+        </p>
+
+      </div>
+
+      <button
+        type="button"
+        class="close-button"
+        (click)="onCancelar()"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <!-- Formulário -->
+
+    <form
+      [formGroup]="planoForm"
+      (ngSubmit)="onSubmit()"
+    >
+
+      <div class="form-grid">
+
+        <!-- Nome -->
+
+        <div class="form-group full">
+
+          <label for="name">
+            Nome do plano
+          </label>
+
+          <input
+            id="name"
+            type="text"
+            formControlName="name"
+            placeholder="Ex.: Plano Básico"
+          />
+
+        </div>
+
+
+        <!-- Preço diário -->
+
+        <div class="form-group">
+
+          <label for="dailyPrice">
+            Preço diário
+          </label>
+
+          <input
+            id="dailyPrice"
+            type="number"
+            formControlName="dailyPrice"
+            placeholder="0,00"
+          />
+
+        </div>
+
+
+        <!-- Preço mensal -->
+
+        <div class="form-group">
+
+          <label for="monthlyPrice">
+            Preço mensal
+          </label>
+
+          <input
+            id="monthlyPrice"
+            type="number"
+            formControlName="monthlyPrice"
+            placeholder="0,00"
+          />
+
+        </div>
+
+
+        <!-- Taxa excedente -->
+
+        <div class="form-group full">
+
+          <label for="excessMileageRate">
+            Taxa por km excedente
+          </label>
+
+          <input
+            id="excessMileageRate"
+            type="number"
+            formControlName="excessMileageRate"
+            placeholder="0,00"
+          />
+
+        </div>
+
+
+        <!-- Km diário -->
+
+        <div class="form-group">
+
+          <label for="mileagePerDay">
+            Km incluídos por dia
+          </label>
+
+          <input
+            id="mileagePerDay"
+            type="number"
+            formControlName="mileagePerDay"
+            placeholder="Ex.: 200"
+          />
+
+        </div>
+
+
+        <!-- Km mensal -->
+
+        <div class="form-group">
+
+          <label for="mileagePerMonthly">
+            Km incluídos por mês
+          </label>
+
+          <input
+            id="mileagePerMonthly"
+            type="number"
+            formControlName="mileagePerMonthly"
+            placeholder="Ex.: 5000"
+          />
+
+        </div>
+
+      </div>
+
+
+      <!-- Erro da API -->
+
+      @if (errorMessage()) {
+
+        <div class="error">
+          {{ errorMessage() }}
+        </div>
+
+      }
+
+
+      <!-- Ações -->
+
+      <div class="modal-actions">
+
+        <button
+          type="button"
+          class="cancel-button"
+          (click)="onCancelar()"
+        >
+          Cancelar
+        </button>
+
+        <button
+          type="submit"
+          class="save-button"
+          [disabled]="planoForm.invalid"
+        >
+          Salvar
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
