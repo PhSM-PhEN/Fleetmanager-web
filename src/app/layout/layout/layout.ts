@@ -1,10 +1,19 @@
-import { Component } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router'; // Adicionado RouterLinkActive
+import { Component, inject } from '@angular/core';
+import { Router, RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { Auth } from '../../core/auth/auth';
 
 @Component({
   selector: 'app-layout',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive], // Adicionado RouterLinkActive aqui
+  imports: [RouterOutlet, RouterLink, RouterLinkActive],
   templateUrl: './layout.html',
   styleUrl: './layout.scss'
 })
-export class Layout {}
+export class Layout {
+  private auth = inject(Auth);
+  private router = inject(Router);
+
+  sair() {
+    this.auth.logout();
+    this.router.navigate(['/login']);
+  }
+}
