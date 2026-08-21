@@ -1,0 +1,51 @@
+<div class="page">
+
+    <div class="page-header">
+      <div>
+        <h1>Empresas</h1>
+        <p>Gerencie as empresas donas da frota.</p>
+      </div>
+  
+      <button class="primary-button" type="button" (click)="abrirModalCriar()">
+        <span>+</span>
+        Nova empresa
+      </button>
+    </div>
+  
+    <div class="content-card">
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>CNPJ</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (empresa of empresas(); track empresa.id) {
+              <tr>
+                <td>{{ empresa.name }}</td>
+                <td>{{ empresa.cnpj }}</td>
+                <td>
+                  <div class="actions">
+                    <button class="action-button edit" type="button" (click)="abrirModalEditar(empresa)">Editar</button>
+                    <button class="action-button delete" type="button" (click)="excluir(empresa.id)">Excluir</button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  
+    @if (modalAberto()) {
+      <app-company-form
+        [empresaParaEditar]="empresaSelecionada()"
+        (salvo)="onSalvo()"
+        (cancelado)="onCancelado()"
+      />
+    }
+  
+  </div>

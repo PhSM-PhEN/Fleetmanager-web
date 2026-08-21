@@ -1,0 +1,62 @@
+<div class="modal-overlay">
+    <div class="modal-content">
+  
+      <h2>{{ empresaParaEditar() ? 'Editar empresa' : 'Nova empresa' }}</h2>
+  
+      <form (ngSubmit)="onSubmit()">
+  
+        <h3>Dados da empresa</h3>
+        <div [formGroup]="empresaForm">
+          <div class="form-group">
+            <label for="name">Nome</label>
+            <input id="name" type="text" formControlName="name" />
+          </div>
+  
+          <div class="form-group">
+            <label for="cnpj">CNPJ</label>
+            <input id="cnpj" type="text" formControlName="cnpj" />
+          </div>
+  
+          <div class="form-group">
+            <label for="phoneNumber">Telefone</label>
+            <input id="phoneNumber" type="text" formControlName="phoneNumber" />
+          </div>
+        </div>
+  
+        <h3>Endereço</h3>
+        <div [formGroup]="enderecoForm">
+          <div class="form-group">
+            <label for="street">Rua</label>
+            <input id="street" type="text" formControlName="street" />
+          </div>
+  
+          <div class="form-group">
+            <label for="number">Número</label>
+            <input id="number" type="text" formControlName="number" />
+          </div>
+  
+          <div class="form-group">
+            <label for="city">Cidade</label>
+            <input id="city" type="text" formControlName="city" />
+          </div>
+  
+          <div class="form-group">
+            <label for="state">Estado</label>
+            <input id="state" type="text" formControlName="state" />
+          </div>
+  
+          <div class="form-group">
+            <label for="zipCode">CEP</label>
+            <input id="zipCode" type="text" formControlName="zipCode" />
+          </div>
+        </div>
+  
+        <div class="modal-actions">
+          <button type="button" (click)="onCancelar()">Cancelar</button>
+          <button type="submit" [disabled]="empresaForm.invalid || enderecoForm.invalid">Salvar</button>
+        </div>
+  
+      </form>
+  
+    </div>
+  </div>
