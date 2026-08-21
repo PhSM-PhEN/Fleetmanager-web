@@ -1,0 +1,60 @@
+<div class="page">
+
+  <div class="page-header">
+    <div>
+      <h1>Veículos</h1>
+      <p>Gerencie a frota de veículos.</p>
+    </div>
+
+    <button class="primary-button" type="button" (click)="abrirModalCriar()">
+      <span>+</span>
+      Novo veículo
+    </button>
+  </div>
+
+  <div class="content-card">
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Placa</th>
+            <th>Marca/Modelo</th>
+            <th>Cor</th>
+            <th>Ano</th>
+            <th>Km</th>
+            <th>Empresa</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (veiculo of veiculos(); track veiculo.id) {
+            <tr>
+              <td>{{ veiculo.licensePlate }}</td>
+              <td>{{ veiculo.brand }} {{ veiculo.model }}</td>
+              <td>{{ veiculo.color }}</td>
+              <td>{{ veiculo.manufacturingYear }}</td>
+              <td>{{ veiculo.currentMileage }} km</td>
+              <td>{{ veiculo.company.name }}</td>
+              <td>
+                <div class="actions">
+                  <button class="action-button" type="button" (click)="atualizarQuilometragem(veiculo)">Km</button>
+                  <button class="action-button" type="button" (click)="ativar(veiculo.id)">Ativar</button>
+                  <button class="action-button" type="button" (click)="desativar(veiculo.id)">Desativar</button>
+                  <button class="action-button delete" type="button" (click)="excluir(veiculo.id)">Excluir</button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  @if (modalAberto()) {
+    <app-vehicle-form
+      (salvo)="onSalvo()"
+      (cancelado)="onCancelado()"
+    />
+  }
+
+</div>
