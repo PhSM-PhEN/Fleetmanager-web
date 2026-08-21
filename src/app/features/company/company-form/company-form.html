@@ -2,8 +2,8 @@
     <div class="modal-content">
   
       <h2>{{ empresaParaEditar() ? 'Editar empresa' : 'Nova empresa' }}</h2>
-  
-      <form (ngSubmit)="onSubmit()">
+      
+      <form (submit)="onFormSubmit($event)">
   
         <h3>Dados da empresa</h3>
         <div [formGroup]="empresaForm">

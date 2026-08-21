@@ -225,10 +225,7 @@ body {
 
   color: #111827;
 
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
+  font-family: inherit;
 
   font-size: 17px;
   font-weight: 700;
@@ -268,25 +265,22 @@ body {
    SECTION TITLE
    ========================================================= */
 
-.nav-section-title {
-  display: block;
-
-  margin: 8px 11px 9px;
-
-  color: #a0a8b8;
-
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-  font-size: 10px;
-  font-weight: 700;
-
-  letter-spacing: 0.8px;
-
-  text-transform: uppercase;
-}
+   .nav-section-title {
+    display: block;
+  
+    margin: 8px 11px 9px;
+  
+    color: #a0a8b8;
+  
+    font-family: inherit;
+  
+    font-size: 10px;
+    font-weight: 700;
+  
+    letter-spacing: 0.8px;
+  
+    text-transform: uppercase;
+  }
 
 
 /* =========================================================
@@ -485,50 +479,193 @@ body {
    TOPBAR
    ========================================================= */
 
-/*
-   A imagem de referência não possui uma barra superior.
-   Caso seu HTML ainda possua .topbar, ela fica escondida.
-*/
-
 .topbar {
-  display: none;
+height: 68px;
+
+display: flex;
+
+align-items: center;
+
+justify-content: space-between;
+
+padding: 0 30px;
+
+background: #ffffff;
+
+border-bottom: 1px solid var(--color-border);
+
+flex-shrink: 0;
+}
+
+
+.topbar-left {
+display: flex;
+align-items: center;
+}
+
+
+.page-system {
+color: var(--color-text-secondary);
+
+font-size: 11px;
+
+font-weight: 500;
+}
+
+
+.topbar-right {
+display: flex;
+
+align-items: center;
+
+gap: 20px;
 }
 
 
 /* =========================================================
-   TOPBAR - COMPATIBILIDADE
-   ========================================================= */
+NOTIFICAÇÕES
+========================================================= */
 
-.topbar-left,
-.topbar-right,
-.page-system,
-.notification-button,
-.notification-dot,
-.user-profile,
-.user-avatar,
-.user-info,
-.user-arrow {
-  display: none;
+.notification-button {
+position: relative;
+
+width: 35px;
+height: 35px;
+
+display: flex;
+
+align-items: center;
+justify-content: center;
+
+padding: 0;
+
+color: #667085;
+
+background: transparent;
+
+border: none;
+
+border-radius: 8px;
+
+cursor: pointer;
+
+transition: background 0.15s ease;
 }
 
+
+.notification-button:hover {
+background: #f5f6f8;
+}
+
+
+.notification-button svg {
+width: 18px;
+height: 18px;
+}
+
+
+.notification-dot {
+position: absolute;
+
+top: 6px;
+right: 6px;
+
+width: 6px;
+height: 6px;
+
+background: #ef4444;
+
+border: 1px solid #ffffff;
+
+border-radius: 50%;
+}
+
+
+/* =========================================================
+USUÁRIO
+========================================================= */
+
+.user-profile {
+display: flex;
+
+align-items: center;
+
+gap: 9px;
+}
+
+
+.user-avatar {
+width: 34px;
+height: 34px;
+
+display: flex;
+
+align-items: center;
+justify-content: center;
+
+color: #ffffff;
+
+background:
+ linear-gradient(
+   135deg,
+   #6d55f2,
+   #4935c9
+ );
+
+border-radius: 50%;
+
+font-size: 10px;
+
+font-weight: 700;
+}
+
+
+.user-info {
+display: flex;
+
+flex-direction: column;
+
+gap: 2px;
+}
+
+
+.user-info strong {
+color: var(--color-text);
+
+font-size: 11px;
+}
+
+
+.user-info span {
+color: var(--color-text-secondary);
+
+font-size: 9px;
+}
+
+
+.user-arrow {
+margin-left: 3px;
+
+color: #9aa3b1;
+
+font-size: 12px;
+}
 
 /* =========================================================
    CONTENT
    ========================================================= */
-
-.content {
-  width: 100%;
-
-  min-height: 100vh;
-
-  padding: 34px 40px 40px;
-
-  overflow-y: auto;
-  overflow-x: hidden;
-
-  background: var(--color-background);
-}
-
+   .content {
+    width: 100%;
+  
+    min-height: calc(100vh - 68px);
+  
+    padding: 30px 40px 40px;
+  
+    overflow-y: auto;
+    overflow-x: hidden;
+  
+    background: var(--color-background);
+  }
 
 /* =========================================================
    CONTENT SCROLLBAR
@@ -557,16 +694,7 @@ body {
    HEADERS DAS PÁGINAS
    ========================================================= */
 
-.content h1,
-.content h2,
-.content h3 {
-  color: #111827;
 
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-}
 
 
 /* =========================================================

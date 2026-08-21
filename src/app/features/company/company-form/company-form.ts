@@ -64,6 +64,10 @@ export class CompanyForm {
       });
     }
   }
+  onFormSubmit(event: Event) {
+    event.preventDefault();
+    this.onSubmit();
+  }
 
   private tratarErro(err: HttpErrorResponse) {
     if (err.status === 403) {
