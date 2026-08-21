@@ -3,6 +3,7 @@ import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angula
 import { HttpErrorResponse } from '@angular/common/http';
 import { RentalPlan } from '../services/rental-plan';
 import { RentalPlanResponse } from '../../../shared/models/rental-plan-response';
+import { NotificationService } from '../../../core/services/notification';
 
 @Component({
   selector: 'app-rental-plan-form',
@@ -54,10 +55,15 @@ export class RentalPlanForm {
       });
     }
   }
-
+  private notification = inject(NotificationService);
   private tratarErro(err: HttpErrorResponse) {
+    if (err.status === 403) {
+      this.notification.show('Você não tem permissão para realizar esta ação.');
+      return;
+    }
+  
     const mensagens = (err.error?.errorMessage as string[]) ?? ['Erro ao salvar plano'];
-    this.errorMessage.set(mensagens.join(', '));
+    this.notification.show(mensagens.join(', '));
   }
 
   onCancelar() {

@@ -1,5 +1,7 @@
 <div class="page">
-
+  @if (errorMessage()) {
+    <p class="error">{{ errorMessage() }}</p>
+  }
   <!-- Cabeçalho -->
   <div class="page-header">
 
