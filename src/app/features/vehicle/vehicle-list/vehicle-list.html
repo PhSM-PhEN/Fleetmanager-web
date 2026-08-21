@@ -23,12 +23,12 @@
             <th>Ano</th>
             <th>Km</th>
             <th>Empresa</th>
-            <th>Ações</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>
           @for (veiculo of veiculos(); track veiculo.id) {
-            <tr>
+            <tr (click)="abrirDetalhe(veiculo.id)" class="clickable-row">
               <td>{{ veiculo.licensePlate }}</td>
               <td>{{ veiculo.brand }} {{ veiculo.model }}</td>
               <td>{{ veiculo.color }}</td>
@@ -36,12 +36,9 @@
               <td>{{ veiculo.currentMileage }} km</td>
               <td>{{ veiculo.company.name }}</td>
               <td>
-                <div class="actions">
-                  <button class="action-button" type="button" (click)="atualizarQuilometragem(veiculo)">Km</button>
-                  <button class="action-button" type="button" (click)="ativar(veiculo.id)">Ativar</button>
-                  <button class="action-button" type="button" (click)="desativar(veiculo.id)">Desativar</button>
-                  <button class="action-button delete" type="button" (click)="excluir(veiculo.id)">Excluir</button>
-                </div>
+                <span class="status-badge" [class.active]="veiculo.isActive" [class.inactive]="!veiculo.isActive">
+                  {{ veiculo.isActive ? 'Ativo' : 'Inativo' }}
+                </span>
               </td>
             </tr>
           }
@@ -54,6 +51,14 @@
     <app-vehicle-form
       (salvo)="onSalvo()"
       (cancelado)="onCancelado()"
+    />
+  }
+
+  @if (veiculoDetalheId(); as id) {
+    <app-vehicle-detail
+      [vehicleId]="id"
+      (fechado)="fecharDetalhe()"
+      (atualizado)="onAtualizadoNoDetalhe()"
     />
   }
 

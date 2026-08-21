@@ -17,30 +17,61 @@
         </div>
       </div>
 
-      <div class="form-row two-columns">
-       <div class="form-group">
-        <label for="manufacturingYear">Ano de fabricação/modelo</label>
-        <input
-            id="manufacturingYear"
-            type="text"
-            formControlName="manufacturingYear"
-            placeholder="2024/2025"
-        />
-        @if (veiculoForm.controls.manufacturingYear.invalid && veiculoForm.controls.manufacturingYear.touched) {
-            <span class="field-error">Use o formato ANO/ANO, ex: 2024/2025</span>
-        }
-        </div>
+<div class="form-row three-columns">
 
-        <div class="form-group">
-          <label for="color">Cor</label>
-          <input id="color" type="text" formControlName="color" placeholder="Ex: Prata" />
-        </div>
-      </div>
+  <div class="form-group">
+    <label for="licensePlate">Placa</label>
 
-      <div class="form-group">
-        <label for="licensePlate">Placa</label>
-        <input id="licensePlate" type="text" formControlName="licensePlate" placeholder="ABC1D23" />
-      </div>
+    <input
+      id="licensePlate"
+      type="text"
+      formControlName="licensePlate"
+      placeholder="ABC1D23"
+    />
+  </div>
+
+
+  <div class="form-group">
+
+    <label for="manufacturingYear">
+      Ano de fabricação/modelo
+    </label>
+
+    <input
+      id="manufacturingYear"
+      type="text"
+      formControlName="manufacturingYear"
+      placeholder="2024/2025"
+    />
+
+    @if (
+      veiculoForm.controls.manufacturingYear.invalid &&
+      veiculoForm.controls.manufacturingYear.touched
+    ) {
+      <span class="field-error">
+        Use o formato ANO/ANO, ex: 2024/2025
+      </span>
+    }
+
+  </div>
+
+
+  <div class="form-group">
+
+    <label for="color">
+      Cor
+    </label>
+
+    <input
+      id="color"
+      type="text"
+      formControlName="color"
+      placeholder="Ex: Prata"
+    />
+
+  </div>
+
+</div>
 
       <div class="form-row two-columns">
         <div class="form-group">

@@ -11,6 +11,8 @@ export interface VehicleResponse {
   chassiNumber: string;
   licensePlate: string;
   currentMileage: number;
+  isActive: boolean;
   company: CompanyResponse;
   rentalPlan: RentalPlanResponse;
+
 }

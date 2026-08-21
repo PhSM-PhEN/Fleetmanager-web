@@ -9,5 +9,6 @@ export interface VehicleShortResponse {
   chassiNumber: string;
   licensePlate: string;
   currentMileage: number;
+  isActive: boolean;
   company: CompanyResponse;
 }

@@ -1,0 +1,99 @@
+<div class="modal-overlay">
+  <div class="modal-content detail">
+
+    @if (veiculo(); as v) {
+
+      <div class="detail-header">
+        <h2>{{ v.brand }} {{ v.model }}</h2>
+      </div>
+
+      <div class="detail-grid">
+
+        <div class="detail-item">
+          <span class="label">Marca</span>
+          <span class="value">{{ v.brand }}</span>
+        </div>
+
+        <div class="detail-item">
+          <span class="label">Placa</span>
+          <span class="value">{{ v.licensePlate }}</span>
+        </div>
+
+        <div class="detail-item">
+          <span class="label">Cor</span>
+          <span class="value">{{ v.color }}</span>
+        </div>
+
+        <div class="detail-item">
+          <span class="label">Ano</span>
+          <span class="value">{{ v.manufacturingYear }}</span>
+        </div>
+
+        <div class="detail-item">
+          <span class="label">RENAVAM</span>
+          <span class="value">{{ v.renavam }}</span>
+        </div>
+
+        <div class="detail-item">
+          <span class="label">Chassi</span>
+          <span class="value">{{ v.chassiNumber }}</span>
+        </div>
+
+        <div class="detail-item">
+          <span class="label">Quilometragem</span>
+          <span class="value">{{ v.currentMileage }} km</span>
+        </div>
+
+        <div class="detail-item">
+          <span class="label">Empresa</span>
+          <span class="value">{{ v.company.name }}</span>
+        </div>
+
+        <div class="detail-item">
+          <span class="label">Plano de locação</span>
+          <span class="value">{{ v.rentalPlan.name }}</span>
+        </div>
+
+      </div>
+
+      <div class="detail-actions">
+
+        <button
+          type="button"
+          (click)="atualizarQuilometragem()">
+          Atualizar quilometragem
+        </button>
+
+        <button
+          type="button"
+          (click)="ativar()">
+          Ativar
+        </button>
+
+        <button
+          type="button"
+          (click)="desativar()">
+          Desativar
+        </button>
+
+        <button
+          type="button"
+          class="danger"
+          (click)="excluir()">
+          Excluir veículo
+        </button>
+
+      </div>
+
+    }
+
+    <div class="modal-actions">
+      <button
+        type="button"
+        (click)="fechar()">
+        Fechar
+      </button>
+    </div>
+
+  </div>
+</div>
