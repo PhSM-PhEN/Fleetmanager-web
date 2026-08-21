@@ -207,3 +207,21 @@
   
     box-shadow: none;
   }
+  
+  .form-row {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.form-row .form-group {
+  margin-bottom: 0;
+}
+
+.form-row.two-columns {
+  grid-template-columns: 1fr 1fr;
+}
+
+.form-row.cep-street-number {
+  grid-template-columns: 100px 1fr 90px;
+}
