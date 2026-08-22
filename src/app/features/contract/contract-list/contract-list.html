@@ -1,0 +1,49 @@
+<div class="page">
+
+  <div class="page-header">
+    <div>
+      <h1>Contratos</h1>
+      <p>Gerencie os contratos de locação.</p>
+    </div>
+
+    <button class="primary-button" type="button" (click)="abrirModalCriar()">
+      <span>+</span>
+      Novo contrato
+    </button>
+  </div>
+
+  <div class="content-card">
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Retirada</th>
+            <th>Devolução prevista</th>
+            <th>Dias</th>
+            <th>Valor</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (contrato of contratos(); track contrato.id) {
+            <tr>
+              <td>{{ contrato.pickupDateTime | date:'dd/MM/yyyy HH:mm' }}</td>
+              <td>{{ contrato.returnDueDateTime | date:'dd/MM/yyyy HH:mm' }}</td>
+              <td>{{ contrato.totalDays }}</td>
+              <td>{{ contrato.totalAmount | currency:'BRL' }}</td>
+              <td>{{ contrato.contractStatus }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  @if (modalAberto()) {
+    <app-contract-form
+      (salvo)="onSalvo()"
+      (cancelado)="onCancelado()"
+    />
+  }
+
+</div>

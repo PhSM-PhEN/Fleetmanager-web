@@ -27,7 +27,7 @@ export class Login {
 
     this.auth.login(email!, password!).subscribe({
       next: () => {
-        this.router.navigate(['/vehicles']);
+        this.router.navigate(['/dashboard']);
       },
       error: (err) => {
         const mensagens = err.error?.errorMessage ?? ['Erro ao fazer login'];
