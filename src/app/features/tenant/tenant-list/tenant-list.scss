@@ -1,0 +1,477 @@
+:host {
+    display: block;
+
+    --primary: #5b45e6;
+    --primary-dark: #4935c9;
+
+    --text: #182230;
+    --text-secondary: #6b7280;
+
+    --border: #e5e9f0;
+}
+
+
+/* =========================================================
+   PÁGINA
+   ========================================================= */
+
+.page {
+    width: 100%;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.page-header {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 25px;
+}
+
+
+.page-header h1 {
+    margin: 0 0 5px;
+
+    color: var(--text);
+
+    font-size: 22px;
+
+    font-weight: 750;
+
+    letter-spacing: -0.4px;
+}
+
+
+.page-header p {
+    margin: 0;
+
+    color: var(--text-secondary);
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   BOTÃO PRINCIPAL
+   ========================================================= */
+
+.primary-button {
+    height: 40px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 0 16px;
+
+    color: #ffffff;
+
+    background:
+        linear-gradient(135deg,
+            #6650ee,
+            #4d38d1);
+
+    border: none;
+
+    border-radius: 8px;
+
+    font-size: 12px;
+
+    font-weight: 650;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 5px 14px rgba(91, 69, 230, 0.18);
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.primary-button span {
+    font-size: 18px;
+
+    line-height: 1;
+}
+
+
+.primary-button:hover {
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 7px 18px rgba(91, 69, 230, 0.25);
+}
+
+
+/* =========================================================
+   CARD
+   ========================================================= */
+
+.content-card {
+    width: 100%;
+
+    overflow: hidden;
+
+    background: #ffffff;
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 4px 16px rgba(15, 23, 42, 0.035);
+}
+
+
+/* =========================================================
+   TABELA
+   ========================================================= */
+
+.table-container {
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+
+table {
+    width: 100%;
+
+    /*
+   * Mantém espaço suficiente para os quatro botões.
+   * Em telas menores, o container cria scroll horizontal.
+   */
+    min-width: 720px;
+
+    border-collapse: collapse;
+
+    table-layout: fixed;
+}
+
+
+thead {
+    background: #fafbfc;
+}
+
+
+th {
+    padding: 13px 20px;
+
+    color: #7a8493;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    text-align: left;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.4px;
+
+    white-space: nowrap;
+
+    border-bottom: 1px solid var(--border);
+}
+
+
+td {
+    padding: 15px 20px;
+
+    color: #4b5563;
+
+    font-size: 11px;
+
+    white-space: nowrap;
+
+    border-bottom: 1px solid #eef1f5;
+}
+
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+tbody tr {
+    transition: background 0.15s ease;
+}
+
+
+tbody tr:hover {
+    background: #fafaff;
+}
+
+
+/* =========================================================
+   COLUNAS
+   ========================================================= */
+
+/*
+ * Nome
+ *
+ * Maior espaço porque é o campo principal.
+ */
+th:nth-child(1),
+td:nth-child(1) {
+    width: 42%;
+}
+
+
+/*
+ * Telefone
+ */
+th:nth-child(2),
+td:nth-child(2) {
+    width: 23%;
+}
+
+
+/*
+ * Ações
+ *
+ * Espaço suficiente para:
+ * Editar | Ativar | Desativar | Excluir
+ */
+th:nth-child(3),
+td:nth-child(3) {
+    width: 35%;
+}
+
+
+/* =========================================================
+   DADOS
+   ========================================================= */
+
+td:nth-child(1) {
+    overflow: hidden;
+
+    color: var(--text);
+
+    font-weight: 600;
+
+    text-overflow: ellipsis;
+}
+
+
+td:nth-child(2) {
+    color: #4b5563;
+
+    font-variant-numeric: tabular-nums;
+}
+
+
+/* =========================================================
+   AÇÕES
+   ========================================================= */
+
+.actions {
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    white-space: nowrap;
+}
+
+
+.action-button {
+    height: 29px;
+
+    flex-shrink: 0;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 0 10px;
+
+    border-radius: 6px;
+
+    font-family: inherit;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease,
+        transform 0.15s ease;
+}
+
+
+.action-button:hover {
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   EDITAR
+   ========================================================= */
+
+.action-button:nth-child(1) {
+    color: var(--primary);
+
+    background: #f0edff;
+
+    border: 1px solid #e4dfff;
+}
+
+
+.action-button:nth-child(1):hover {
+    background: #e5e0ff;
+
+    border-color: #d8d0ff;
+}
+
+
+/* =========================================================
+   ATIVAR
+   ========================================================= */
+
+.action-button:nth-child(2) {
+    color: #15803d;
+
+    background: #f0fdf4;
+
+    border: 1px solid #dcfce7;
+}
+
+
+.action-button:nth-child(2):hover {
+    background: #dcfce7;
+}
+
+
+/* =========================================================
+   DESATIVAR
+   ========================================================= */
+
+.action-button:nth-child(3) {
+    color: #b45309;
+
+    background: #fffbeb;
+
+    border: 1px solid #fef3c7;
+}
+
+
+.action-button:nth-child(3):hover {
+    background: #fef3c7;
+}
+
+
+/* =========================================================
+   EXCLUIR
+   ========================================================= */
+
+.action-button.delete {
+    color: #dc2626;
+
+    background: #fef2f2;
+
+    border: 1px solid #fee2e2;
+}
+
+
+.action-button.delete:hover {
+    background: #fee2e2;
+
+    border-color: #fecaca;
+}
+
+
+/* =========================================================
+   RESPONSIVO
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .page-header {
+        align-items: flex-start;
+
+        gap: 15px;
+
+        flex-direction: column;
+    }
+
+
+    .primary-button {
+        width: 100%;
+
+        justify-content: center;
+    }
+}
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+.status-badge {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  min-width: 58px;
+
+  height: 25px;
+
+  padding: 0 9px;
+
+  border-radius: 6px;
+
+  font-size: 9px;
+
+  font-weight: 700;
+
+  line-height: 1;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.3px;
+
+  border: 1px solid transparent;
+}
+
+
+/* =========================================================
+   ATIVO
+   ========================================================= */
+
+.status-badge.active {
+  color: #15803d;
+
+  background: #f0fdf4;
+
+  border-color: #bbf7d0;
+}
+
+
+/* =========================================================
+   INATIVO
+   ========================================================= */
+
+.status-badge.inactive {
+  color: #b45309;
+
+  background: #fffbeb;
+
+  border-color: #fde68a;
+}

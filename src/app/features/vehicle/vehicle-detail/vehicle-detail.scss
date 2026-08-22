@@ -9,6 +9,8 @@
 
   --border: #e5e9f0;
 
+  --success: #15803d;
+  --warning: #b45309;
   --danger: #dc2626;
 }
 
@@ -170,6 +172,7 @@
    ========================================================= */
 
 /* Placa */
+
 .detail-item:nth-child(2) .value {
   color: var(--primary);
 
@@ -179,7 +182,22 @@
 }
 
 
+/* Ano */
+
+.detail-item:nth-child(4) .value {
+  font-variant-numeric: tabular-nums;
+}
+
+
+/* RENAVAM */
+
+.detail-item:nth-child(5) .value {
+  font-variant-numeric: tabular-nums;
+}
+
+
 /* Quilometragem */
+
 .detail-item:nth-child(7) .value {
   color: var(--primary);
 
@@ -187,15 +205,159 @@
 }
 
 
-/* Ano */
-.detail-item:nth-child(4) .value {
-  font-variant-numeric: tabular-nums;
+/* =========================================================
+   EDIÇÃO INLINE DA QUILOMETRAGEM
+   ========================================================= */
+
+.inline-edit {
+  display: flex;
+
+  align-items: center;
+
+  gap: 6px;
+
+  width: 100%;
 }
 
 
-/* RENAVAM */
-.detail-item:nth-child(5) .value {
+.inline-edit input {
+  min-width: 0;
+
+  flex: 1;
+
+  width: 100%;
+
+  height: 30px;
+
+  padding: 0 9px;
+
+  color: var(--text);
+
+  background: #ffffff;
+
+  border: 1px solid #dfe3e8;
+
+  border-radius: 6px;
+
+  outline: none;
+
+  font-family: inherit;
+
+  font-size: 11px;
+
+  font-weight: 600;
+
   font-variant-numeric: tabular-nums;
+
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+
+.inline-edit input:focus {
+  border-color: var(--primary);
+
+  box-shadow:
+    0 0 0 2px rgba(91, 69, 230, 0.10);
+}
+
+
+/* Remove setas do input number no Chrome */
+
+.inline-edit input::-webkit-outer-spin-button,
+.inline-edit input::-webkit-inner-spin-button {
+  margin: 0;
+
+  appearance: none;
+}
+
+
+/* =========================================================
+   BOTÕES DA EDIÇÃO INLINE
+   ========================================================= */
+
+.inline-save,
+.inline-cancel {
+  flex-shrink: 0;
+
+  width: 30px;
+
+  height: 30px;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 0;
+
+  border-radius: 6px;
+
+  font-family: inherit;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+
+.inline-save:hover,
+.inline-cancel:hover {
+  transform: translateY(-1px);
+}
+
+
+/* Salvar */
+
+.inline-save {
+  color: var(--success);
+
+  background: #f0fdf4;
+
+  border: 1px solid #dcfce7;
+}
+
+
+.inline-save:hover {
+  background: #dcfce7;
+
+  border-color: #bbf7d0;
+}
+
+
+.inline-save:disabled {
+  opacity: 0.5;
+
+  cursor: not-allowed;
+
+  transform: none;
+}
+
+
+/* Cancelar */
+
+.inline-cancel {
+  color: var(--danger);
+
+  background: #fef2f2;
+
+  border: 1px solid #fee2e2;
+}
+
+
+.inline-cancel:hover {
+  background: #fee2e2;
+
+  border-color: #fecaca;
 }
 
 
@@ -207,6 +369,8 @@
   display: flex;
 
   flex-wrap: wrap;
+
+  align-items: center;
 
   gap: 8px;
 
@@ -221,9 +385,17 @@
 .detail-actions button {
   height: 34px;
 
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
   padding: 0 12px;
 
   border-radius: 7px;
+
+  font-family: inherit;
 
   font-size: 10px;
 
@@ -247,7 +419,7 @@
    ATUALIZAR QUILOMETRAGEM
    ========================================================= */
 
-.detail-actions button:nth-child(1) {
+.detail-actions .edit {
   color: var(--primary);
 
   background: #f0edff;
@@ -256,7 +428,7 @@
 }
 
 
-.detail-actions button:nth-child(1):hover {
+.detail-actions .edit:hover {
   background: #e5e0ff;
 
   border-color: #d8d0ff;
@@ -267,8 +439,8 @@
    ATIVAR
    ========================================================= */
 
-.detail-actions button:nth-child(2) {
-  color: #15803d;
+.detail-actions .activate {
+  color: var(--success);
 
   background: #f0fdf4;
 
@@ -276,8 +448,10 @@
 }
 
 
-.detail-actions button:nth-child(2):hover {
+.detail-actions .activate:hover {
   background: #dcfce7;
+
+  border-color: #bbf7d0;
 }
 
 
@@ -285,8 +459,8 @@
    DESATIVAR
    ========================================================= */
 
-.detail-actions button:nth-child(3) {
-  color: #b45309;
+.detail-actions .deactivate {
+  color: var(--warning);
 
   background: #fffbeb;
 
@@ -294,8 +468,10 @@
 }
 
 
-.detail-actions button:nth-child(3):hover {
+.detail-actions .deactivate:hover {
   background: #fef3c7;
+
+  border-color: #fde68a;
 }
 
 
@@ -303,7 +479,7 @@
    EXCLUIR
    ========================================================= */
 
-.detail-actions button.danger {
+.detail-actions .danger {
   color: var(--danger);
 
   background: #fef2f2;
@@ -312,7 +488,7 @@
 }
 
 
-.detail-actions button.danger:hover {
+.detail-actions .danger:hover {
   background: #fee2e2;
 
   border-color: #fecaca;
@@ -348,6 +524,8 @@
   border: 1px solid #dfe3e8;
 
   border-radius: 7px;
+
+  font-family: inherit;
 
   font-size: 11px;
 
@@ -400,6 +578,7 @@
   .detail-actions button {
     width: 100%;
   }
+
 }
 
 
@@ -410,7 +589,28 @@
   }
 
 
+  .detail-header {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 10px;
+  }
+
+
   .modal-content.detail {
     padding: 17px;
   }
+
+
+  .inline-edit {
+    flex-wrap: wrap;
+  }
+
+
+  .inline-edit input {
+    width: 100%;
+    flex-basis: 100%;
+  }
+
 }

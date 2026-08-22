@@ -1,4 +1,5 @@
 import { Component, inject, input, output, signal, effect } from '@angular/core';
+import { ReactiveFormsModule, FormControl, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Vehicle } from '../services/vehicle';
 import { VehicleResponse } from '../../../shared/models/vehicle-response';
@@ -6,7 +7,7 @@ import { NotificationService } from '../../../core/services/notification';
 
 @Component({
   selector: 'app-vehicle-detail',
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './vehicle-detail.html',
   styleUrl: './vehicle-detail.scss'
 })
@@ -19,6 +20,9 @@ export class VehicleDetail {
   atualizado = output<void>();
 
   veiculo = signal<VehicleResponse | null>(null);
+  editandoQuilometragem = signal(false);
+
+  quilometragemControl = new FormControl(0, { nonNullable: true, validators: [Validators.required, Validators.min(0)] });
 
   constructor() {
     effect(() => {
@@ -29,22 +33,27 @@ export class VehicleDetail {
     });
   }
 
-  atualizarQuilometragem() {
+  abrirEdicaoQuilometragem() {
     const veiculo = this.veiculo();
     if (!veiculo) return;
+    this.quilometragemControl.setValue(veiculo.currentMileage);
+    this.editandoQuilometragem.set(true);
+  }
 
-    const novaQuilometragem = prompt('Nova quilometragem:', veiculo.currentMileage.toString());
-    if (novaQuilometragem === null) return;
+  cancelarEdicaoQuilometragem() {
+    this.editandoQuilometragem.set(false);
+  }
 
-    const valor = Number(novaQuilometragem);
-    if (isNaN(valor) || valor < 0) {
-      this.notification.show('Quilometragem inválida.');
-      return;
-    }
+  salvarQuilometragem() {
+    const veiculo = this.veiculo();
+    if (!veiculo || this.quilometragemControl.invalid) return;
+
+    const valor = this.quilometragemControl.getRawValue();
 
     this.vehicleService.atualizarQuilometragem(veiculo.id, { mileageVehicle: valor }).subscribe({
       next: () => {
         this.notification.show('Quilometragem atualizada!', 'success');
+        this.editandoQuilometragem.set(false);
         this.recarregarDetalhe();
         this.atualizado.emit();
       },

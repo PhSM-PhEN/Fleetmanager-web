@@ -1,0 +1,56 @@
+<div class="page">
+
+    <div class="page-header">
+        <div>
+            <h1>Clientes</h1>
+            <p>Gerencie os clientes cadastrados.</p>
+        </div>
+
+        <button class="primary-button" type="button" (click)="abrirModalCriar()">
+            <span>+</span>
+            Novo cliente
+        </button>
+    </div>
+
+    <div class="content-card">
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Telefone</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (cliente of clientes(); track cliente.id) {
+                    <tr (click)="abrirDetalhe(cliente.id)" class="clickable-row">
+                        <td>{{ cliente.name }}</td>
+                        <td>{{ cliente.phoneNumber }}</td>
+                        <td>
+                            <span class="status-badge" [class.active]="cliente.isActive"
+                                [class.inactive]="!cliente.isActive">
+                                {{ cliente.isActive ? 'Ativo' : 'Inativo' }}
+                            </span>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    @if (modalCriarAberto()) {
+    <app-tenant-form (salvo)="onCriarSalvo()" (cancelado)="onCriarCancelado()" />
+    }
+
+    @if (clienteParaEditar(); as cliente) {
+    <app-tenant-edit-form [clienteParaEditar]="cliente" (salvo)="onEditarSalvo()" (cancelado)="onEditarCancelado()" />
+    }
+
+    @if (clienteDetalheId(); as id) {
+    <app-tenant-detail [tenantId]="id" (fechado)="fecharDetalhe()" (atualizado)="onDetalheAtualizado()"
+        (editar)="onEditarPeloDetalhe($event)" />
+    }
+
+</div>

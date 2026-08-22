@@ -1,0 +1,113 @@
+<div class="modal-overlay">
+
+    <div class="modal-content detail">
+
+        @if (cliente(); as c) {
+
+            <div class="detail-header">
+
+                <h2>{{ c.name }}</h2>
+
+                <span
+                    class="status-badge"
+                    [class.active]="c.isActive"
+                    [class.inactive]="!c.isActive">
+                    {{ c.isActive ? 'Ativo' : 'Inativo' }}
+                </span>
+
+            </div>
+
+
+            <div class="detail-grid">
+
+                <div class="detail-item">
+                    <span class="label">CPF</span>
+                    <span class="value">{{ c.cpf }}</span>
+                </div>
+
+                <div class="detail-item">
+                    <span class="label">RG</span>
+                    <span class="value">{{ c.rg }}</span>
+                </div>
+
+                <div class="detail-item">
+                    <span class="label">CNH</span>
+                    <span class="value">
+                        {{ c.driverLicenseNumber }}
+                        ({{ c.driverLicenseCategory }})
+                    </span>
+                </div>
+
+                <div class="detail-item">
+                    <span class="label">Telefone</span>
+                    <span class="value">{{ c.phoneNumber }}</span>
+                </div>
+
+                <div class="detail-item">
+                    <span class="label">Email</span>
+                    <span class="value">
+                        {{ c.email || '—' }}
+                    </span>
+                </div>
+
+                <div class="detail-item">
+                    <span class="label">Endereço</span>
+                    <span class="value">
+                        {{ c.address.street }},
+                        {{ c.address.number }}
+                        —
+                        {{ c.address.city }}/{{ c.address.state }}
+                    </span>
+                </div>
+
+            </div>
+
+
+            <div class="detail-actions">
+
+                <button
+                    type="button"
+                    class="edit"
+                    (click)="onEditar()">
+                    Editar contato
+                </button>
+
+                <button
+                    type="button"
+                    class="activate"
+                    (click)="ativar()">
+                    Ativar
+                </button>
+
+                <button
+                    type="button"
+                    class="deactivate"
+                    (click)="desativar()">
+                    Desativar
+                </button>
+
+                <button
+                    type="button"
+                    class="danger"
+                    (click)="excluir()">
+                    Excluir cliente
+                </button>
+
+            </div>
+
+        }
+
+
+        <div class="modal-actions">
+
+            <button
+                type="button"
+                (click)="fechar()">
+                Fechar
+            </button>
+
+        </div>
+
+    </div>
+
+</div>

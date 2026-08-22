@@ -1,0 +1,59 @@
+<div class="modal-overlay">
+    <div class="modal-content">
+
+        <h2>Editar contato</h2>
+
+        <form [formGroup]="editForm" (submit)="onFormSubmit($event)">
+
+            <div class="form-row two-columns">
+                <div class="form-group">
+                    <label for="phoneNumber">Telefone</label>
+                    <input id="phoneNumber" type="text" formControlName="phoneNumber" />
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email (opcional)</label>
+                    <input id="email" type="email" formControlName="email" />
+                </div>
+            </div>
+
+            <h3>Endereço</h3>
+
+            <div class="form-row three-columns">
+                <div class="form-group">
+                    <label for="zipCode">CEP</label>
+                    <input id="zipCode" type="text" formControlName="zipCode" />
+                </div>
+
+                <div class="form-group">
+                    <label for="street">Logradouro</label>
+                    <input id="street" type="text" formControlName="street" />
+                </div>
+
+                <div class="form-group">
+                    <label for="number">Número</label>
+                    <input id="number" type="text" formControlName="number" />
+                </div>
+            </div>
+
+            <div class="form-row two-columns">
+                <div class="form-group">
+                    <label for="city">Cidade</label>
+                    <input id="city" type="text" formControlName="city" />
+                </div>
+
+                <div class="form-group">
+                    <label for="state">Estado</label>
+                    <input id="state" type="text" formControlName="state" />
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" (click)="onCancelar()">Cancelar</button>
+                <button type="submit" [disabled]="editForm.invalid">Salvar</button>
+            </div>
+
+        </form>
+
+    </div>
+</div>

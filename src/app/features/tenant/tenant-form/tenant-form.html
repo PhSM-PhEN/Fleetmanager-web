@@ -1,0 +1,92 @@
+<div class="modal-overlay">
+    <div class="modal-content">
+
+        <h2>Novo cliente</h2>
+
+        <form (submit)="onFormSubmit($event)">
+
+            <div [formGroup]="clienteForm">
+                <div class="form-group">
+                    <label for="name">Nome completo</label>
+                    <input id="name" type="text" formControlName="name" />
+                </div>
+
+                <div class="form-row two-columns">
+                    <div class="form-group">
+                        <label for="cpf">CPF</label>
+                        <input id="cpf" type="text" formControlName="cpf" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="rg">RG</label>
+                        <input id="rg" type="text" formControlName="rg" />
+                    </div>
+                </div>
+
+                <div class="form-row two-columns">
+                    <div class="form-group">
+                        <label for="driverLicenseNumber">CNH</label>
+                        <input id="driverLicenseNumber" type="text" formControlName="driverLicenseNumber" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="driverLicenseCategory">Categoria CNH</label>
+                        <input id="driverLicenseCategory" type="text" formControlName="driverLicenseCategory"
+                            placeholder="Ex: B" />
+                    </div>
+                </div>
+
+                <div class="form-row two-columns">
+                    <div class="form-group">
+                        <label for="phoneNumber">Telefone</label>
+                        <input id="phoneNumber" type="text" formControlName="phoneNumber" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email (opcional)</label>
+                        <input id="email" type="email" formControlName="email" />
+                    </div>
+                </div>
+            </div>
+
+            <h3>Endereço</h3>
+            <div [formGroup]="enderecoForm">
+                <div class="form-row three-columns">
+                    <div class="form-group">
+                        <label for="zipCode">CEP</label>
+                        <input id="zipCode" type="text" formControlName="zipCode" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="street">Logradouro</label>
+                        <input id="street" type="text" formControlName="street" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="number">Número</label>
+                        <input id="number" type="text" formControlName="number" />
+                    </div>
+                </div>
+
+                <div class="form-row two-columns">
+                    <div class="form-group">
+                        <label for="city">Cidade</label>
+                        <input id="city" type="text" formControlName="city" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="state">Estado</label>
+                        <input id="state" type="text" formControlName="state" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" (click)="onCancelar()">Cancelar</button>
+                <button type="submit" [disabled]="clienteForm.invalid || enderecoForm.invalid">Salvar</button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
