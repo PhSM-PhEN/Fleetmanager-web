@@ -26,13 +26,15 @@
         </thead>
         <tbody>
           @for (contrato of contratos(); track contrato.id) {
-            <tr>
-              <td>{{ contrato.pickupDateTime | date:'dd/MM/yyyy HH:mm' }}</td>
-              <td>{{ contrato.returnDueDateTime | date:'dd/MM/yyyy HH:mm' }}</td>
-              <td>{{ contrato.totalDays }}</td>
-              <td>{{ contrato.totalAmount | currency:'BRL' }}</td>
-              <td>{{ contrato.contractStatus }}</td>
-            </tr>
+          <tr (click)="abrirDetalhe(contrato.id)" class="clickable-row">
+            <td>{{ contrato.pickupDateTime | date:'dd/MM/yyyy HH:mm' }}</td>
+            <td>{{ contrato.returnDueDateTime | date:'dd/MM/yyyy HH:mm' }}</td>
+            <td>{{ contrato.totalDays }}</td>
+            <td>{{ contrato.totalAmount | currency:'BRL' }}</td>
+            <td>
+              <span class="status-badge status-{{ contrato.contractStatus }}">{{ contrato.contractStatus }}</span>
+            </td>
+          </tr>
           }
         </tbody>
       </table>
@@ -40,10 +42,11 @@
   </div>
 
   @if (modalAberto()) {
-    <app-contract-form
-      (salvo)="onSalvo()"
-      (cancelado)="onCancelado()"
-    />
+  <app-contract-form (salvo)="onSalvo()" (cancelado)="onCancelado()" />
+  }
+
+  @if (contratoDetalheId(); as id) {
+  <app-contract-detail [contractId]="id" (fechado)="fecharDetalhe()" (atualizado)="onDetalheAtualizado()" />
   }
 
 </div>

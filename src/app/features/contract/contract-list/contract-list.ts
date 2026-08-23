@@ -3,13 +3,12 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Contract } from '../services/contract';
 import { ContractShortResponse } from '../../../shared/models/contract-short-response';
 import { ContractForm } from '../contract-form/contract-form';
+import { ContractDetail } from '../contract-detail/contract-detail';
 import { NotificationService } from '../../../core/services/notification';
-import { ContractResponse } from '../../../shared/models/contract-response';
-
 
 @Component({
   selector: 'app-contract-list',
-  imports: [ContractForm, CurrencyPipe, DatePipe],
+  imports: [ContractForm, ContractDetail, CurrencyPipe, DatePipe],
   templateUrl: './contract-list.html',
   styleUrl: './contract-list.scss'
 })
@@ -19,7 +18,7 @@ export class ContractList implements OnInit {
 
   contratos = signal<ContractShortResponse[]>([]);
   modalAberto = signal(false);
-  contratoSelecionado = signal<ContractResponse | null>(null);
+  contratoDetalheId = signal<number | null>(null);
 
   ngOnInit() {
     this.carregarContratos();
@@ -40,27 +39,19 @@ export class ContractList implements OnInit {
     this.modalAberto.set(false);
     this.carregarContratos();
   }
-  abrirModalEditar(contrato: ContractResponse) {
-    this.contratoSelecionado.set(contrato);
-    this.modalAberto.set(true);
-  }
+
   onCancelado() {
     this.modalAberto.set(false);
   }
 
-  onAtivado() {
-    this.carregarContratos();
+  abrirDetalhe(id: number) {
+    this.contratoDetalheId.set(id);
   }
 
-  onFinalizado() {
-    this.carregarContratos();
+  fecharDetalhe() {
+    this.contratoDetalheId.set(null);
   }
-
-  onRenovado() {
-    this.carregarContratos();
-  }
-
-  onExcluido() {
+  onDetalheAtualizado() {
     this.carregarContratos();
   }
 }
