@@ -1,4 +1,4 @@
-import { Component, inject, output, signal, OnInit } from '@angular/core';
+import { Component, inject, output, signal, OnInit, input } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { CurrencyPipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -8,11 +8,13 @@ import { Tenant } from '../../tenant/services/tenant';
 import { VehicleShortResponse } from '../../../shared/models/vehicle-short-response';
 import { TenantShortResponse } from '../../../shared/models/tenant-short-response';
 import { ContractPreviewResponse } from '../../../shared/models/contract-preview-response';
+import { ContractResponse } from '../../../shared/models/contract-response';
 import { NotificationService } from '../../../core/services/notification';
+import { DateTimePickerComponent } from '../../../shared/date-time-picker/date-time-picker';
 
 @Component({
   selector: 'app-contract-form',
-  imports: [ReactiveFormsModule, CurrencyPipe],
+  imports: [ReactiveFormsModule, CurrencyPipe, DateTimePickerComponent],
   templateUrl: './contract-form.html',
   styleUrl: './contract-form.scss'
 })
@@ -24,6 +26,12 @@ export class ContractForm implements OnInit {
 
   salvo = output<void>();
   cancelado = output<void>();
+  ativado = output<void>();
+  finalizado = output<void>();
+  renovado = output<void>();
+  excluido = output<void>();
+
+  contrato = input<ContractResponse | null>(null);
 
   veiculos = signal<VehicleShortResponse[]>([]);
   clientes = signal<TenantShortResponse[]>([]);
@@ -37,6 +45,8 @@ export class ContractForm implements OnInit {
     returnDueDateTime: new FormControl(''),
     desiredExcessMileage: new FormControl(0, { nonNullable: true, validators: [Validators.required, Validators.min(0)] })
   });
+
+  totalAmountControl = new FormControl(0, { nonNullable: true, validators: [Validators.required, Validators.min(0)] });
 
   ngOnInit() {
     this.vehicleService.listar(1, 100).subscribe({
@@ -59,14 +69,17 @@ export class ContractForm implements OnInit {
       returnDueDateTime: dados.returnDueDateTime || undefined,
       desiredExcessMileage: dados.desiredExcessMileage
     }).subscribe({
-      next: (resultado) => this.preview.set(resultado),
+      next: (resultado) => {
+        this.preview.set(resultado);
+        this.totalAmountControl.setValue(resultado.totalAmount);
+      },
       error: (err: HttpErrorResponse) => this.tratarErro(err)
     });
   }
 
   confirmarContrato() {
     const p = this.preview();
-    if (!p) return;
+    if (!p || this.totalAmountControl.invalid) return;
 
     this.contractService.criar({
       vehicleId: p.vehicleId,
@@ -74,7 +87,7 @@ export class ContractForm implements OnInit {
       rentalPlanId: p.rentalPlanId,
       rentalType: p.rentalType,
       mileageContracted: p.mileageContracted,
-      totalAmount: p.totalAmount,
+      totalAmount: this.totalAmountControl.getRawValue(),
       pickupDateTime: p.pickupDateTime,
       returnDueDateTime: p.returnDueDateTime
     }).subscribe({

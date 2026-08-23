@@ -1,0 +1,281 @@
+<div class="date-time-picker">
+
+    <!-- =====================================================
+       CAMPO
+       ===================================================== -->
+
+    <button type="button" class="picker-trigger" [class.open]="aberto" [class.has-value]="valor"
+        [disabled]="desabilitado" (click)="alternar()">
+
+        <span class="calendar-icon">
+
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+
+                <rect x="3" y="4" width="18" height="17" rx="3">
+                </rect>
+
+                <path d="M8 2v4"></path>
+
+                <path d="M16 2v4"></path>
+
+                <path d="M3 9h18"></path>
+
+            </svg>
+
+        </span>
+
+
+        <span class="picker-value">
+
+            @if (valorFormatado) {
+
+            {{ valorFormatado }}
+
+            } @else {
+
+            <span class="placeholder">
+                {{ placeholder }}
+            </span>
+
+            }
+
+        </span>
+
+
+        <span class="picker-arrow" [class.rotated]="aberto">
+
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+
+                <path d="m6 9 6 6 6-6"></path>
+
+            </svg>
+
+        </span>
+
+    </button>
+
+
+    <!-- =====================================================
+       CALENDÁRIO
+       ===================================================== -->
+
+    @if (aberto) {
+
+    <div class="picker-panel">
+
+
+        <!-- =================================================
+           CABEÇALHO
+           ================================================= -->
+
+        <div class="calendar-header">
+
+            <div class="month-title">
+                {{ mesAnoFormatado }}
+            </div>
+
+
+            <div class="month-navigation">
+
+                <button type="button" class="navigation-button" aria-label="Mês anterior" (click)="mesAnterior()">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <path d="m15 18-6-6 6-6"></path>
+
+                    </svg>
+
+                </button>
+
+
+                <button type="button" class="navigation-button" aria-label="Próximo mês" (click)="proximoMes()">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <path d="m9 18 6-6-6-6"></path>
+
+                    </svg>
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+           CONTEÚDO
+           ================================================= -->
+
+        <div class="picker-body">
+
+
+            <!-- ===============================================
+             CALENDÁRIO
+             =============================================== -->
+
+            <div class="calendar-section">
+
+
+                <div class="week-days">
+
+                    @for (dia of ['D', 'S', 'T', 'Q', 'Q', 'S', 'S']; track $index) {
+
+                    <span>
+                        {{ dia }}
+                    </span>
+
+                    }
+
+                </div>
+
+
+                <div class="calendar-grid">
+
+                    @for (day of diasCalendario; track day.date.getTime()) {
+
+                    <button type="button" class="calendar-day" [class.other-month]="!day.currentMonth"
+                        [class.today]="day.today" [class.selected]="day.selected" (click)="selecionarDia(day)">
+
+                        {{ day.day }}
+
+                    </button>
+
+                    }
+
+                </div>
+
+
+                <!-- =============================================
+               ATALHOS
+               ============================================= -->
+
+                <div class="calendar-footer">
+
+                    <button type="button" class="text-button clear" (click)="limpar()">
+
+                        Limpar
+
+                    </button>
+
+
+                    <button type="button" class="text-button today-button" (click)="selecionarHoje()">
+
+                        Hoje
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- ===============================================
+             HORÁRIO
+             =============================================== -->
+
+            <div class="time-section">
+
+                <div class="time-header">
+                    Horário
+                </div>
+
+
+                <div class="time-selector">
+
+
+                    <!-- ===========================================
+                 HORAS
+                 =========================================== -->
+
+                    <div class="time-column">
+
+                        <span class="time-label">
+                            H
+                        </span>
+
+
+                        <div class="time-list">
+
+                            @for (hora of horas; track hora) {
+
+                            <button type="button" class="time-option" [class.selected]="hora === horaEdicao"
+                                (click)="selecionarHora(hora)">
+
+                                {{ hora.toString().padStart(2, '0') }}
+
+                            </button>
+
+                            }
+
+                        </div>
+
+                    </div>
+
+
+                    <span class="time-separator">
+                        :
+                    </span>
+
+
+                    <!-- ===========================================
+                 MINUTOS
+                 =========================================== -->
+
+                    <div class="time-column">
+
+                        <span class="time-label">
+                            MIN
+                        </span>
+
+
+                        <div class="time-list">
+
+                            @for (minuto of minutos; track minuto) {
+
+                            <button type="button" class="time-option" [class.selected]="minuto === minutoEdicao"
+                                (click)="selecionarMinuto(minuto)">
+
+                                {{ minuto.toString().padStart(2, '0') }}
+
+                            </button>
+
+                            }
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+           RODAPÉ
+           ================================================= -->
+
+        <div class="picker-actions">
+
+            <button type="button" class="cancel-button" (click)="fechar()">
+
+                Cancelar
+
+            </button>
+
+
+            <button type="button" class="apply-button" [disabled]="!dataEdicao" (click)="aplicar()">
+
+                Aplicar
+
+            </button>
+
+        </div>
+
+    </div>
+
+    }
+
+</div>

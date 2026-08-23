@@ -6,6 +6,9 @@ import { ContractPreviewResponse } from '../../../shared/models/contract-preview
 import { ContractRequest } from '../../../shared/models/contract-request';
 import { ContractShortResponse } from '../../../shared/models/contract-short-response';
 import { ContractResponse } from '../../../shared/models/contract-response';
+import { ContractFinishUpRequest } from '../../../shared/models/contract-finishup-request';
+import { ContractFinishUpResponse } from '../../../shared/models/contract-finishup-response';
+import { ContractRenewRequest } from '../../../shared/models/contract-renew-request';
 
 @Injectable({ providedIn: 'root' })
 export class Contract {
@@ -25,5 +28,25 @@ export class Contract {
 
   criar(dados: ContractRequest) {
     return this.api.post<ContractShortResponse>('Contract', dados);
+  }
+
+  cancelar(id: number) {
+    return this.api.patch<void>(`Contract/${id}/Cancel`, {});
+  }
+
+  ativar(id: number) {
+    return this.api.patch<void>(`Contract/${id}/Activate`, {});
+  }
+
+  finalizar(id: number, dados: ContractFinishUpRequest) {
+    return this.api.patch<ContractFinishUpResponse>(`Contract/${id}/FinishUp`, dados);
+  }
+
+  renovar(id: number, dados: ContractRenewRequest) {
+    return this.api.post<ContractShortResponse>(`Contract/${id}/Renew`, dados);
+  }
+
+  excluir(id: number) {
+    return this.api.delete<void>(`Contract/${id}`);
   }
 }
