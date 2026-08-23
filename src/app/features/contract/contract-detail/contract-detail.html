@@ -3,124 +3,391 @@
 
         @if (contrato(); as c) {
 
+        <!-- =====================================================
+             CABEÇALHO
+             ===================================================== -->
+
         <div class="detail-header">
-            <h2>Contrato #{{ c.id }}</h2>
-            <span class="status-badge status-{{ c.contractStatus }}">{{ c.contractStatus }}</span>
+            <div>
+                <span class="detail-subtitle">Contrato</span>
+                <h2>#{{ c.id }}</h2>
+            </div>
+
+            <span class="status-badge status-{{ c.contractStatus }}">
+                {{ c.contractStatus }}
+            </span>
         </div>
 
-        <div class="detail-grid">
-            <div class="detail-item">
-                <span class="label">Veículo</span>
-                <span class="value">{{ c.vehicle.brand }} {{ c.vehicle.model }} — {{ c.vehicle.licensePlate }}</span>
+
+        <!-- =====================================================
+             CONTRATO
+             ===================================================== -->
+
+        <section class="detail-section">
+
+            <h3>Dados do contrato</h3>
+
+            <div class="detail-grid">
+
+                <div class="detail-item">
+                    <span class="label">Tipo</span>
+                    <span class="value">
+                        {{ c.rentalType === 'Daily' ? 'Diária' : 'Mensal' }}
+                    </span>
+                </div>
+
+                <div class="detail-item">
+                    <span class="label">Total de dias</span>
+                    <span class="value">
+                        {{ c.totalDays }} dias
+                    </span>
+                </div>
+
+                <div class="detail-item">
+                    <span class="label">Retirada</span>
+                    <span class="value">
+                        {{ c.pickupDateTime }}
+                    </span>
+                </div>
+
+                <div class="detail-item">
+                    <span class="label">Devolução prevista</span>
+                    <span class="value">
+                        {{ c.returnDueDateTime }}
+                    </span>
+                </div>
+
+                @if (c.actualReturnDateTime) {
+                <div class="detail-item">
+                    <span class="label">Devolução real</span>
+                    <span class="value">
+                        {{ c.actualReturnDateTime }}
+                    </span>
+                </div>
+                }
+
             </div>
-            <div class="detail-item">
-                <span class="label">Cliente</span>
-                <span class="value">{{ c.tenant.name }}</span>
+
+        </section>
+
+
+        <!-- =====================================================
+             VEÍCULO
+             ===================================================== -->
+
+        <section class="detail-section">
+
+            <h3>Veículo</h3>
+
+            <div class="detail-grid">
+
+                <div class="detail-item detail-item-wide">
+                    <span class="label">Veículo</span>
+                    <span class="value">
+                        {{ c.vehicle.brand }} {{ c.vehicle.model }}
+                    </span>
+                </div>
+
+                <div class="detail-item">
+                    <span class="label">Placa</span>
+                    <span class="value">
+                        {{ c.vehicle.licensePlate }}
+                    </span>
+                </div>
+
             </div>
-            <div class="detail-item">
-                <span class="label">Tipo</span>
-                <span class="value">{{ c.rentalType === 'Daily' ? 'Diária' : 'Mensal' }}</span>
+
+        </section>
+
+
+        <!-- =====================================================
+             CLIENTE
+             ===================================================== -->
+
+        <section class="detail-section">
+
+            <h3>Cliente</h3>
+
+            <div class="detail-grid">
+
+                <div class="detail-item detail-item-wide">
+                    <span class="label">Nome</span>
+                    <span class="value">
+                        {{ c.tenant.name }}
+                    </span>
+                </div>
+
             </div>
-            <div class="detail-item">
-                <span class="label">Retirada</span>
-                <span class="value">{{ c.pickupDateTime }}</span>
+
+        </section>
+
+
+        <!-- =====================================================
+             QUILOMETRAGEM
+             ===================================================== -->
+
+        <section class="detail-section">
+
+            <h3>Quilometragem</h3>
+
+            <div class="detail-grid">
+
+                <!-- Sempre aparece -->
+                <div class="detail-item">
+                    <span class="label">Km inicial</span>
+                    <span class="value">
+                        {{ c.startMileage }} km
+                    </span>
+                </div>
+
+                <!-- Sempre aparece -->
+                <div class="detail-item">
+                    <span class="label">Km contratado</span>
+                    <span class="value">
+                        {{ c.mileageContracted }} km
+                    </span>
+                </div>
+
+                <!-- Oculta quando 0 -->
+                @if (c.expectedEndMileage > 0) {
+                <div class="detail-item">
+                    <span class="label">Km final previsto</span>
+                    <span class="value">
+                        {{ c.expectedEndMileage }} km
+                    </span>
+                </div>
+                }
+
+                <!-- Oculta quando 0/null/undefined -->
+                @if (c.finalMileage && c.finalMileage > 0) {
+                <div class="detail-item">
+                    <span class="label">Km final</span>
+                    <span class="value">
+                        {{ c.finalMileage }} km
+                    </span>
+                </div>
+                }
+
+                <!-- Oculta quando 0/null/undefined -->
+                @if (c.excessMileageFee && c.excessMileageFee > 0) {
+                <div class="detail-item">
+                    <span class="label">Taxa de km excedente</span>
+                    <span class="value">
+                        {{ c.excessMileageFee | currency:'BRL' }}
+                    </span>
+                </div>
+                }
+
             </div>
-            <div class="detail-item">
-                <span class="label">Devolução prevista</span>
-                <span class="value">{{ c.returnDueDateTime }}</span>
+
+        </section>
+
+
+        <!-- =====================================================
+             VALORES
+             ===================================================== -->
+
+        <section class="detail-section">
+
+            <h3>Valores do contrato</h3>
+
+            <div class="detail-grid">
+
+                <!-- Mostra somente se houver valor -->
+                @if (c.snapshotPriceDailyRate > 0) {
+                <div class="detail-item">
+                    <span class="label">Valor da diária</span>
+                    <span class="value">
+                        {{ c.snapshotPriceDailyRate | currency:'BRL' }}
+                    </span>
+                </div>
+                }
+
+                <!-- Mostra somente se houver valor -->
+                @if (c.snapshotPriceMonthlyRate > 0) {
+                <div class="detail-item">
+                    <span class="label">Valor mensal</span>
+                    <span class="value">
+                        {{ c.snapshotPriceMonthlyRate | currency:'BRL' }}
+                    </span>
+                </div>
+                }
+
+                <!-- Mostra somente se houver valor -->
+                @if (c.snapshotPricePerExtraMileage > 0) {
+                <div class="detail-item">
+                    <span class="label">Valor por km excedente</span>
+                    <span class="value">
+                        {{ c.snapshotPricePerExtraMileage | currency:'BRL' }}
+                    </span>
+                </div>
+                }
+
+                <!-- Total sempre aparece -->
+                <div class="detail-item highlight">
+                    <span class="label">Valor total</span>
+                    <span class="value">
+                        {{ c.totalAmount | currency:'BRL' }}
+                    </span>
+                </div>
+
             </div>
-            @if (c.actualReturnDateTime) {
-            <div class="detail-item">
-                <span class="label">Devolução real</span>
-                <span class="value">{{ c.actualReturnDateTime }}</span>
-            </div>
-            }
-            <div class="detail-item">
-                <span class="label">Km contratado</span>
-                <span class="value">{{ c.mileageContracted }} km</span>
-            </div>
-            @if (c.finalMileage) {
-            <div class="detail-item">
-                <span class="label">Km final</span>
-                <span class="value">{{ c.finalMileage }} km</span>
-            </div>
-            }
-            @if (c.excessMileageFee) {
-            <div class="detail-item">
-                <span class="label">Taxa de km excedente</span>
-                <span class="value">{{ c.excessMileageFee | currency:'BRL' }}</span>
-            </div>
-            }
-            <div class="detail-item highlight">
-                <span class="label">Valor total</span>
-                <span class="value">{{ c.totalAmount | currency:'BRL' }}</span>
-            </div>
-        </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             FINALIZAÇÃO
+             ===================================================== -->
 
         @if (editandoFinalizacao()) {
 
         <div class="inline-form">
-            <label for="finalMileage">Quilometragem final</label>
+
+            <label for="finalMileage">
+                Quilometragem final
+            </label>
+
             <div class="inline-edit">
+
                 <input id="finalMileage" type="number" [formControl]="finalMileageControl" />
+
                 <button type="button" class="inline-save" (click)="confirmarFinalizacao()"
-                    [disabled]="finalMileageControl.invalid">✓</button>
-                <button type="button" class="inline-cancel" (click)="cancelarFinalizacao()">✕</button>
+                    [disabled]="finalMileageControl.invalid">
+                    ✓
+                </button>
+
+                <button type="button" class="inline-cancel" (click)="cancelarFinalizacao()">
+                    ✕
+                </button>
+
             </div>
+
         </div>
+
+
+        <!-- =====================================================
+             RENOVAÇÃO
+             ===================================================== -->
 
         } @else if (editandoRenovacao()) {
 
-        <div class="inline-form" [formGroup]="renewForm">
+        <div class="inline-form renewal-form" [formGroup]="renewForm">
+
+            <h3>Renovar contrato</h3>
+
             <div class="form-group">
-                <label for="newRentalPlanId">Novo plano (opcional)</label>
+
+                <label for="newRentalPlanId">
+                    Novo plano
+                </label>
+
                 <select id="newRentalPlanId" formControlName="newRentalPlanId">
-                    <option [ngValue]="null">Manter o plano atual</option>
+
+                    <option [ngValue]="null">
+                        Manter o plano atual
+                    </option>
+
                     @for (plano of planos(); track plano.id) {
-                    <option [ngValue]="plano.id">{{ plano.name }}</option>
+                    <option [ngValue]="plano.id">
+                        {{ plano.name }}
+                    </option>
                     }
+
                 </select>
+
             </div>
 
             <div class="form-group">
-                <label for="mileageContractedRenew">Nova km contratada (opcional)</label>
-                <input id="mileageContractedRenew" type="number" formControlName="mileageContracted" />
+
+                <label for="mileageContractedRenew">
+                    Nova km contratada
+                </label>
+
+                <input id="mileageContractedRenew" type="number" formControlName="mileageContracted" min="0" />
+
             </div>
 
             <div class="modal-actions">
-                <button type="button" (click)="cancelarRenovacao()">Cancelar</button>
-                <button type="button" (click)="confirmarRenovacao()">Confirmar renovação</button>
+
+                <button type="button" class="secondary" (click)="cancelarRenovacao()">
+                    Cancelar
+                </button>
+
+                <button type="button" class="primary" (click)="confirmarRenovacao()">
+                    Confirmar renovação
+                </button>
+
             </div>
+
         </div>
+
+
+        <!-- =====================================================
+             AÇÕES
+             ===================================================== -->
 
         } @else {
 
         <div class="detail-actions">
 
             @if (c.contractStatus === 'Reserved') {
-            <button type="button" (click)="ativar()">Ativar</button>
-            <button type="button" class="danger" (click)="cancelar()">Cancelar contrato</button>
+
+            <button type="button" class="primary" (click)="ativar()">
+                Ativar
+            </button>
+
+            <button type="button" class="danger" (click)="cancelar()">
+                Cancelar contrato
+            </button>
+
             }
 
-            @if (c.contractStatus === 'Active' || c.contractStatus === 'Overdue') {
-            <button type="button" (click)="abrirFinalizacao()">Finalizar contrato</button>
+            @if (
+            c.contractStatus === 'Active' ||
+            c.contractStatus === 'Overdue'
+            ) {
+
+            <button type="button" class="primary" (click)="abrirFinalizacao()">
+                Finalizar contrato
+            </button>
+
             @if (c.contractStatus === 'Active') {
-            <button type="button" (click)="abrirRenovacao()">Renovar</button>
-            }
-            <button type="button" class="danger" (click)="cancelar()">Cancelar contrato</button>
+
+            <button type="button" class="secondary" (click)="abrirRenovacao()">
+                Renovar
+            </button>
+
             }
 
-            <button type="button" class="danger" (click)="excluir()">Excluir contrato</button>
+            <button type="button" class="danger" (click)="cancelar()">
+                Cancelar contrato
+            </button>
+
+            }
+
+            <button type="button" class="danger-outline" (click)="excluir()">
+                Excluir contrato
+            </button>
 
         </div>
 
         }
 
-        }
 
-        <div class="modal-actions">
-            <button type="button" (click)="fechar()">Fechar</button>
+        <!-- =====================================================
+             FECHAR
+             ===================================================== -->
+
+        <div class="modal-actions close-actions">
+
+            <button type="button" class="secondary" (click)="fechar()">
+                Fechar
+            </button>
+
         </div>
+
+        }
 
     </div>
 </div>

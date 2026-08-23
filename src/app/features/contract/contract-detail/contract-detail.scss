@@ -1,3 +1,7 @@
+/* =========================================================
+   MODAL
+   ========================================================= */
+
 :host {
     display: block;
 
@@ -8,10 +12,13 @@
     --text-secondary: #6b7280;
 
     --border: #e5e9f0;
+    --background: #ffffff;
+    --background-soft: #f8fafc;
 
-    --success: #15803d;
-    --warning: #b45309;
-    --danger: #dc2626;
+    --danger: #dc3545;
+    --danger-dark: #bb2d3b;
+
+    --success: #198754;
 }
 
 
@@ -21,22 +28,19 @@
 
 .modal-overlay {
     position: fixed;
-
     inset: 0;
 
     z-index: 1000;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
     padding: 24px;
 
-    background: rgba(15, 23, 42, 0.42);
+    background: rgba(15, 23, 42, 0.48);
 
-    backdrop-filter: blur(2px);
+    overflow-y: auto;
 }
 
 
@@ -45,68 +49,140 @@
    ========================================================= */
 
 .modal-content.detail {
-    width: 100%;
-
-    max-width: 720px;
+    width: min(900px, 100%);
 
     max-height: calc(100vh - 48px);
 
-    overflow-y: auto;
+    padding: 28px;
 
-    padding: 25px;
+    background: var(--background);
 
-    background: #ffffff;
-
-    border: 1px solid var(--border);
-
-    border-radius: 14px;
+    border-radius: 16px;
 
     box-shadow:
-        0 20px 50px rgba(15, 23, 42, 0.16);
+        0 20px 50px rgba(15, 23, 42, 0.18),
+        0 4px 12px rgba(15, 23, 42, 0.08);
+
+    overflow-y: auto;
 }
 
 
 /* =========================================================
-   HEADER
+   CABEÇALHO
    ========================================================= */
 
 .detail-header {
     display: flex;
-
     align-items: center;
+    justify-content: space-between;
 
-    padding-bottom: 20px;
+    gap: 20px;
+
+    padding-bottom: 22px;
 
     border-bottom: 1px solid var(--border);
+
+    h2 {
+        margin: 2px 0 0;
+
+        font-size: 24px;
+        font-weight: 700;
+
+        color: var(--text);
+    }
 }
 
+.detail-subtitle {
+    display: block;
 
-.detail-header h2 {
-    margin: 0;
+    font-size: 12px;
+    font-weight: 600;
 
-    color: var(--text);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
 
-    font-size: 20px;
-
-    font-weight: 750;
-
-    letter-spacing: -0.4px;
+    color: var(--text-secondary);
 }
 
 
 /* =========================================================
-   GRID DE INFORMAÇÕES
+   STATUS
+   ========================================================= */
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 90px;
+
+    padding: 7px 12px;
+
+    border-radius: 999px;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    text-transform: capitalize;
+
+    white-space: nowrap;
+}
+
+.status-Reserved {
+    color: #92400e;
+    background: #fef3c7;
+}
+
+.status-Active {
+    color: #166534;
+    background: #dcfce7;
+}
+
+.status-Overdue {
+    color: #991b1b;
+    background: #fee2e2;
+}
+
+.status-Completed {
+    color: #1e40af;
+    background: #dbeafe;
+}
+
+.status-Cancelled {
+    color: #475569;
+    background: #e2e8f0;
+}
+
+
+/* =========================================================
+   SEÇÕES
+   ========================================================= */
+
+.detail-section {
+    margin-top: 24px;
+}
+
+.detail-section h3 {
+    margin: 0 0 14px;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    color: var(--text);
+}
+
+
+/* =========================================================
+   GRID
    ========================================================= */
 
 .detail-grid {
     display: grid;
 
     grid-template-columns:
-        repeat(3, minmax(0, 1fr));
+        repeat(2, minmax(0, 1fr));
 
     gap: 12px;
-
-    margin-top: 20px;
 }
 
 
@@ -117,224 +193,249 @@
 .detail-item {
     min-width: 0;
 
-    min-height: 67px;
-
     display: flex;
-
     flex-direction: column;
 
-    justify-content: center;
+    gap: 5px;
 
-    padding: 12px 14px;
+    padding: 13px 15px;
 
-    background: #fafbfc;
+    background: var(--background-soft);
 
-    border: 1px solid #eef1f5;
+    border: 1px solid var(--border);
 
-    border-radius: 8px;
+    border-radius: 10px;
 }
 
+.detail-item-wide {
+    grid-column: span 2;
+}
 
-.detail-item .label {
-    margin-bottom: 6px;
+.label {
+    font-size: 11px;
+    font-weight: 600;
 
-    color: #7a8493;
-
-    font-size: 9px;
-
-    font-weight: 700;
+    color: var(--text-secondary);
 
     text-transform: uppercase;
-
-    letter-spacing: 0.4px;
+    letter-spacing: 0.04em;
 }
 
-
-.detail-item .value {
+.value {
     min-width: 0;
 
-    overflow: hidden;
+    font-size: 14px;
+    font-weight: 600;
 
     color: var(--text);
 
-    font-size: 12px;
+    overflow-wrap: anywhere;
+}
 
+
+/* =========================================================
+   VALOR TOTAL
+   ========================================================= */
+
+.detail-item.highlight {
+    background: #f5f3ff;
+
+    border-color: #ddd6fe;
+
+    .label {
+        color: var(--primary);
+    }
+
+    .value {
+        font-size: 18px;
+        font-weight: 700;
+
+        color: var(--primary);
+    }
+}
+
+
+/* =========================================================
+   FORMULÁRIO INLINE
+   ========================================================= */
+
+.inline-form {
+    margin-top: 24px;
+
+    padding: 18px;
+
+    background: var(--background-soft);
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+}
+
+.inline-form>label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 13px;
     font-weight: 600;
 
-    text-overflow: ellipsis;
-
-    white-space: nowrap;
+    color: var(--text);
 }
-
-
-/* =========================================================
-   DESTAQUES
-   ========================================================= */
-
-/* Placa */
-
-.detail-item:nth-child(2) .value {
-    color: var(--primary);
-
-    font-weight: 700;
-
-    letter-spacing: 0.3px;
-}
-
-
-/* Ano */
-
-.detail-item:nth-child(4) .value {
-    font-variant-numeric: tabular-nums;
-}
-
-
-/* RENAVAM */
-
-.detail-item:nth-child(5) .value {
-    font-variant-numeric: tabular-nums;
-}
-
-
-/* Quilometragem */
-
-.detail-item:nth-child(7) .value {
-    color: var(--primary);
-
-    font-variant-numeric: tabular-nums;
-}
-
-
-/* =========================================================
-   EDIÇÃO INLINE DA QUILOMETRAGEM
-   ========================================================= */
 
 .inline-edit {
     display: flex;
-
     align-items: center;
 
-    gap: 6px;
+    gap: 8px;
+}
 
-    width: 100%;
+.inline-edit input {
+    flex: 1;
+
+    min-width: 0;
 }
 
 
-.inline-edit input {
-    min-width: 0;
+/* =========================================================
+   RENOVAÇÃO
+   ========================================================= */
 
-    flex: 1;
+.renewal-form h3 {
+    margin: 0 0 18px;
 
-    width: 100%;
-
-    height: 30px;
-
-    padding: 0 9px;
+    font-size: 16px;
+    font-weight: 700;
 
     color: var(--text);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 600;
+
+    color: var(--text);
+}
+
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+input,
+select {
+    width: 100%;
+
+    height: 42px;
+
+    padding: 0 12px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 8px;
 
     background: #ffffff;
 
-    border: 1px solid #dfe3e8;
-
-    border-radius: 6px;
-
-    outline: none;
+    color: var(--text);
 
     font-family: inherit;
+    font-size: 14px;
 
-    font-size: 11px;
-
-    font-weight: 600;
-
-    font-variant-numeric: tabular-nums;
+    outline: none;
 
     transition:
         border-color 0.15s ease,
         box-shadow 0.15s ease;
 }
 
-
-.inline-edit input:focus {
+input:focus,
+select:focus {
     border-color: var(--primary);
 
-    box-shadow:
-        0 0 0 2px rgba(91, 69, 230, 0.10);
+    box-shadow: 0 0 0 3px rgba(91, 69, 230, 0.10);
 }
 
+input:disabled,
+select:disabled {
+    background: #f1f5f9;
 
-/* Remove setas do input number no Chrome */
-
-.inline-edit input::-webkit-outer-spin-button,
-.inline-edit input::-webkit-inner-spin-button {
-    margin: 0;
-
-    appearance: none;
+    cursor: not-allowed;
 }
 
 
 /* =========================================================
-   BOTÕES DA EDIÇÃO INLINE
+   AÇÕES
    ========================================================= */
 
-.inline-save,
-.inline-cancel {
-    flex-shrink: 0;
-
-    width: 30px;
-
-    height: 30px;
-
-    display: inline-flex;
-
+.detail-actions {
+    display: flex;
+    flex-wrap: wrap;
     align-items: center;
 
-    justify-content: center;
+    gap: 10px;
 
-    padding: 0;
+    margin-top: 26px;
 
-    border-radius: 6px;
+    padding-top: 22px;
+
+    border-top: 1px solid var(--border);
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 18px;
+}
+
+.close-actions {
+    padding-top: 18px;
+
+    border-top: 1px solid var(--border);
+}
+
+
+/* =========================================================
+   BOTÕES
+   ========================================================= */
+
+button {
+    height: 40px;
+
+    padding: 0 16px;
+
+    border: 0;
+
+    border-radius: 8px;
 
     font-family: inherit;
 
     font-size: 13px;
-
-    font-weight: 700;
+    font-weight: 600;
 
     cursor: pointer;
 
     transition:
         background 0.15s ease,
         border-color 0.15s ease,
-        transform 0.15s ease;
+        transform 0.1s ease;
 }
 
-
-.inline-save:hover,
-.inline-cancel:hover {
-    transform: translateY(-1px);
+button:active {
+    transform: translateY(1px);
 }
 
-
-/* Salvar */
-
-.inline-save {
-    color: var(--success);
-
-    background: #f0fdf4;
-
-    border: 1px solid #dcfce7;
-}
-
-
-.inline-save:hover {
-    background: #dcfce7;
-
-    border-color: #bbf7d0;
-}
-
-
-.inline-save:disabled {
+button:disabled {
     opacity: 0.5;
 
     cursor: not-allowed;
@@ -343,206 +444,91 @@
 }
 
 
-/* Cancelar */
+/* =========================================================
+   BOTÃO PRIMÁRIO
+   ========================================================= */
 
-.inline-cancel {
+button.primary {
+    color: #ffffff;
+
+    background: var(--primary);
+}
+
+button.primary:hover:not(:disabled) {
+    background: var(--primary-dark);
+}
+
+
+/* =========================================================
+   BOTÃO SECUNDÁRIO
+   ========================================================= */
+
+button.secondary {
+    color: var(--text);
+
+    background: #f1f5f9;
+
+    border: 1px solid var(--border);
+}
+
+button.secondary:hover:not(:disabled) {
+    background: #e2e8f0;
+}
+
+
+/* =========================================================
+   BOTÃO PERIGO
+   ========================================================= */
+
+button.danger {
+    color: #ffffff;
+
+    background: var(--danger);
+}
+
+button.danger:hover:not(:disabled) {
+    background: var(--danger-dark);
+}
+
+
+/* =========================================================
+   BOTÃO PERIGO OUTLINE
+   ========================================================= */
+
+button.danger-outline {
     color: var(--danger);
-
-    background: #fef2f2;
-
-    border: 1px solid #fee2e2;
-}
-
-
-.inline-cancel:hover {
-    background: #fee2e2;
-
-    border-color: #fecaca;
-}
-
-
-/* =========================================================
-   AÇÕES DO VEÍCULO
-   ========================================================= */
-
-.detail-actions {
-    display: flex;
-
-    flex-wrap: wrap;
-
-    align-items: center;
-
-    gap: 8px;
-
-    margin-top: 22px;
-
-    padding-top: 20px;
-
-    border-top: 1px solid var(--border);
-}
-
-
-.detail-actions button {
-    height: 34px;
-
-    display: inline-flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    padding: 0 12px;
-
-    border-radius: 7px;
-
-    font-family: inherit;
-
-    font-size: 10px;
-
-    font-weight: 650;
-
-    cursor: pointer;
-
-    transition:
-        background 0.15s ease,
-        border-color 0.15s ease,
-        transform 0.15s ease;
-}
-
-
-.detail-actions button:hover {
-    transform: translateY(-1px);
-}
-
-
-/* =========================================================
-   ATUALIZAR QUILOMETRAGEM
-   ========================================================= */
-
-.detail-actions .edit {
-    color: var(--primary);
-
-    background: #f0edff;
-
-    border: 1px solid #e4dfff;
-}
-
-
-.detail-actions .edit:hover {
-    background: #e5e0ff;
-
-    border-color: #d8d0ff;
-}
-
-
-/* =========================================================
-   ATIVAR
-   ========================================================= */
-
-.detail-actions .activate {
-    color: var(--success);
-
-    background: #f0fdf4;
-
-    border: 1px solid #dcfce7;
-}
-
-
-.detail-actions .activate:hover {
-    background: #dcfce7;
-
-    border-color: #bbf7d0;
-}
-
-
-/* =========================================================
-   DESATIVAR
-   ========================================================= */
-
-.detail-actions .deactivate {
-    color: var(--warning);
-
-    background: #fffbeb;
-
-    border: 1px solid #fef3c7;
-}
-
-
-.detail-actions .deactivate:hover {
-    background: #fef3c7;
-
-    border-color: #fde68a;
-}
-
-
-/* =========================================================
-   EXCLUIR
-   ========================================================= */
-
-.detail-actions .danger {
-    color: var(--danger);
-
-    background: #fef2f2;
-
-    border: 1px solid #fee2e2;
-}
-
-
-.detail-actions .danger:hover {
-    background: #fee2e2;
-
-    border-color: #fecaca;
-}
-
-
-/* =========================================================
-   AÇÕES DO MODAL
-   ========================================================= */
-
-.modal-actions {
-    display: flex;
-
-    justify-content: flex-end;
-
-    margin-top: 20px;
-
-    padding-top: 18px;
-
-    border-top: 1px solid var(--border);
-}
-
-
-.modal-actions button {
-    height: 36px;
-
-    padding: 0 18px;
-
-    color: #4b5563;
 
     background: #ffffff;
 
-    border: 1px solid #dfe3e8;
+    border: 1px solid #fecaca;
+}
 
-    border-radius: 7px;
-
-    font-family: inherit;
-
-    font-size: 11px;
-
-    font-weight: 650;
-
-    cursor: pointer;
-
-    transition:
-        background 0.15s ease,
-        border-color 0.15s ease;
+button.danger-outline:hover:not(:disabled) {
+    background: #fef2f2;
 }
 
 
-.modal-actions button:hover {
-    background: #f8fafc;
+/* =========================================================
+   BOTÕES INLINE
+   ========================================================= */
 
-    border-color: #cfd5dd;
+button.inline-save,
+button.inline-cancel {
+    width: 40px;
+
+    padding: 0;
+}
+
+button.inline-save {
+    color: #ffffff;
+
+    background: var(--success);
+}
+
+button.inline-cancel {
+    color: var(--text);
+
+    background: #e2e8f0;
 }
 
 
@@ -550,67 +536,49 @@
    RESPONSIVO
    ========================================================= */
 
-@media (max-width: 650px) {
+@media (max-width: 700px) {
 
     .modal-overlay {
-        padding: 14px;
-    }
+        align-items: flex-start;
 
+        padding: 12px;
+    }
 
     .modal-content.detail {
-        max-height: calc(100vh - 28px);
+        max-height: calc(100vh - 24px);
 
         padding: 20px;
+
+        border-radius: 12px;
     }
 
-
-    .detail-grid {
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-    }
-
-
-    .detail-actions {
+    .detail-header {
+        align-items: flex-start;
         flex-direction: column;
     }
-
-
-    .detail-actions button {
-        width: 100%;
-    }
-
-}
-
-
-@media (max-width: 420px) {
 
     .detail-grid {
         grid-template-columns: 1fr;
     }
 
+    .detail-item-wide {
+        grid-column: span 1;
+    }
 
-    .detail-header {
-        align-items: flex-start;
-
+    .detail-actions {
         flex-direction: column;
-
-        gap: 10px;
+        align-items: stretch;
     }
 
-
-    .modal-content.detail {
-        padding: 17px;
-    }
-
-
-    .inline-edit {
-        flex-wrap: wrap;
-    }
-
-
-    .inline-edit input {
+    .detail-actions button {
         width: 100%;
-        flex-basis: 100%;
     }
 
+    .modal-actions {
+        flex-direction: column;
+    }
+
+    .modal-actions button {
+        width: 100%;
+    }
 }

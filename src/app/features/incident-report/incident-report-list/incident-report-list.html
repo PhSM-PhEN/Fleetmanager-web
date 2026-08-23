@@ -1,0 +1,50 @@
+<div class="page">
+
+    <div class="page-header">
+        <div>
+            <h1>Ocorrências</h1>
+            <p>Gerencie as ocorrências reportadas.</p>
+        </div>
+
+        <button class="primary-button" type="button" (click)="abrirModalCriar()">
+            <span>+</span>
+            Nova ocorrência
+        </button>
+    </div>
+
+    <div class="content-card">
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Contrato</th>
+                        <th>Risco</th>
+                        <th>Reportado em</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (ocorrencia of ocorrencias(); track ocorrencia.id) {
+                    <tr (click)="abrirDetalhe(ocorrencia.id)" class="clickable-row">
+                        <td>#{{ ocorrencia.contractId }}</td>
+                        <td>{{ ocorrencia.incidentRisk === 'Low' ? 'Baixo' : 'Alto' }}</td>
+                        <td>{{ ocorrencia.reportedAt | date:'dd/MM/yyyy HH:mm' }}</td>
+                        <td>
+                            <span class="status-badge status-{{ ocorrencia.status }}">{{ ocorrencia.status }}</span>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    @if (modalAberto()) {
+    <app-incident-report-form (salvo)="onSalvo()" (cancelado)="onCancelado()" />
+    }
+
+    @if (ocorrenciaDetalheId(); as id) {
+    <app-incident-report-detail [incidentId]="id" (fechado)="fecharDetalhe()" (atualizado)="onDetalheAtualizado()" />
+    }
+
+</div>

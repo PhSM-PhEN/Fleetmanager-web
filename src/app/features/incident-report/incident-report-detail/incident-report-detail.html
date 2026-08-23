@@ -1,0 +1,48 @@
+<div class="modal-overlay">
+    <div class="modal-content detail">
+
+        @if (ocorrencia(); as o) {
+
+        <div class="detail-header">
+            <h2>Ocorrência #{{ o.id }}</h2>
+            <span class="status-badge status-{{ o.status }}">{{ o.status }}</span>
+        </div>
+
+        <div class="detail-grid">
+            <div class="detail-item">
+                <span class="label">Veículo</span>
+                <span class="value">{{ o.vehicle.brand }} {{ o.vehicle.model }} — {{ o.vehicle.licensePlate }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="label">Contrato</span>
+                <span class="value">#{{ o.contract.id }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="label">Nível de risco</span>
+                <span class="value">{{ o.incidentRisk === 'Low' ? 'Baixo' : 'Alto' }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="label">Reportado em</span>
+                <span class="value">{{ o.reportedAt }}</span>
+            </div>
+            <div class="detail-item full-width">
+                <span class="label">Descrição</span>
+                <span class="value">{{ o.description }}</span>
+            </div>
+        </div>
+
+        <div class="detail-actions">
+            @if (o.status === 'Reported') {
+            <button type="button" (click)="resolver()">Marcar como resolvido</button>
+            }
+            <button type="button" class="danger" (click)="excluir()">Excluir ocorrência</button>
+        </div>
+
+        }
+
+        <div class="modal-actions">
+            <button type="button" (click)="fechar()">Fechar</button>
+        </div>
+
+    </div>
+</div>

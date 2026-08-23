@@ -1,0 +1,43 @@
+<div class="modal-overlay">
+    <div class="modal-content">
+
+        <h2>Nova ocorrência</h2>
+
+        <form [formGroup]="incidentForm" (submit)="onFormSubmit($event)">
+
+            <div class="form-group">
+                <label for="contractId">Contrato</label>
+                <select id="contractId" formControlName="contractId">
+                    <option [ngValue]="null">Selecione um contrato</option>
+                    @for (contrato of contratos(); track contrato.id) {
+                    <option [ngValue]="contrato.id">
+                        Contrato #{{ contrato.id }} — {{ contrato.pickupDateTime | date:'dd/MM/yyyy' }}
+                    </option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="incidentRisk">Nível de risco</label>
+                <select id="incidentRisk" formControlName="incidentRisk">
+                    <option value="">Selecione</option>
+                    <option value="Low">Baixo</option>
+                    <option value="High">Alto</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Descrição</label>
+                <textarea id="description" rows="4" formControlName="description"
+                    placeholder="Descreva o ocorrido..."></textarea>
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" (click)="onCancelar()">Cancelar</button>
+                <button type="submit" [disabled]="incidentForm.invalid">Registrar</button>
+            </div>
+
+        </form>
+
+    </div>
+</div>

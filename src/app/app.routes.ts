@@ -8,6 +8,7 @@ import { VehicleList } from './features/vehicle/vehicle-list/vehicle-list';
 import { TenantList } from './features/tenant/tenant-list/tenant-list';
 import { ContractList } from './features/contract/contract-list/contract-list';
 import { Dashboard } from './features/dashboard/dashboard/dashboard';
+import { IncidentReportList } from './features/incident-report/incident-report-list/incident-report-list';
 
 export const routes: Routes = [
   { path: 'login', component: Login },
@@ -21,7 +22,8 @@ export const routes: Routes = [
       { path: 'companies', component: CompanyList },
       { path: 'clients', component: TenantList },
       { path: 'contracts', component: ContractList },
-      { path: 'dashboard', component: Dashboard}
+      { path: 'dashboard', component: Dashboard },
+      { path: 'incident-reports', component: IncidentReportList }
     ]
   }
 ];
