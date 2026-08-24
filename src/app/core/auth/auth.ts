@@ -9,10 +9,14 @@ import { AuthResponse } from '../../shared/models/auth-response';
 export class Auth {
   private api = inject(ApiService);
   private readonly tokenKey = 'auth_token';
+  private readonly nameKey = 'auth_user_name';
 
   login(email: string, password: string) {
     return this.api.post<AuthResponse>('Login', { email, password }).pipe(
-      tap((response) => this.setToken(response.token))
+      tap((response) => {
+        this.setToken(response.token);
+        this.setName(response.name);
+      })
     );
   }
 
@@ -20,8 +24,16 @@ export class Auth {
     localStorage.setItem(this.tokenKey, token);
   }
 
+  private setName(name: string): void {
+    if (name) localStorage.setItem(this.nameKey, name);
+  }
+
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
+  }
+
+  getName(): string | null {
+    return localStorage.getItem(this.nameKey);
   }
 
   isAuthenticated(): boolean {
@@ -42,5 +54,6 @@ export class Auth {
 
   logout(): void {
     localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem(this.nameKey);
   }
 }

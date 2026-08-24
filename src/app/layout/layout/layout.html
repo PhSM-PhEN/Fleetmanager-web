@@ -1,10 +1,11 @@
 <div class="app-layout">
 
+  <app-toast />
+
   <!-- =====================================================
        SIDEBAR
   ====================================================== -->
-  <app-toast />
-  <aside class="sidebar">
+  <aside class="sidebar" [class.collapsed]="sidebarRecolhida()">
 
     <!-- Logo / Identidade -->
 
@@ -37,8 +38,6 @@
 
         <h2>FleetManager</h2>
 
-        <span>Gestão de Frotas</span>
-
       </div>
 
     </div>
@@ -50,14 +49,9 @@
 
     <nav class="sidebar-nav">
 
-      <span class="nav-section-title">
-        PRINCIPAL
-      </span>
-
-
       <!-- Dashboard -->
 
-      <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-item">
+      <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-item" title="Dashboard">
 
         <span class="nav-icon">
 
@@ -80,9 +74,18 @@
       </a>
 
 
+      <!-- =====================================================
+           GESTÃO
+      ====================================================== -->
+
+      <span class="nav-section-title">
+        GESTÃO
+      </span>
+
+
       <!-- Veículos -->
 
-      <a routerLink="/vehicles" routerLinkActive="active" class="nav-item">
+      <a routerLink="/vehicles" routerLinkActive="active" class="nav-item" title="Veículos">
 
         <span class="nav-icon">
 
@@ -107,7 +110,7 @@
 
       <!-- Contratos -->
 
-      <a routerLink="/contracts" routerLinkActive="active" class="nav-item">
+      <a routerLink="/contracts" routerLinkActive="active" class="nav-item" title="Contratos">
 
         <span class="nav-icon">
 
@@ -130,18 +133,31 @@
       </a>
 
 
-      <!-- =====================================================
-           CADASTROS
-      ====================================================== -->
+      <!-- Clientes -->
 
-      <span class="nav-section-title">
-        CADASTROS
-      </span>
+      <a routerLink="/clients" routerLinkActive="active" class="nav-item" title="Clientes">
+
+        <span class="nav-icon">
+
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+            <circle cx="12" cy="8" r="3" stroke="currentColor" stroke-width="1.7" />
+
+            <path d="M5 20C5 16.69 8.13 14 12 14C15.87 14 19 16.69 19 20" stroke="currentColor" stroke-width="1.7"
+              stroke-linecap="round" />
+
+          </svg>
+
+        </span>
+
+        <span>Clientes</span>
+
+      </a>
 
 
       <!-- Planos -->
 
-      <a routerLink="/rental-plans" routerLinkActive="active" class="nav-item">
+      <a routerLink="/rental-plans" routerLinkActive="active" class="nav-item" title="Planos de Locação">
 
         <span class="nav-icon">
 
@@ -164,31 +180,9 @@
       </a>
 
 
-      <!-- Clientes -->
-
-      <a routerLink="/clients" routerLinkActive="active" class="nav-item">
-
-        <span class="nav-icon">
-
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-
-            <circle cx="12" cy="8" r="3" stroke="currentColor" stroke-width="1.7" />
-
-            <path d="M5 20C5 16.69 8.13 14 12 14C15.87 14 19 16.69 19 20" stroke="currentColor" stroke-width="1.7"
-              stroke-linecap="round" />
-
-          </svg>
-
-        </span>
-
-        <span>Clientes</span>
-
-      </a>
-
-
       <!-- Empresas -->
 
-      <a routerLink="/companies" routerLinkActive="active" class="nav-item">
+      <a routerLink="/companies" routerLinkActive="active" class="nav-item" title="Empresas">
 
         <span class="nav-icon">
 
@@ -214,10 +208,10 @@
 
       </a>
 
+
       <!-- Ocorrências -->
 
-
-      <a routerLink="/incident-reports" routerLinkActive="active" class="nav-item">
+      <a routerLink="/incident-reports" routerLinkActive="active" class="nav-item" title="Ocorrências">
 
         <span class="nav-icon">
 
@@ -237,43 +231,70 @@
 
         <span>Ocorrências</span>
       </a>
-    </nav>
 
 
-    <!-- =====================================================
-         RODAPÉ DA SIDEBAR
-    ====================================================== -->
+      <!-- =====================================================
+           CONFIGURAÇÕES
+      ====================================================== -->
 
-    <div class="sidebar-footer">
+      <span class="nav-section-title">
+        CONFIGURAÇÕES
+      </span>
 
-      <!-- Configurações -->
 
-      <a routerLink="/settings" routerLinkActive="active" class="nav-item">
+      <!-- Usuários (em breve) -->
+
+      <span class="nav-item disabled" title="Usuários — em breve">
 
         <span class="nav-icon">
 
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 
-            <path
-              d="M12 15.2C13.77 15.2 15.2 13.77 15.2 12C15.2 10.23 13.77 8.8 12 8.8C10.23 8.8 8.8 10.23 8.8 12C8.8 13.77 10.23 15.2 12 15.2Z"
-              stroke="currentColor" stroke-width="1.7" />
+            <circle cx="9" cy="8" r="3" stroke="currentColor" stroke-width="1.7" />
 
-            <path
-              d="M19.4 15C19.54 14.68 19.66 14.34 19.74 14L21 13V11L19.74 10C19.66 9.66 19.54 9.32 19.4 9L19.8 7.55L18.45 6.2L17 6.6C16.68 6.46 16.34 6.34 16 6.26L15 5H13L12 6.26C11.66 6.34 11.32 6.46 11 6.6L9.55 6.2L8.2 7.55L8.6 9C8.46 9.32 8.34 9.66 8.26 10L7 11V13L8.26 14C8.34 14.34 8.46 14.68 8.6 15L8.2 16.45L9.55 17.8L11 17.4C11.32 17.54 11.66 17.66 12 17.74L13 19H15L16 17.74C16.34 17.66 16.68 17.54 17 17.4L18.45 17.8L19.8 16.45L19.4 15Z"
-              stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" />
+            <path d="M3 20C3 16.69 5.69 14 9 14C12.31 14 15 16.69 15 20" stroke="currentColor" stroke-width="1.7"
+              stroke-linecap="round" />
+
+            <path d="M16 8.5C17.1 8.5 18 7.6 18 6.5C18 5.4 17.1 4.5 16 4.5" stroke="currentColor" stroke-width="1.7"
+              stroke-linecap="round" />
+
+            <path d="M18 14.2C19.79 14.6 21 15.9 21 18" stroke="currentColor" stroke-width="1.7"
+              stroke-linecap="round" />
 
           </svg>
 
         </span>
 
-        <span>Configurações</span>
+        <span>Usuários</span>
 
-      </a>
+      </span>
+
+
+      <!-- Meu Perfil (em breve) -->
+
+      <span class="nav-item disabled" title="Meu Perfil — em breve">
+
+        <span class="nav-icon">
+
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+            <circle cx="12" cy="8" r="3.3" stroke="currentColor" stroke-width="1.7" />
+
+            <path d="M5 20C5 16.4 8.13 13.5 12 13.5C15.87 13.5 19 16.4 19 20" stroke="currentColor" stroke-width="1.7"
+              stroke-linecap="round" />
+
+          </svg>
+
+        </span>
+
+        <span>Meu Perfil</span>
+
+      </span>
 
 
       <!-- Sair -->
 
-      <button type="button" class="logout-button" (click)="sair()">
+      <button type="button" class="nav-item logout-item" (click)="sair()" title="Sair">
 
         <span class="nav-icon">
 
@@ -295,7 +316,7 @@
 
       </button>
 
-    </div>
+    </nav>
 
   </aside>
 
@@ -304,7 +325,7 @@
        ÁREA PRINCIPAL
   ====================================================== -->
 
-  <div class="main-area">
+  <div class="main-area" [class.expanded]="sidebarRecolhida()">
 
 
     <!-- ===================================================
@@ -315,8 +336,16 @@
 
       <div class="topbar-left">
 
+        <button type="button" class="menu-toggle" aria-label="Recolher menu" (click)="alternarSidebar()">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 6h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+            <path d="M3 12h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+            <path d="M3 18h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+          </svg>
+        </button>
+
         <span class="page-system">
-          Sistema de Gestão
+          {{ tituloPagina() }}
         </span>
 
       </div>
@@ -339,7 +368,7 @@
 
           </svg>
 
-          <span class="notification-dot"></span>
+          <span class="notification-dot">3</span>
 
         </button>
 
@@ -349,13 +378,17 @@
         <div class="user-profile">
 
           <div class="user-avatar">
-            PM
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="8" r="3.3" stroke="currentColor" stroke-width="1.7" />
+              <path d="M5 20C5 16.4 8.13 13.5 12 13.5C15.87 13.5 19 16.4 19 20" stroke="currentColor" stroke-width="1.7"
+                stroke-linecap="round" />
+            </svg>
           </div>
 
           <div class="user-info">
 
             <strong>
-              Usuário
+              {{ nomeUsuario }}
             </strong>
 
             <span>
@@ -363,10 +396,6 @@
             </span>
 
           </div>
-
-          <span class="user-arrow">
-            ▾
-          </span>
 
         </div>
 

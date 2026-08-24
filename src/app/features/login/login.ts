@@ -14,11 +14,16 @@ export class Login {
   private router = inject(Router);
 
   errorMessage = signal('');
+  mostrarSenha = signal(false);
 
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required])
   });
+
+  alternarSenha() {
+    this.mostrarSenha.update((valor) => !valor);
+  }
 
   onSubmit() {
     this.errorMessage.set('');

@@ -1,56 +1,130 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, computed, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Vehicle } from '../services/vehicle';
 import { VehicleShortResponse } from '../../../shared/models/vehicle-short-response';
-import { VehicleForm } from '../vehicle-form/vehicle-form';
-import { VehicleDetail } from '../vehicle-detail/vehicle-detail';
+import { NotificationService } from '../../../core/services/notification';
+
+
+const TAMANHO_PAGINA = 5;
 
 
 @Component({
   selector: 'app-vehicle-list',
-  imports: [VehicleForm, VehicleDetail],
+  imports: [FormsModule],
   templateUrl: './vehicle-list.html',
   styleUrl: './vehicle-list.scss'
 })
 export class VehicleList implements OnInit {
   private vehicleService = inject(Vehicle);
-  
+  private notification = inject(NotificationService);
+  private router = inject(Router);
+
 
   veiculos = signal<VehicleShortResponse[]>([]);
-  modalAberto = signal(false);
-  veiculoDetalheId = signal<number | null>(null);
+
+  termoBusca = signal('');
+  paginaAtual = signal(1);
+  totalRegistros = signal(0);
+  totalPaginas = signal(1);
+
+  veiculosFiltrados = computed(() => {
+    const termo = this.termoBusca().trim().toLowerCase();
+    if (!termo) return this.veiculos();
+
+    return this.veiculos().filter((veiculo) =>
+      veiculo.licensePlate.toLowerCase().includes(termo) ||
+      veiculo.model.toLowerCase().includes(termo) ||
+      veiculo.brand.toLowerCase().includes(termo)
+    );
+  });
+
+  inicioIntervalo = computed(() => {
+    if (this.totalRegistros() === 0) return 0;
+    return (this.paginaAtual() - 1) * TAMANHO_PAGINA + 1;
+  });
+
+  fimIntervalo = computed(() => {
+    return Math.min(this.paginaAtual() * TAMANHO_PAGINA, this.totalRegistros());
+  });
+
+  paginasVisiveis = computed(() => {
+    const total = this.totalPaginas();
+    const atual = this.paginaAtual();
+    const paginas: (number | '...')[] = [];
+
+    for (let pagina = 1; pagina <= total; pagina++) {
+      const proximoAoInicio = pagina <= 2;
+      const proximoAoFim = pagina > total - 2;
+      const proximoAtual = Math.abs(pagina - atual) <= 1;
+
+      if (proximoAoInicio || proximoAoFim || proximoAtual) {
+        paginas.push(pagina);
+      } else if (paginas[paginas.length - 1] !== '...') {
+        paginas.push('...');
+      }
+    }
+
+    return paginas;
+  });
 
   ngOnInit() {
     this.carregarVeiculos();
   }
 
   carregarVeiculos() {
-    this.vehicleService.listar().subscribe({
-      next: (response) => this.veiculos.set(response.data)
+    this.vehicleService.listar(this.paginaAtual(), TAMANHO_PAGINA).subscribe({
+      next: (response) => {
+        this.veiculos.set(response.data);
+        this.totalRegistros.set(response.totalCount);
+        this.totalPaginas.set(response.totalPages || 1);
+      }
     });
   }
 
-  abrirModalCriar() {
-    this.modalAberto.set(true);
+  onBuscar(termo: string) {
+    this.termoBusca.set(termo);
   }
 
-  onSalvo() {
-    this.modalAberto.set(false);
+  irParaPagina(pagina: number | '...') {
+    if (pagina === '...' || pagina === this.paginaAtual()) return;
+    this.paginaAtual.set(pagina);
     this.carregarVeiculos();
   }
 
-  onCancelado() {
-    this.modalAberto.set(false);
+  paginaAnterior() {
+    if (this.paginaAtual() <= 1) return;
+    this.paginaAtual.update((pagina) => pagina - 1);
+    this.carregarVeiculos();
+  }
+
+  proximaPagina() {
+    if (this.paginaAtual() >= this.totalPaginas()) return;
+    this.paginaAtual.update((pagina) => pagina + 1);
+    this.carregarVeiculos();
+  }
+
+  abrirNovo() {
+    this.router.navigate(['/vehicles/new']);
   }
 
   abrirDetalhe(id: number) {
-    this.veiculoDetalheId.set(id);
+    this.router.navigate(['/vehicles', id]);
   }
 
-  fecharDetalhe() {
-    this.veiculoDetalheId.set(null);
-  }
+  excluirVeiculo(event: Event, veiculo: VehicleShortResponse) {
+    event.stopPropagation();
 
-  onAtualizadoNoDetalhe() {
-    this.carregarVeiculos();
+    if (!confirm(`Tem certeza que deseja excluir o veículo ${veiculo.licensePlate}? Essa ação não pode ser desfeita.`)) {
+      return;
+    }
+
+    this.vehicleService.excluir(veiculo.id).subscribe({
+      next: () => {
+        this.notification.show('Veículo excluído!', 'success');
+        this.carregarVeiculos();
+      },
+      error: () => this.notification.show('Erro ao excluir veículo.')
+    });
   }
 }

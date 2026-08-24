@@ -1,33 +1,83 @@
 /* =========================================================
-   VEHICLE FORM
+   VEHICLE FORM (página cheia)
    ========================================================= */
 
 :host {
   display: block;
+
+  --primary: #5b45e6;
+  --primary-dark: #4935c9;
+
+  --text: #182230;
+  --text-secondary: #6b7280;
+
+  --border: #e5e9f0;
 }
 
 
 /* =========================================================
-   MODAL
+   PÁGINA
    ========================================================= */
 
-.modal-overlay {
-  position: fixed;
+.page {
+  width: 100%;
+}
 
-  inset: 0;
 
-  z-index: 1000;
+/* =========================================================
+   HEADER
+   ========================================================= */
 
+.page-header {
   display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 25px;
+}
 
+.page-header h1 {
+  margin: 0 0 5px;
+  color: var(--text);
+  font-size: 22px;
+  font-weight: 750;
+  letter-spacing: -0.4px;
+}
+
+.page-header p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.back-button {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  display: flex;
   align-items: center;
   justify-content: center;
+  color: #4b5563;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
 
-  padding: 24px;
+.back-button svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
 
-  background: rgba(15, 23, 42, 0.45);
-
-  backdrop-filter: blur(2px);
+.back-button:hover {
+  color: var(--primary);
+  border-color: var(--primary);
+  background: #f5f3ff;
 }
 
 
@@ -35,42 +85,13 @@
    CARD
    ========================================================= */
 
-.modal-content {
+.content-card {
   width: 100%;
-
-  max-width: 720px;
-
-  max-height: calc(100vh - 48px);
-
-  overflow-y: auto;
-
-  padding: 28px;
-
+  padding: 26px;
   background: #ffffff;
-
-  border: 1px solid #e5e9f0;
-
+  border: 1px solid var(--border);
   border-radius: 12px;
-
-  box-shadow:
-    0 20px 50px rgba(15, 23, 42, 0.15);
-}
-
-
-/* =========================================================
-   TÍTULO
-   ========================================================= */
-
-.modal-content h2 {
-  margin: 0 0 22px;
-
-  color: #182230;
-
-  font-size: 20px;
-
-  font-weight: 700;
-
-  letter-spacing: -0.3px;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.035);
 }
 
 
@@ -80,10 +101,8 @@
 
 form {
   display: flex;
-
   flex-direction: column;
-
-  gap: 15px;
+  gap: 18px;
 }
 
 
@@ -93,13 +112,15 @@ form {
 
 .form-row {
   display: grid;
-
-  gap: 15px;
+  gap: 16px;
 }
 
-.form-row.two-columns {
-  grid-template-columns:
-    repeat(2, minmax(0, 1fr));
+.form-row.three-columns {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.form-row.four-columns {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 
@@ -109,17 +130,13 @@ form {
 
 .form-group {
   display: flex;
-
   flex-direction: column;
 }
 
 .form-group label {
   margin-bottom: 6px;
-
   color: #374151;
-
   font-size: 10px;
-
   font-weight: 650;
 }
 
@@ -131,71 +148,34 @@ form {
 .form-group input,
 .form-group select {
   width: 100%;
-
   height: 38px;
-
   padding: 0 11px;
-
   color: #182230;
-
   background: #ffffff;
-
   border: 1px solid #dfe4ec;
-
   border-radius: 7px;
-
   outline: none;
-
   font-family: inherit;
-
   font-size: 11px;
-
   transition:
     border-color 0.15s ease,
     box-shadow 0.15s ease,
     background 0.15s ease;
 }
 
-
-/* Placeholder */
-
 .form-group input::placeholder {
   color: #a3aab5;
 }
 
-
-/* Focus */
-
 .form-group input:focus,
 .form-group select:focus {
   border-color: #5b45e6;
-
-  box-shadow:
-    0 0 0 3px rgba(91, 69, 230, 0.09);
+  box-shadow: 0 0 0 3px rgba(91, 69, 230, 0.09);
 }
-
-
-/* Select */
 
 .form-group select {
   cursor: pointer;
-
   appearance: auto;
-}
-
-
-/* =========================================================
-   CAMPOS CURTOS
-   ========================================================= */
-
-/*
-   A placa e a quilometragem não precisam
-   ocupar toda a largura do formulário.
-*/
-
-.form-group:has(#licensePlate),
-.form-group:has(#currentMileage) {
-  max-width: 325px;
 }
 
 
@@ -205,11 +185,8 @@ form {
 
 .field-error {
   margin-top: 5px;
-
   color: #b42318;
-
   font-size: 9px;
-
   line-height: 1.3;
 }
 
@@ -218,115 +195,59 @@ form {
    AÇÕES
    ========================================================= */
 
-.modal-actions {
+.form-actions {
   display: flex;
-
   justify-content: flex-end;
-
   align-items: center;
-
   gap: 9px;
-
-  padding-top: 18px;
-
+  padding-top: 20px;
   margin-top: 4px;
-
   border-top: 1px solid #edf0f4;
 }
 
-
-/* =========================================================
-   BOTÕES
-   ========================================================= */
-
-.modal-actions button {
+.form-actions button {
   height: 38px;
-
-  padding: 0 16px;
-
+  padding: 0 18px;
   border-radius: 7px;
-
   font-family: inherit;
-
   font-size: 11px;
-
   font-weight: 650;
-
   cursor: pointer;
-
   transition:
     background 0.15s ease,
     box-shadow 0.15s ease,
     opacity 0.15s ease;
 }
 
-
 /* Cancelar */
 
-.modal-actions button[type="button"] {
+.form-actions button[type="button"] {
   color: #667085;
-
   background: #ffffff;
-
   border: 1px solid #dfe4ec;
 }
 
-.modal-actions button[type="button"]:hover {
+.form-actions button[type="button"]:hover {
   background: #f8f9fb;
 }
 
-
 /* Salvar */
 
-.modal-actions button[type="submit"] {
+.form-actions button[type="submit"] {
   color: #ffffff;
-
-  background:
-    linear-gradient(
-      135deg,
-      #6650ee,
-      #4d38d1
-    );
-
+  background: linear-gradient(135deg, #6650ee, #4d38d1);
   border: none;
-
-  box-shadow:
-    0 5px 12px rgba(91, 69, 230, 0.18);
+  box-shadow: 0 5px 12px rgba(91, 69, 230, 0.18);
 }
 
-.modal-actions button[type="submit"]:hover {
-  box-shadow:
-    0 7px 16px rgba(91, 69, 230, 0.25);
+.form-actions button[type="submit"]:hover {
+  box-shadow: 0 7px 16px rgba(91, 69, 230, 0.25);
 }
 
-
-/* Botão desabilitado */
-
-.modal-actions button[type="submit"]:disabled {
+.form-actions button[type="submit"]:disabled {
   opacity: 0.5;
-
   cursor: not-allowed;
-
   box-shadow: none;
-}
-
-
-/* =========================================================
-   SCROLL DO MODAL
-   ========================================================= */
-
-.modal-content::-webkit-scrollbar {
-  width: 6px;
-}
-
-.modal-content::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.modal-content::-webkit-scrollbar-thumb {
-  background: #d5dae2;
-
-  border-radius: 10px;
 }
 
 
@@ -334,46 +255,32 @@ form {
    RESPONSIVO
    ========================================================= */
 
+@media (max-width: 860px) {
+  .form-row.four-columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 700px) {
-
-  .modal-overlay {
+  .page-header {
     align-items: flex-start;
-
-    padding: 15px;
   }
 
-
-  .modal-content {
-    max-height: calc(100vh - 30px);
-
-    padding: 20px;
+  .content-card {
+    padding: 18px;
   }
 
-
-  .form-row.two-columns {
+  .form-row.two-columns,
+  .form-row.three-columns,
+  .form-row.four-columns {
     grid-template-columns: 1fr;
   }
 
-
-  .form-group:has(#licensePlate),
-  .form-group:has(#currentMileage) {
-    max-width: none;
-  }
-
-
-  .modal-actions {
+  .form-actions {
     flex-direction: column-reverse;
   }
 
-
-  .modal-actions button {
+  .form-actions button {
     width: 100%;
   }
-
-}
-.form-row.three-columns {
-  grid-template-columns:
-    1fr
-    1.4fr
-    1fr;
 }

@@ -1,6 +1,7 @@
-import { Component, inject, input, output, signal, effect } from '@angular/core';
+import { Component, inject, signal, effect } from '@angular/core';
 import { ReactiveFormsModule, FormControl, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Vehicle } from '../services/vehicle';
 import { VehicleResponse } from '../../../shared/models/vehicle-response';
 import { NotificationService } from '../../../core/services/notification';
@@ -14,10 +15,8 @@ import { NotificationService } from '../../../core/services/notification';
 export class VehicleDetail {
   private vehicleService = inject(Vehicle);
   private notification = inject(NotificationService);
-
-  vehicleId = input.required<number>();
-  fechado = output<void>();
-  atualizado = output<void>();
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
   veiculo = signal<VehicleResponse | null>(null);
   editandoQuilometragem = signal(false);
@@ -25,12 +24,7 @@ export class VehicleDetail {
   quilometragemControl = new FormControl(0, { nonNullable: true, validators: [Validators.required, Validators.min(0)] });
 
   constructor() {
-    effect(() => {
-      const id = this.vehicleId();
-      this.vehicleService.buscarPorId(id).subscribe({
-        next: (v) => this.veiculo.set(v)
-      });
-    });
+    this.recarregarDetalhe();
   }
 
   abrirEdicaoQuilometragem() {
@@ -55,7 +49,6 @@ export class VehicleDetail {
         this.notification.show('Quilometragem atualizada!', 'success');
         this.editandoQuilometragem.set(false);
         this.recarregarDetalhe();
-        this.atualizado.emit();
       },
       error: (err: HttpErrorResponse) => this.tratarErro(err)
     });
@@ -69,7 +62,6 @@ export class VehicleDetail {
       next: () => {
         this.notification.show('Veículo ativado!', 'success');
         this.recarregarDetalhe();
-        this.atualizado.emit();
       },
       error: (err: HttpErrorResponse) => this.tratarErro(err)
     });
@@ -83,7 +75,6 @@ export class VehicleDetail {
       next: () => {
         this.notification.show('Veículo desativado!', 'success');
         this.recarregarDetalhe();
-        this.atualizado.emit();
       },
       error: (err: HttpErrorResponse) => this.tratarErro(err)
     });
@@ -97,7 +88,6 @@ export class VehicleDetail {
     this.vehicleService.excluir(veiculo.id).subscribe({
       next: () => {
         this.notification.show('Veículo excluído!', 'success');
-        this.atualizado.emit();
         this.fechar();
       },
       error: (err: HttpErrorResponse) => this.tratarErro(err)
@@ -105,7 +95,8 @@ export class VehicleDetail {
   }
 
   private recarregarDetalhe() {
-    this.vehicleService.buscarPorId(this.vehicleId()).subscribe({
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.vehicleService.buscarPorId(id).subscribe({
       next: (v) => this.veiculo.set(v)
     });
   }
@@ -120,6 +111,6 @@ export class VehicleDetail {
   }
 
   fechar() {
-    this.fechado.emit();
+    this.router.navigate(['/vehicles']);
   }
 }

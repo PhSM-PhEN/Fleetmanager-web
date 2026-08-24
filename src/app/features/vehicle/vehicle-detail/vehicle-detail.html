@@ -1,12 +1,21 @@
-<div class="modal-overlay">
-  <div class="modal-content detail">
+<div class="page">
 
-    @if (veiculo(); as v) {
+  @if (veiculo(); as v) {
 
-    <div class="detail-header">
-      <h2>{{ v.brand }} {{ v.model }}</h2>
+  <div class="page-header">
+    <button type="button" class="back-button" (click)="fechar()" aria-label="Voltar">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="m15 18-6-6 6-6"></path>
+      </svg>
+    </button>
+
+    <div>
+      <h1>{{ v.brand }} {{ v.model }}</h1>
+      <p>Detalhes do veículo.</p>
     </div>
+  </div>
 
+  <div class="content-card">
 
     <div class="detail-grid">
 
@@ -103,15 +112,8 @@
 
     </div>
 
-    }
-
-    <div class="modal-actions">
-
-      <button type="button" (click)="fechar()">
-        Fechar
-      </button>
-
-    </div>
-
   </div>
+
+  }
+
 </div>

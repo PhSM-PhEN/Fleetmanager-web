@@ -93,6 +93,60 @@
 
 
 /* =========================================================
+   BARRA DE BUSCA
+   ========================================================= */
+
+.table-toolbar {
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--border);
+}
+
+.search-box {
+  position: relative;
+  max-width: 360px;
+}
+
+.search-box svg {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  width: 15px;
+  height: 15px;
+  color: #9aa4b2;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.search-box input {
+  width: 100%;
+  height: 36px;
+  padding: 0 12px 0 34px;
+  color: var(--text);
+  background: #ffffff;
+  border: 1px solid #dfe3e8;
+  border-radius: 7px;
+  outline: none;
+  font-family: inherit;
+  font-size: 12px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.search-box input::placeholder {
+  color: #9aa4b2;
+}
+
+.search-box input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(91, 69, 230, 0.1);
+}
+
+
+/* =========================================================
    TABELA
    ========================================================= */
 
@@ -164,22 +218,22 @@ tbody tr:hover {
    COLUNAS
    ========================================================= */
 
-/* Placa */
+/* ID */
 th:nth-child(1),
 td:nth-child(1) {
+  width: 55px;
+}
+
+/* Placa */
+th:nth-child(2),
+td:nth-child(2) {
   width: 100px;
 }
 
 /* Marca / Modelo */
-th:nth-child(2),
-td:nth-child(2) {
-  min-width: 170px;
-}
-
-/* Cor */
 th:nth-child(3),
 td:nth-child(3) {
-  min-width: 90px;
+  min-width: 170px;
 }
 
 /* Ano */
@@ -188,16 +242,16 @@ td:nth-child(4) {
   width: 75px;
 }
 
-/* Quilometragem */
+/* Cor */
 th:nth-child(5),
 td:nth-child(5) {
-  min-width: 110px;
+  min-width: 90px;
 }
 
-/* Empresa */
+/* Quilometragem */
 th:nth-child(6),
 td:nth-child(6) {
-  min-width: 150px;
+  min-width: 110px;
 }
 
 /* Status */
@@ -206,27 +260,38 @@ td:nth-child(7) {
   width: 100px;
 }
 
+/* Ações */
+th:nth-child(8),
+td:nth-child(8) {
+  width: 90px;
+}
+
 
 /* =========================================================
    DESTAQUES DOS DADOS
    ========================================================= */
 
 td:nth-child(1) {
-  color: var(--text);
-  font-weight: 650;
+  color: #9aa4b2;
+  font-variant-numeric: tabular-nums;
 }
 
 td:nth-child(2) {
   color: var(--text);
+  font-weight: 650;
+}
+
+td:nth-child(3) {
+  color: var(--text);
   font-weight: 550;
 }
 
-td:nth-child(5) {
-  color: #4b5563;
+td:nth-child(4) {
   font-variant-numeric: tabular-nums;
 }
 
-td:nth-child(4) {
+td:nth-child(6) {
+  color: #4b5563;
   font-variant-numeric: tabular-nums;
 }
 
@@ -253,6 +318,137 @@ td:nth-child(4) {
   color: #dc2626;
   background: #fef2f2;
   border: 1px solid #fee2e2;
+}
+
+
+/* =========================================================
+   AÇÕES DA LINHA
+   ========================================================= */
+
+.empty-row td {
+  padding: 28px 18px;
+  color: var(--text-secondary);
+  text-align: center;
+  white-space: normal;
+}
+
+.row-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.icon-button {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #7a8493;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.icon-button svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.icon-button:hover {
+  color: var(--primary);
+  background: #f5f3ff;
+  border-color: #e5e0fb;
+}
+
+.icon-button.danger:hover {
+  color: #dc2626;
+  background: #fef2f2;
+  border-color: #fee2e2;
+}
+
+
+/* =========================================================
+   PAGINAÇÃO
+   ========================================================= */
+
+.table-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 14px 18px;
+  border-top: 1px solid var(--border);
+}
+
+.pagination-info {
+  color: var(--text-secondary);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.page-nav,
+.page-number {
+  min-width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+  color: #4b5563;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.page-nav svg {
+  width: 13px;
+  height: 13px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.page-number:hover,
+.page-nav:hover:not(:disabled) {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.page-number.active {
+  color: #ffffff;
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+.page-nav:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.page-ellipsis {
+  padding: 0 4px;
+  color: var(--text-secondary);
+  font-size: 11px;
 }
 
 

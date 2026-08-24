@@ -1,6 +1,7 @@
-import { Component, inject, output, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { Vehicle } from '../services/vehicle';
 import { Company } from '../../company/services/company';
 import { RentalPlan } from '../../rental-plan/services/rental-plan';
@@ -19,9 +20,7 @@ export class VehicleForm implements OnInit {
   private companyService = inject(Company);
   private rentalPlanService = inject(RentalPlan);
   private notification = inject(NotificationService);
-
-  salvo = output<void>();
-  cancelado = output<void>();
+  private router = inject(Router);
 
   empresas = signal<CompanyShortResponse[]>([]);
   planos = signal<RentalPlanResponse[]>([]);
@@ -66,8 +65,8 @@ export class VehicleForm implements OnInit {
       rentalPlanId: dados.rentalPlanId!
     }).subscribe({
       next: () => {
-        this.salvo.emit();
         this.notification.show('Veículo cadastrado com sucesso!', 'success');
+        this.router.navigate(['/vehicles']);
       },
       error: (err: HttpErrorResponse) => this.tratarErro(err)
     });
@@ -83,6 +82,6 @@ export class VehicleForm implements OnInit {
   }
 
   onCancelar() {
-    this.cancelado.emit();
+    this.router.navigate(['/vehicles']);
   }
 }

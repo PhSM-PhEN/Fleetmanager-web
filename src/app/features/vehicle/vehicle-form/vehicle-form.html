@@ -1,11 +1,24 @@
-<div class="modal-overlay">
-  <div class="modal-content">
+<div class="page">
 
-    <h2>Novo veículo</h2>
+  <div class="page-header">
+    <button type="button" class="back-button" (click)="onCancelar()" aria-label="Voltar">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="m15 18-6-6 6-6"></path>
+      </svg>
+    </button>
+
+    <div>
+      <h1>Novo veículo</h1>
+      <p>Cadastre um novo veículo na frota.</p>
+    </div>
+  </div>
+
+  <div class="content-card">
 
     <form [formGroup]="veiculoForm" (submit)="onFormSubmit($event)">
 
-      <div class="form-row two-columns">
+      <div class="form-row four-columns">
+
         <div class="form-group">
           <label for="brand">Marca</label>
           <input id="brand" type="text" formControlName="brand" placeholder="Ex: Toyota" />
@@ -15,82 +28,80 @@
           <label for="model">Modelo</label>
           <input id="model" type="text" formControlName="model" placeholder="Ex: Corolla" />
         </div>
+
+        <div class="form-group">
+
+          <label for="manufacturingYear">
+            Ano de Fabricação
+          </label>
+
+          <input
+            id="manufacturingYear"
+            type="text"
+            formControlName="manufacturingYear"
+            placeholder="Ex: 2024/2025"
+          />
+
+          @if (
+            veiculoForm.controls.manufacturingYear.invalid &&
+            veiculoForm.controls.manufacturingYear.touched
+          ) {
+            <span class="field-error">
+              Use o formato ANO/ANO, ex: 2024/2025
+            </span>
+          }
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="color">
+            Cor
+          </label>
+
+          <input
+            id="color"
+            type="text"
+            formControlName="color"
+            placeholder="Ex: Prata"
+          />
+
+        </div>
+
       </div>
 
-<div class="form-row three-columns">
+      <div class="form-row three-columns">
 
-  <div class="form-group">
-    <label for="licensePlate">Placa</label>
+        <div class="form-group">
+          <label for="licensePlate">Placa</label>
 
-    <input
-      id="licensePlate"
-      type="text"
-      formControlName="licensePlate"
-      placeholder="ABC1D23"
-    />
-  </div>
+          <input
+            id="licensePlate"
+            type="text"
+            formControlName="licensePlate"
+            placeholder="Ex: ABC1D23"
+          />
+        </div>
 
-
-  <div class="form-group">
-
-    <label for="manufacturingYear">
-      Ano de fabricação/modelo
-    </label>
-
-    <input
-      id="manufacturingYear"
-      type="text"
-      formControlName="manufacturingYear"
-      placeholder="2024/2025"
-    />
-
-    @if (
-      veiculoForm.controls.manufacturingYear.invalid &&
-      veiculoForm.controls.manufacturingYear.touched
-    ) {
-      <span class="field-error">
-        Use o formato ANO/ANO, ex: 2024/2025
-      </span>
-    }
-
-  </div>
-
-
-  <div class="form-group">
-
-    <label for="color">
-      Cor
-    </label>
-
-    <input
-      id="color"
-      type="text"
-      formControlName="color"
-      placeholder="Ex: Prata"
-    />
-
-  </div>
-
-</div>
-
-      <div class="form-row two-columns">
         <div class="form-group">
           <label for="renavam">RENAVAM</label>
-          <input id="renavam" type="text" formControlName="renavam" />
+          <input id="renavam" type="text" formControlName="renavam" placeholder="Ex: 12345678901" />
         </div>
 
         <div class="form-group">
           <label for="chassiNumber">Número do chassi</label>
-          <input id="chassiNumber" type="text" formControlName="chassiNumber" />
+          <input id="chassiNumber" type="text" formControlName="chassiNumber" placeholder="Ex: 9BWAB45U0TP123456" />
         </div>
+
       </div>
 
-      <div class="form-group">
-        <label for="currentMileage">Quilometragem atual</label>
-        <input id="currentMileage" type="number" formControlName="currentMileage" />
-      </div>
+      <div class="form-row three-columns">
 
-      <div class="form-row two-columns">
+        <div class="form-group">
+          <label for="currentMileage">Quilometragem atual</label>
+          <input id="currentMileage" type="number" formControlName="currentMileage" placeholder="Ex: 12500" />
+        </div>
+
         <div class="form-group">
           <label for="companyId">Empresa</label>
           <select id="companyId" formControlName="companyId">
@@ -110,9 +121,10 @@
             }
           </select>
         </div>
+
       </div>
 
-      <div class="modal-actions">
+      <div class="form-actions">
         <button type="button" (click)="onCancelar()">Cancelar</button>
         <button type="submit" [disabled]="veiculoForm.invalid">Salvar</button>
       </div>
@@ -120,4 +132,5 @@
     </form>
 
   </div>
+
 </div>
