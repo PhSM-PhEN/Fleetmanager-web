@@ -6,7 +6,7 @@
       <p>Gerencie os contratos de locação.</p>
     </div>
 
-    <button class="primary-button" type="button" (click)="abrirModalCriar()">
+    <button class="primary-button" type="button" (click)="abrirNovo()">
       <span>+</span>
       Novo contrato
     </button>
@@ -40,13 +40,5 @@
       </table>
     </div>
   </div>
-
-  @if (modalAberto()) {
-  <app-contract-form (salvo)="onSalvo()" (cancelado)="onCancelado()" />
-  }
-
-  @if (contratoDetalheId(); as id) {
-  <app-contract-detail [contractId]="id" (fechado)="fecharDetalhe()" (atualizado)="onDetalheAtualizado()" />
-  }
 
 </div>

@@ -1,42 +1,53 @@
-import { Component, inject, input, output, signal, effect } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Tenant } from '../services/tenant';
 import { TenantResponse } from '../../../shared/models/tenant-response';
+import { TenantEditForm } from '../tenant-edit-form/tenant-edit-form';
 import { NotificationService } from '../../../core/services/notification';
 
 @Component({
   selector: 'app-tenant-detail',
-  imports: [],
+  imports: [TenantEditForm],
   templateUrl: './tenant-detail.html',
   styleUrl: './tenant-detail.scss'
 })
 export class TenantDetail {
   private tenantService = inject(Tenant);
   private notification = inject(NotificationService);
-
-  tenantId = input.required<number>();
-  fechado = output<void>();
-  atualizado = output<void>();
-  editar = output<TenantResponse>();
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
   cliente = signal<TenantResponse | null>(null);
+  clienteParaEditar = signal<TenantResponse | null>(null);
 
   constructor() {
-    effect(() => {
-      const id = this.tenantId();
-      this.carregarCliente(id);
-    });
+    this.recarregarDetalhe();
+  }
+
+  private recarregarDetalhe() {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.carregarCliente(id);
   }
 
   private carregarCliente(id: number) {
     this.tenantService.buscarPorId(id).subscribe({
-      next: (c) => this.cliente.set(c)
+      next: (c) => this.cliente.set(c),
+      error: (err: HttpErrorResponse) => this.tratarErro(err)
     });
   }
 
-  onEditar() {
-    const cliente = this.cliente();
-    if (cliente) this.editar.emit(cliente);
+  abrirEdicao() {
+    this.clienteParaEditar.set(this.cliente());
+  }
+
+  onEditarSalvo() {
+    this.clienteParaEditar.set(null);
+    this.recarregarDetalhe();
+  }
+
+  onEditarCancelado() {
+    this.clienteParaEditar.set(null);
   }
 
   ativar() {
@@ -46,8 +57,7 @@ export class TenantDetail {
     this.tenantService.ativar(cliente.id).subscribe({
       next: () => {
         this.notification.show('Cliente ativado!', 'success');
-        this.carregarCliente(cliente.id);
-        this.atualizado.emit();
+        this.recarregarDetalhe();
       },
       error: (err: HttpErrorResponse) => this.tratarErro(err)
     });
@@ -60,8 +70,7 @@ export class TenantDetail {
     this.tenantService.desativar(cliente.id).subscribe({
       next: () => {
         this.notification.show('Cliente desativado!', 'success');
-        this.carregarCliente(cliente.id);
-        this.atualizado.emit();
+        this.recarregarDetalhe();
       },
       error: (err: HttpErrorResponse) => this.tratarErro(err)
     });
@@ -70,12 +79,11 @@ export class TenantDetail {
   excluir() {
     const cliente = this.cliente();
     if (!cliente) return;
-    if (!confirm('Tem certeza que deseja excluir este cliente?')) return;
+    if (!confirm('Tem certeza que deseja excluir este cliente? Essa ação não pode ser desfeita.')) return;
 
     this.tenantService.excluir(cliente.id).subscribe({
       next: () => {
         this.notification.show('Cliente excluído!', 'success');
-        this.atualizado.emit();
         this.fechar();
       },
       error: (err: HttpErrorResponse) => this.tratarErro(err)
@@ -92,6 +100,6 @@ export class TenantDetail {
   }
 
   fechar() {
-    this.fechado.emit();
+    this.router.navigate(['/clients']);
   }
 }

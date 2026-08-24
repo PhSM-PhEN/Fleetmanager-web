@@ -48,9 +48,4 @@
     <app-tenant-edit-form [clienteParaEditar]="cliente" (salvo)="onEditarSalvo()" (cancelado)="onEditarCancelado()" />
     }
 
-    @if (clienteDetalheId(); as id) {
-    <app-tenant-detail [tenantId]="id" (fechado)="fecharDetalhe()" (atualizado)="onDetalheAtualizado()"
-        (editar)="onEditarPeloDetalhe($event)" />
-    }
-
 </div>

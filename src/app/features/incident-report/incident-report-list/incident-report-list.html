@@ -43,8 +43,4 @@
     <app-incident-report-form (salvo)="onSalvo()" (cancelado)="onCancelado()" />
     }
 
-    @if (ocorrenciaDetalheId(); as id) {
-    <app-incident-report-detail [incidentId]="id" (fechado)="fecharDetalhe()" (atualizado)="onDetalheAtualizado()" />
-    }
-
 </div>

@@ -1,27 +1,33 @@
-<div class="modal-overlay">
-    <div class="modal-content detail">
+<div class="page">
 
-        @if (contrato(); as c) {
+    @if (contrato(); as c) {
 
-        <!-- =====================================================
+    <!-- =====================================================
              CABEÇALHO
              ===================================================== -->
 
-        <div class="detail-header">
-            <div>
-                <span class="detail-subtitle">Contrato</span>
-                <h2>#{{ c.id }}</h2>
-            </div>
+    <div class="page-header">
+        <button type="button" class="back-button" (click)="fechar()" aria-label="Voltar">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m15 18-6-6 6-6"></path>
+            </svg>
+        </button>
 
-            <span class="status-badge status-{{ c.contractStatus }}">
-                {{ c.contractStatus }}
-            </span>
+        <div>
+            <h1>Contrato #{{ c.id }}</h1>
+            <p>Detalhes do contrato de locação.</p>
         </div>
 
+        <span class="status-badge status-{{ c.contractStatus }}">
+            {{ c.contractStatus }}
+        </span>
+    </div>
+
+    <div class="content-card">
 
         <!-- =====================================================
-             CONTRATO
-             ===================================================== -->
+                 CONTRATO
+                 ===================================================== -->
 
         <section class="detail-section">
 
@@ -72,8 +78,8 @@
 
 
         <!-- =====================================================
-             VEÍCULO
-             ===================================================== -->
+                 VEÍCULO
+                 ===================================================== -->
 
         <section class="detail-section">
 
@@ -101,8 +107,8 @@
 
 
         <!-- =====================================================
-             CLIENTE
-             ===================================================== -->
+                 CLIENTE
+                 ===================================================== -->
 
         <section class="detail-section">
 
@@ -123,8 +129,8 @@
 
 
         <!-- =====================================================
-             QUILOMETRAGEM
-             ===================================================== -->
+                 QUILOMETRAGEM
+                 ===================================================== -->
 
         <section class="detail-section">
 
@@ -184,8 +190,8 @@
 
 
         <!-- =====================================================
-             VALORES
-             ===================================================== -->
+                 VALORES
+                 ===================================================== -->
 
         <section class="detail-section">
 
@@ -237,8 +243,8 @@
 
 
         <!-- =====================================================
-             FINALIZAÇÃO
-             ===================================================== -->
+                 FINALIZAÇÃO
+                 ===================================================== -->
 
         @if (editandoFinalizacao()) {
 
@@ -267,8 +273,8 @@
 
 
         <!-- =====================================================
-             RENOVAÇÃO
-             ===================================================== -->
+                 RENOVAÇÃO
+                 ===================================================== -->
 
         } @else if (editandoRenovacao()) {
 
@@ -308,7 +314,7 @@
 
             </div>
 
-            <div class="modal-actions">
+            <div class="detail-actions">
 
                 <button type="button" class="secondary" (click)="cancelarRenovacao()">
                     Cancelar
@@ -324,8 +330,8 @@
 
 
         <!-- =====================================================
-             AÇÕES
-             ===================================================== -->
+                 AÇÕES
+                 ===================================================== -->
 
         } @else {
 
@@ -374,20 +380,8 @@
 
         }
 
-
-        <!-- =====================================================
-             FECHAR
-             ===================================================== -->
-
-        <div class="modal-actions close-actions">
-
-            <button type="button" class="secondary" (click)="fechar()">
-                Fechar
-            </button>
-
-        </div>
-
-        }
-
     </div>
+
+    }
+
 </div>

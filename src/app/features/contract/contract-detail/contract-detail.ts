@@ -1,7 +1,8 @@
-import { Component, inject, input, output, signal, effect } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CurrencyPipe } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Contract } from '../services/contract';
 import { RentalPlan } from '../../rental-plan/services/rental-plan';
 import { ContractResponse } from '../../../shared/models/contract-response';
@@ -18,10 +19,8 @@ export class ContractDetail {
   private contractService = inject(Contract);
   private rentalPlanService = inject(RentalPlan);
   private notification = inject(NotificationService);
-
-  contractId = input.required<number>();
-  fechado = output<void>();
-  atualizado = output<void>();
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
   contrato = signal<ContractResponse | null>(null);
   planos = signal<RentalPlanResponse[]>([]);
@@ -37,12 +36,7 @@ export class ContractDetail {
   });
 
   constructor() {
-    effect(() => {
-      const id = this.contractId();
-      this.contractService.buscarPorId(id).subscribe({
-        next: (c) => this.contrato.set(c)
-      });
-    });
+    this.recarregarDetalhe();
   }
 
   ativar() {
@@ -52,7 +46,6 @@ export class ContractDetail {
       next: () => {
         this.notification.show('Contrato ativado!', 'success');
         this.recarregarDetalhe();
-        this.atualizado.emit();
       },
       error: (err: HttpErrorResponse) => this.tratarErro(err)
     });
@@ -67,7 +60,6 @@ export class ContractDetail {
       next: () => {
         this.notification.show('Contrato cancelado!', 'success');
         this.recarregarDetalhe();
-        this.atualizado.emit();
       },
       error: (err: HttpErrorResponse) => this.tratarErro(err)
     });
@@ -93,7 +85,6 @@ export class ContractDetail {
         this.notification.show(`Contrato finalizado! Total cobrado: ${resultado.totalCharged}`, 'success');
         this.editandoFinalizacao.set(false);
         this.recarregarDetalhe();
-        this.atualizado.emit();
       },
       error: (err: HttpErrorResponse) => this.tratarErro(err)
     });
@@ -124,8 +115,7 @@ export class ContractDetail {
       next: () => {
         this.notification.show('Contrato renovado com sucesso!', 'success');
         this.editandoRenovacao.set(false);
-        this.atualizado.emit();
-        this.fechar();
+        this.recarregarDetalhe();
       },
       error: (err: HttpErrorResponse) => this.tratarErro(err)
     });
@@ -139,7 +129,6 @@ export class ContractDetail {
     this.contractService.excluir(contrato.id).subscribe({
       next: () => {
         this.notification.show('Contrato excluído!', 'success');
-        this.atualizado.emit();
         this.fechar();
       },
       error: (err: HttpErrorResponse) => this.tratarErro(err)
@@ -156,12 +145,14 @@ export class ContractDetail {
   }
 
   recarregarDetalhe() {
-    this.contractService.buscarPorId(this.contractId()).subscribe({
-      next: (c) => this.contrato.set(c)
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.contractService.buscarPorId(id).subscribe({
+      next: (c) => this.contrato.set(c),
+      error: (err: HttpErrorResponse) => this.tratarErro(err)
     });
   }
 
   fechar() {
-    this.fechado.emit();
+    this.router.navigate(['/contracts']);
   }
 }

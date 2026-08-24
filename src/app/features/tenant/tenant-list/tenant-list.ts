@@ -1,4 +1,5 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Tenant } from '../services/tenant';
 import { TenantShortResponse } from '../../../shared/models/tenant-short-response';
@@ -6,17 +7,17 @@ import { TenantResponse } from '../../../shared/models/tenant-response';
 import { TenantForm } from '../tenant-form/tenant-form';
 import { TenantEditForm } from '../tenant-edit-form/tenant-edit-form';
 import { NotificationService } from '../../../core/services/notification';
-import { TenantDetail } from "../tenant-detail/tenant-detail";
 
 @Component({
   selector: 'app-tenant-list',
-  imports: [TenantForm, TenantEditForm, TenantDetail],
+  imports: [TenantForm, TenantEditForm],
   templateUrl: './tenant-list.html',
   styleUrl: './tenant-list.scss'
 })
 export class TenantList implements OnInit {
   private tenantService = inject(Tenant);
   private notification = inject(NotificationService);
+  private router = inject(Router);
 
   clientes = signal<TenantShortResponse[]>([]);
   modalCriarAberto = signal(false);
@@ -62,23 +63,8 @@ export class TenantList implements OnInit {
     this.clienteParaEditar.set(null);
   }
 
-  clienteDetalheId = signal<number | null>(null);
-
   abrirDetalhe(id: number) {
-    this.clienteDetalheId.set(id);
-  }
-
-  fecharDetalhe() {
-    this.clienteDetalheId.set(null);
-  }
-
-  onDetalheAtualizado() {
-    this.carregarClientes();
-  }
-
-  onEditarPeloDetalhe(cliente: TenantResponse) {
-    this.clienteDetalheId.set(null);
-    this.clienteParaEditar.set(cliente);
+    this.router.navigate(['/clients', id]);
   }
 
   private tratarErro(err: HttpErrorResponse) {

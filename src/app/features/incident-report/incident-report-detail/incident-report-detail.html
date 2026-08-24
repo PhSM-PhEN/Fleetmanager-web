@@ -1,48 +1,54 @@
-<div class="modal-overlay">
-    <div class="modal-content detail">
+<div class="page">
+  @if (ocorrencia(); as o) {
+    <div class="page-header">
+      <button type="button" class="back-button" (click)="fechar()" aria-label="Voltar">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m15 18-6-6 6-6"></path>
+        </svg>
+      </button>
 
-        @if (ocorrencia(); as o) {
+      <div>
+        <h1>Ocorrência #{{ o.id }}</h1>
+        <p>Detalhes da ocorrência reportada.</p>
+      </div>
 
-        <div class="detail-header">
-            <h2>Ocorrência #{{ o.id }}</h2>
-            <span class="status-badge status-{{ o.status }}">{{ o.status }}</span>
-        </div>
-
-        <div class="detail-grid">
-            <div class="detail-item">
-                <span class="label">Veículo</span>
-                <span class="value">{{ o.vehicle.brand }} {{ o.vehicle.model }} — {{ o.vehicle.licensePlate }}</span>
-            </div>
-            <div class="detail-item">
-                <span class="label">Contrato</span>
-                <span class="value">#{{ o.contract.id }}</span>
-            </div>
-            <div class="detail-item">
-                <span class="label">Nível de risco</span>
-                <span class="value">{{ o.incidentRisk === 'Low' ? 'Baixo' : 'Alto' }}</span>
-            </div>
-            <div class="detail-item">
-                <span class="label">Reportado em</span>
-                <span class="value">{{ o.reportedAt }}</span>
-            </div>
-            <div class="detail-item full-width">
-                <span class="label">Descrição</span>
-                <span class="value">{{ o.description }}</span>
-            </div>
-        </div>
-
-        <div class="detail-actions">
-            @if (o.status === 'Reported') {
-            <button type="button" (click)="resolver()">Marcar como resolvido</button>
-            }
-            <button type="button" class="danger" (click)="excluir()">Excluir ocorrência</button>
-        </div>
-
-        }
-
-        <div class="modal-actions">
-            <button type="button" (click)="fechar()">Fechar</button>
-        </div>
-
+      <span class="status-badge status-{{ o.status }}">{{ o.status }}</span>
     </div>
+
+    <div class="content-card">
+      <div class="detail-grid">
+        <div class="detail-item">
+          <span class="label">Veículo</span>
+          <span class="value">{{ o.vehicle.brand }} {{ o.vehicle.model }} — {{ o.vehicle.licensePlate }}</span>
+        </div>
+
+        <div class="detail-item">
+          <span class="label">Contrato</span>
+          <span class="value">#{{ o.contract.id }}</span>
+        </div>
+
+        <div class="detail-item">
+          <span class="label">Nível de risco</span>
+          <span class="value">{{ o.incidentRisk === 'Low' ? 'Baixo' : 'Alto' }}</span>
+        </div>
+
+        <div class="detail-item">
+          <span class="label">Reportado em</span>
+          <span class="value">{{ o.reportedAt | date:'dd/MM/yyyy HH:mm' }}</span>
+        </div>
+
+        <div class="detail-item full-width">
+          <span class="label">Descrição</span>
+          <span class="value">{{ o.description }}</span>
+        </div>
+      </div>
+
+      <div class="detail-actions">
+        @if (o.status === 'Reported') {
+          <button type="button" class="resolve" (click)="resolver()">Marcar como resolvido</button>
+        }
+        <button type="button" class="danger" (click)="excluir()">Excluir ocorrência</button>
+      </div>
+    </div>
+  }
 </div>

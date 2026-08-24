@@ -1,35 +1,38 @@
-import { Component, inject, input, output, signal, effect } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
 import { IncidentReport } from '../services/incident-report';
 import { IncidentReportResponse } from '../../../shared/models/incident-report-response';
 import { NotificationService } from '../../../core/services/notification';
 
 @Component({
   selector: 'app-incident-report-detail',
-  imports: [],
+  imports: [DatePipe],
   templateUrl: './incident-report-detail.html',
   styleUrl: './incident-report-detail.scss'
 })
 export class IncidentReportDetail {
   private incidentReportService = inject(IncidentReport);
   private notification = inject(NotificationService);
-
-  incidentId = input.required<number>();
-  fechado = output<void>();
-  atualizado = output<void>();
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
   ocorrencia = signal<IncidentReportResponse | null>(null);
 
   constructor() {
-    effect(() => {
-      const id = this.incidentId();
-      this.carregar(id);
-    });
+    this.recarregarDetalhe();
   }
 
-  private carregar(id: number) {
+  private recarregarDetalhe() {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.carregarOcorrencia(id);
+  }
+
+  private carregarOcorrencia(id: number) {
     this.incidentReportService.buscarPorId(id).subscribe({
-      next: (o) => this.ocorrencia.set(o)
+      next: (o) => this.ocorrencia.set(o),
+      error: (err: HttpErrorResponse) => this.tratarErro(err)
     });
   }
 
@@ -40,8 +43,7 @@ export class IncidentReportDetail {
     this.incidentReportService.resolver(ocorrencia.id).subscribe({
       next: () => {
         this.notification.show('Ocorrência marcada como resolvida!', 'success');
-        this.carregar(ocorrencia.id);
-        this.atualizado.emit();
+        this.recarregarDetalhe();
       },
       error: (err: HttpErrorResponse) => this.tratarErro(err)
     });
@@ -50,12 +52,11 @@ export class IncidentReportDetail {
   excluir() {
     const ocorrencia = this.ocorrencia();
     if (!ocorrencia) return;
-    if (!confirm('Tem certeza que deseja excluir esta ocorrência?')) return;
+    if (!confirm('Tem certeza que deseja excluir esta ocorrência? Essa ação não pode ser desfeita.')) return;
 
     this.incidentReportService.excluir(ocorrencia.id).subscribe({
       next: () => {
         this.notification.show('Ocorrência excluída!', 'success');
-        this.atualizado.emit();
         this.fechar();
       },
       error: (err: HttpErrorResponse) => this.tratarErro(err)
@@ -72,6 +73,6 @@ export class IncidentReportDetail {
   }
 
   fechar() {
-    this.fechado.emit();
+    this.router.navigate(['/incident-reports']);
   }
 }

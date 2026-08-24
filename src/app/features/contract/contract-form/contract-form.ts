@@ -1,14 +1,14 @@
-import { Component, inject, output, signal, OnInit, input } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { CurrencyPipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { Contract } from '../services/contract';
 import { Vehicle } from '../../vehicle/services/vehicle';
 import { Tenant } from '../../tenant/services/tenant';
 import { VehicleShortResponse } from '../../../shared/models/vehicle-short-response';
 import { TenantShortResponse } from '../../../shared/models/tenant-short-response';
 import { ContractPreviewResponse } from '../../../shared/models/contract-preview-response';
-import { ContractResponse } from '../../../shared/models/contract-response';
 import { NotificationService } from '../../../core/services/notification';
 import { DateTimePickerComponent } from '../../../shared/date-time-picker/date-time-picker';
 
@@ -23,15 +23,7 @@ export class ContractForm implements OnInit {
   private vehicleService = inject(Vehicle);
   private tenantService = inject(Tenant);
   private notification = inject(NotificationService);
-
-  salvo = output<void>();
-  cancelado = output<void>();
-  ativado = output<void>();
-  finalizado = output<void>();
-  renovado = output<void>();
-  excluido = output<void>();
-
-  contrato = input<ContractResponse | null>(null);
+  private router = inject(Router);
 
   veiculos = signal<VehicleShortResponse[]>([]);
   clientes = signal<TenantShortResponse[]>([]);
@@ -92,8 +84,8 @@ export class ContractForm implements OnInit {
       returnDueDateTime: p.returnDueDateTime
     }).subscribe({
       next: () => {
-        this.salvo.emit();
         this.notification.show('Contrato criado com sucesso!', 'success');
+        this.router.navigate(['/contracts']);
       },
       error: (err: HttpErrorResponse) => this.tratarErro(err)
     });
@@ -113,6 +105,6 @@ export class ContractForm implements OnInit {
   }
 
   onCancelar() {
-    this.cancelado.emit();
+    this.router.navigate(['/contracts']);
   }
 }

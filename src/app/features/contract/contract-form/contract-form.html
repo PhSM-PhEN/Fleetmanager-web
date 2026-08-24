@@ -1,9 +1,21 @@
-<div class="modal-overlay">
-  <div class="modal-content">
+<div class="page">
+
+  <div class="page-header">
+    <button type="button" class="back-button" (click)="onCancelar()" aria-label="Voltar">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="m15 18-6-6 6-6"></path>
+      </svg>
+    </button>
+
+    <div>
+      <h1>Novo contrato</h1>
+      <p>Crie um novo contrato de locação.</p>
+    </div>
+  </div>
+
+  <div class="content-card">
 
     @if (!preview()) {
-
-    <h2>Novo contrato</h2>
 
     <form [formGroup]="previewForm">
 
@@ -124,13 +136,13 @@
              AÇÕES
              ===================================================== -->
 
-      <div class="modal-actions">
+      <div class="form-actions">
 
-        <button type="button" (click)="onCancelar()">
+        <button type="button" class="secondary" (click)="onCancelar()">
           Cancelar
         </button>
 
-        <button type="button" [disabled]="previewForm.invalid" (click)="gerarPreview()">
+        <button type="button" class="primary" [disabled]="previewForm.invalid" (click)="gerarPreview()">
           Calcular orçamento
         </button>
 
@@ -209,13 +221,13 @@
              AÇÕES
              ===================================================== -->
 
-    <div class="modal-actions">
+    <div class="form-actions">
 
-      <button type="button" (click)="voltarParaEdicao()">
+      <button type="button" class="secondary" (click)="voltarParaEdicao()">
         Voltar
       </button>
 
-      <button type="button" [disabled]="totalAmountControl.invalid" (click)="confirmarContrato()">
+      <button type="button" class="primary" [disabled]="totalAmountControl.invalid" (click)="confirmarContrato()">
         Confirmar contrato
       </button>
 
