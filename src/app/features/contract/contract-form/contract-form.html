@@ -104,33 +104,35 @@
       <!-- =====================================================
              DATA DE RETIRADA
              ===================================================== -->
-
-      <div class="form-group date-time-group">
-
-        <label>
-          Data/hora de retirada
-        </label>
-
-        <app-date-time-picker formControlName="pickupDateTime" />
-
-      </div>
+      <div class="form-row two-columns">
 
 
-      <!-- =====================================================
+        <div class="form-group date-time-group">
+
+          <label>
+            Data/hora de retirada
+          </label>
+
+          <app-date-time-picker formControlName="pickupDateTime" />
+
+        </div>
+
+
+        <!-- =====================================================
              DATA DE DEVOLUÇÃO
              ===================================================== -->
 
-      <div class="form-group date-time-group">
+        <div class="form-group date-time-group">
 
-        <label>
-          Data/hora prevista de devolução
-          <span class="optional">(opcional)</span>
-        </label>
+          <label>
+            Data/hora prevista de devolução
+            <span class="optional">(opcional)</span>
+          </label>
 
-        <app-date-time-picker formControlName="returnDueDateTime" />
+          <app-date-time-picker formControlName="returnDueDateTime" />
 
+        </div>
       </div>
-
 
       <!-- =====================================================
              AÇÕES

@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { Login } from './features/login/login';
+import { Register } from './features/register/register';
 import { RentalPlanList } from './features/rental-plan/rental-plan-list/rental-plan-list';
 import { Layout } from './layout/layout/layout';
 import { authGuard } from './core/guards/auth-guard';
@@ -18,6 +19,7 @@ import { IncidentReportDetail } from './features/incident-report/incident-report
 
 export const routes: Routes = [
   { path: 'login', component: Login },
+  { path: 'register', component: Register },
   {
     path: '',
     component: Layout,

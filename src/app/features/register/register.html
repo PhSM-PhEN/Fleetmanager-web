@@ -48,10 +48,10 @@
     <!-- Título -->
     <div class="login-heading">
 
-      <h2>Bem-vindo</h2>
+      <h2>Criar conta</h2>
 
       <p>
-        Entre com suas credenciais para acessar o sistema.
+        Preencha os dados abaixo para criar seu acesso ao sistema.
       </p>
 
     </div>
@@ -59,9 +59,51 @@
 
     <!-- Formulário -->
     <form
-      [formGroup]="loginForm"
+      [formGroup]="registerForm"
       (ngSubmit)="onSubmit()"
     >
+
+      <!-- Nome -->
+      <div class="form-group">
+
+        <label for="name">
+          Nome
+        </label>
+
+        <div class="input-wrapper">
+
+          <svg
+            class="input-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle cx="12" cy="8" r="3.4" stroke="currentColor" stroke-width="1.7" />
+            <path
+              d="M4.5 20C5.4 16.6 8.4 14.5 12 14.5C15.6 14.5 18.6 16.6 19.5 20"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+
+          <input
+            id="name"
+            type="text"
+            formControlName="name"
+            placeholder="Digite seu nome completo"
+            autocomplete="name"
+          />
+
+        </div>
+
+        @if (registerForm.controls.name.invalid && registerForm.controls.name.touched) {
+          <span class="field-error">Nome obrigatório (mín. 2 caracteres)</span>
+        }
+
+      </div>
+
 
       <!-- E-mail -->
       <div class="form-group">
@@ -107,7 +149,7 @@
 
         </div>
 
-        @if (loginForm.controls.email.invalid && loginForm.controls.email.touched) {
+        @if (registerForm.controls.email.invalid && registerForm.controls.email.touched) {
           <span class="field-error">E-mail inválido ou obrigatório</span>
         }
 
@@ -159,7 +201,7 @@
             [type]="mostrarSenha() ? 'text' : 'password'"
             formControlName="password"
             placeholder="Digite sua senha"
-            autocomplete="current-password"
+            autocomplete="new-password"
           />
 
           <button
@@ -202,30 +244,104 @@
 
         </div>
 
-        @if (loginForm.controls.password.invalid && loginForm.controls.password.touched) {
-          <span class="field-error">Senha obrigatória</span>
+        @if (registerForm.controls.password.invalid && registerForm.controls.password.touched) {
+          <span class="field-error">Senha obrigatória (mín. 6 caracteres)</span>
         }
 
       </div>
 
 
-      <!-- Opções -->
-      <div class="login-options">
+      <!-- Confirmação de senha -->
+      <div class="form-group">
 
-        <label class="remember">
-
-          <input
-            type="checkbox"
-            class="remember-checkbox"
-          />
-
-          <span>Lembrar-me</span>
-
+        <label for="confirmPassword">
+          Confirmar senha
         </label>
 
-        <a href="#" (click)="$event.preventDefault()">
-          Esqueci minha senha
-        </a>
+        <div class="input-wrapper">
+
+          <svg
+            class="input-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              x="5"
+              y="10"
+              width="14"
+              height="10"
+              rx="2"
+              stroke="currentColor"
+              stroke-width="1.7"
+            />
+
+            <path
+              d="M8 10V7.5C8 5.57 9.57 4 11.5 4H12.5C14.43 4 16 5.57 16 7.5V10"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+            />
+
+            <circle
+              cx="12"
+              cy="15"
+              r="1"
+              fill="currentColor"
+            />
+          </svg>
+
+          <input
+            id="confirmPassword"
+            [type]="mostrarConfirmacaoSenha() ? 'text' : 'password'"
+            formControlName="confirmPassword"
+            placeholder="Digite a senha novamente"
+            autocomplete="new-password"
+          />
+
+          <button
+            type="button"
+            class="toggle-password"
+            [attr.aria-label]="mostrarConfirmacaoSenha() ? 'Ocultar senha' : 'Mostrar senha'"
+            (click)="alternarConfirmacaoSenha()"
+          >
+            @if (mostrarConfirmacaoSenha()) {
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 3L21 21" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+                <path
+                  d="M10.6 6.1C11.05 6.03 11.52 6 12 6C17 6 20.5 9.5 21.8 12C21.4 12.75 20.75 13.7 19.85 14.6M14.1 14.1C13.5 14.65 12.78 15 12 15C10.34 15 9 13.66 9 12C9 11.22 9.35 10.5 9.9 9.9"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M6.3 7.5C4.6 8.6 3.4 10.2 2.2 12C3.5 14.5 7 18 12 18C13.1 18 14.1 17.82 15 17.5"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            } @else {
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M2.2 12C3.5 9.5 7 6 12 6C17 6 20.5 9.5 21.8 12C20.5 14.5 17 18 12 18C7 18 3.5 14.5 2.2 12Z"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.7" />
+              </svg>
+            }
+          </button>
+
+        </div>
+
+        @if (registerForm.controls.confirmPassword.touched && registerForm.errors?.['senhasDiferentes']) {
+          <span class="field-error">As senhas não coincidem</span>
+        }
 
       </div>
 
@@ -244,10 +360,10 @@
       <button
         type="submit"
         class="login-button"
-        [disabled]="loginForm.invalid"
+        [disabled]="registerForm.invalid || carregando()"
       >
 
-        <span>Entrar</span>
+        <span>{{ carregando() ? 'Criando conta...' : 'Criar conta' }}</span>
 
         <svg
           viewBox="0 0 24 24"
@@ -273,10 +389,10 @@
 
       </button>
 
-      <!-- Ainda não tem conta -->
+      <!-- Já tem conta -->
       <p class="switch-mode">
-        Ainda não tem uma conta?
-        <a routerLink="/register">Criar conta</a>
+        Já tem uma conta?
+        <a routerLink="/login">Entrar</a>
       </p>
 
     </form>

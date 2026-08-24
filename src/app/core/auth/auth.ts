@@ -20,6 +20,15 @@ export class Auth {
     );
   }
 
+  register(name: string, email: string, password: string) {
+    return this.api.post<AuthResponse>('User', { name, email, password }).pipe(
+      tap((response) => {
+        this.setToken(response.token);
+        this.setName(response.name);
+      })
+    );
+  }
+
   private setToken(token: string): void {
     localStorage.setItem(this.tokenKey, token);
   }
