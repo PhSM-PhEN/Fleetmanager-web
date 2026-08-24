@@ -12,6 +12,27 @@
     </div>
 
     <div class="content-card">
+
+        <div class="table-header">
+            <div class="table-header-info">
+                <h2>Ocorrências cadastradas</h2>
+                <span>Consulte e acompanhe as ocorrências registradas.</span>
+            </div>
+
+            <div class="search-box">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="11" cy="11" r="7"></circle>
+                    <path d="m21 21-4.3-4.3"></path>
+                </svg>
+                <input
+                    type="text"
+                    placeholder="Buscar ocorrência por contrato ou status..."
+                    [ngModel]="termoBusca()"
+                    (ngModelChange)="onBuscar($event)"
+                />
+            </div>
+        </div>
+
         <div class="table-container">
             <table>
                 <thead>
@@ -23,7 +44,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for (ocorrencia of ocorrencias(); track ocorrencia.id) {
+                    @for (ocorrencia of ocorrenciasFiltradas(); track ocorrencia.id) {
                     <tr (click)="abrirDetalhe(ocorrencia.id)" class="clickable-row">
                         <td>#{{ ocorrencia.contractId }}</td>
                         <td>{{ ocorrencia.incidentRisk === 'Low' ? 'Baixo' : 'Alto' }}</td>
@@ -31,6 +52,10 @@
                         <td>
                             <span class="status-badge status-{{ ocorrencia.status }}">{{ ocorrencia.status }}</span>
                         </td>
+                    </tr>
+                    } @empty {
+                    <tr class="empty-row">
+                        <td colspan="4">Nenhuma ocorrência encontrada.</td>
                     </tr>
                     }
                 </tbody>

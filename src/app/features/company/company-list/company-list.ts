@@ -1,4 +1,5 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, computed, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Company } from '../services/company';
 import { CompanyShortResponse } from '../../../shared/models/company-short-response';
 import { CompanyResponse } from '../../../shared/models/company-response';
@@ -7,7 +8,7 @@ import { NotificationService } from '../../../core/services/notification';
 
 @Component({
   selector: 'app-company-list',
-  imports: [CompanyForm],
+  imports: [CompanyForm, FormsModule],
   templateUrl: './company-list.html',
   styleUrl: './company-list.scss'
 })
@@ -18,6 +19,18 @@ export class CompanyList implements OnInit {
   empresas = signal<CompanyShortResponse[]>([]);
   modalAberto = signal(false);
   empresaSelecionada = signal<CompanyResponse | null>(null);
+  termoBusca = signal('');
+
+  empresasFiltradas = computed(() => {
+    const termo = this.termoBusca().trim().toLowerCase();
+    if (!termo) return this.empresas();
+
+    return this.empresas().filter(
+      (empresa) =>
+        empresa.name?.toLowerCase().includes(termo) ||
+        empresa.cnpj?.toLowerCase().includes(termo)
+    );
+  });
 
   ngOnInit() {
     this.carregarEmpresas();
@@ -27,6 +40,10 @@ export class CompanyList implements OnInit {
     this.companyService.listar().subscribe({
       next: (response) => this.empresas.set(response)
     });
+  }
+
+  onBuscar(termo: string) {
+    this.termoBusca.set(termo);
   }
 
   abrirModalCriar() {

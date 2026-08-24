@@ -1,5 +1,6 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RentalPlan } from '../services/rental-plan';
 import { RentalPlanResponse } from '../../../shared/models/rental-plan-response';
@@ -8,7 +9,7 @@ import { NotificationService } from '../../../core/services/notification';
 
 @Component({
   selector: 'app-rental-plan-list',
-  imports: [RentalPlanForm, CurrencyPipe],
+  imports: [RentalPlanForm, CurrencyPipe, FormsModule],
   templateUrl: './rental-plan-list.html',
   styleUrl: './rental-plan-list.scss'
 })
@@ -19,6 +20,16 @@ export class RentalPlanList implements OnInit {
   planos = signal<RentalPlanResponse[]>([]);
   modalAberto = signal(false);
   planoSelecionado = signal<RentalPlanResponse | null>(null);
+  termoBusca = signal('');
+
+  planosFiltrados = computed(() => {
+    const termo = this.termoBusca().trim().toLowerCase();
+    if (!termo) return this.planos();
+
+    return this.planos().filter((plano) =>
+      plano.name.toLowerCase().includes(termo)
+    );
+  });
 
   ngOnInit() {
     this.carregarPlanos();
@@ -28,6 +39,10 @@ export class RentalPlanList implements OnInit {
     this.rentalPlanService.listar().subscribe({
       next: (response) => this.planos.set(response.data)
     });
+  }
+
+  onBuscar(termo: string) {
+    this.termoBusca.set(termo);
   }
 
   abrirModalCriar() {

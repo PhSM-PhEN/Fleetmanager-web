@@ -1,5 +1,6 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Contract } from '../services/contract';
 import { ContractShortResponse } from '../../../shared/models/contract-short-response';
@@ -7,7 +8,7 @@ import { NotificationService } from '../../../core/services/notification';
 
 @Component({
   selector: 'app-contract-list',
-  imports: [CurrencyPipe, DatePipe],
+  imports: [CurrencyPipe, DatePipe, FormsModule],
   templateUrl: './contract-list.html',
   styleUrl: './contract-list.scss'
 })
@@ -17,6 +18,19 @@ export class ContractList implements OnInit {
   private router = inject(Router);
 
   contratos = signal<ContractShortResponse[]>([]);
+  termoBusca = signal('');
+
+  contratosFiltrados = computed(() => {
+    const termo = this.termoBusca().trim().toLowerCase();
+    if (!termo) return this.contratos();
+
+    return this.contratos().filter(
+      (contrato) =>
+        contrato.contractStatus?.toLowerCase().includes(termo) ||
+        String(contrato.id).includes(termo) ||
+        String(contrato.totalAmount).includes(termo)
+    );
+  });
 
   ngOnInit() {
     this.carregarContratos();
@@ -27,6 +41,10 @@ export class ContractList implements OnInit {
       next: (response) => this.contratos.set(response.data),
       error: () => this.notification.show('Erro ao carregar contratos.')
     });
+  }
+
+  onBuscar(termo: string) {
+    this.termoBusca.set(termo);
   }
 
   abrirNovo() {
