@@ -1,500 +1,341 @@
+/* ── Variáveis ─────────────────────────────── */
 :host {
-  display: block;
-
-  --primary: #5b45e6;
-  --primary-dark: #4935c9;
-
-  --text: #182230;
-  --text-secondary: #6b7280;
-
-  --border: #e5e9f0;
+  --accent:      #6366f1;
+  --accent-fg:   #ffffff;
+  --bg:          #f0f2f5;
+  --card:        #ffffff;
+  --border:      #e5e7eb;
+  --text:        #1a1f37;
+  --muted:       #6b7280;
+  --radius:      0.75rem;
+  --shadow:      0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
+  font-family:   'Inter', sans-serif;
 }
 
-
-/* =========================================================
-   PÁGINA
-   ========================================================= */
-
+/* ── Página ────────────────────────────────── */
 .page {
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.25rem;
+  background: var(--bg);
+  min-height: 100%;
 }
 
-
-/* =========================================================
-   HEADER
-   ========================================================= */
-
+/* ── Page header ───────────────────────────── */
 .page-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 25px;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .page-header h1 {
-  margin: 0 0 5px;
+  font-size: 0.9375rem;
+  font-weight: 600;
   color: var(--text);
-  font-size: 22px;
-  font-weight: 750;
-  letter-spacing: -0.4px;
+  margin: 0 0 0.125rem;
+  line-height: 1.3;
 }
 
 .page-header p {
+  font-size: 0.75rem;
+  color: var(--muted);
   margin: 0;
-  color: var(--text-secondary);
-  font-size: 12px;
 }
 
-
-/* =========================================================
-   BOTÃO PRINCIPAL
-   ========================================================= */
-
+/* ── Botão primário ────────────────────────── */
 .primary-button {
-  height: 40px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 7px;
-  padding: 0 16px;
-  color: #ffffff;
-  background: linear-gradient(135deg, #6650ee, #4d38d1);
+  gap: 0.375rem;
+  padding: 0.5rem 0.875rem;
+  background: var(--accent);
+  color: var(--accent-fg);
   border: none;
-  border-radius: 8px;
-  font-size: 12px;
-  font-weight: 650;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
   cursor: pointer;
-  box-shadow: 0 5px 14px rgba(91, 69, 230, 0.18);
-  transition: transform 0.15s ease, box-shadow 0.2s ease;
+  box-shadow: 0 1px 2px rgba(99,102,241,.25);
+  transition: opacity .15s;
+  white-space: nowrap;
 }
+
+.primary-button:hover { opacity: .88; }
 
 .primary-button span {
-  font-size: 18px;
+  font-size: 1rem;
   line-height: 1;
 }
 
-.primary-button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 7px 18px rgba(91, 69, 230, 0.25);
-}
-
-
-/* =========================================================
-   CARD
-   ========================================================= */
-
+/* ── Card ──────────────────────────────────── */
 .content-card {
-  width: 100%;
-  background: #ffffff;
+  background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.035);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
 }
 
-
-/* =========================================================
-   CABEÇALHO DA TABELA & BUSCA
-   ========================================================= */
-
+/* ── Table header ──────────────────────────── */
 .table-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  padding: 16px 22px;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
   border-bottom: 1px solid var(--border);
   flex-wrap: wrap;
 }
 
-.table-header-info h2,
-.table-header h2 {
-  margin: 0 0 4px;
+.table-header-info h2 {
+  font-size: 0.8125rem;
+  font-weight: 600;
   color: var(--text);
-  font-size: 14px;
-  font-weight: 700;
+  margin: 0 0 0.125rem;
 }
 
-.table-header-info span,
-.table-header span {
-  color: var(--text-secondary);
-  font-size: 11px;
+.table-header-info span {
+  font-size: 0.6875rem;
+  color: var(--muted);
 }
 
+/* ── Search box ────────────────────────────── */
 .search-box {
   position: relative;
-  width: 100%;
-  max-width: 320px;
+  display: flex;
+  align-items: center;
 }
 
 .search-box svg {
   position: absolute;
-  top: 50%;
-  left: 12px;
-  width: 15px;
-  height: 15px;
-  color: #9aa4b2;
+  left: 0.625rem;
+  width: 13px;
+  height: 13px;
+  stroke: var(--muted);
   fill: none;
-  stroke: currentColor;
   stroke-width: 2;
   stroke-linecap: round;
-  stroke-linejoin: round;
-  transform: translateY(-50%);
   pointer-events: none;
 }
 
 .search-box input {
-  width: 100%;
-  height: 36px;
-  padding: 0 12px 0 34px;
+  padding: 0.4375rem 0.75rem 0.4375rem 2rem;
+  font-size: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  background: #f9fafb;
   color: var(--text);
-  background: #ffffff;
-  border: 1px solid #dfe3e8;
-  border-radius: 7px;
+  width: 17rem;
   outline: none;
+  transition: border-color .15s, box-shadow .15s;
   font-family: inherit;
-  font-size: 12px;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
-}
-
-.search-box input::placeholder {
-  color: #9aa4b2;
 }
 
 .search-box input:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 2px rgba(91, 69, 230, 0.1);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(99,102,241,.15);
 }
 
+.search-box input::placeholder { color: var(--muted); }
 
-/* =========================================================
-   TABELA
-   ========================================================= */
-
-.table-container {
-  width: 100%;
-  overflow-x: auto;
-}
+/* ── Tabela ────────────────────────────────── */
+.table-container { overflow-x: auto; }
 
 table {
   width: 100%;
-
-  /*
-   * Sem a coluna larga de ações, a tabela cabe
-   * confortavelmente com uma largura mínima menor.
-   */
-  min-width: 750px;
-
   border-collapse: collapse;
-  table-layout: auto;
+  font-size: 0.75rem;
 }
 
-thead {
-  background: #fafbfc;
+thead tr {
+  border-bottom: 1px solid var(--border);
+  background: rgba(240,242,245,.6);
 }
 
 th {
-  padding: 13px 18px;
-  color: #7a8493;
-  font-size: 9px;
-  font-weight: 700;
   text-align: left;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
+  padding: 0.625rem 1.25rem;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: var(--muted);
   white-space: nowrap;
-  border-bottom: 1px solid var(--border);
-}
-
-td {
-  padding: 15px 18px;
-  color: #4b5563;
-  font-size: 11px;
-  white-space: nowrap;
-  border-bottom: 1px solid #eef1f5;
-}
-
-tbody tr:last-child td {
-  border-bottom: none;
 }
 
 tbody tr {
-  transition: background 0.15s ease;
+  border-bottom: 1px solid var(--border);
+  transition: background .12s;
 }
 
-tbody tr:hover {
-  background: #fafaff;
-}
+tbody tr:last-child { border-bottom: none; }
 
+tbody tr:nth-child(even) { background: rgba(240,242,245,.35); }
 
-/* =========================================================
-   LINHA CLICÁVEL
-   ========================================================= */
+tbody tr.clickable-row { cursor: pointer; }
+tbody tr.clickable-row:hover { background: rgba(240,242,245,.7); }
 
-.clickable-row {
-  cursor: pointer;
-}
-
-
-/* =========================================================
-   COLUNAS
-   ========================================================= */
-
-/* ID */
-th:nth-child(1),
-td:nth-child(1) {
-  width: 55px;
-}
-
-/* Placa */
-th:nth-child(2),
-td:nth-child(2) {
-  width: 100px;
-}
-
-/* Marca / Modelo */
-th:nth-child(3),
-td:nth-child(3) {
-  min-width: 170px;
-}
-
-/* Ano */
-th:nth-child(4),
-td:nth-child(4) {
-  width: 75px;
-}
-
-/* Cor */
-th:nth-child(5),
-td:nth-child(5) {
-  min-width: 90px;
-}
-
-/* Quilometragem */
-th:nth-child(6),
-td:nth-child(6) {
-  min-width: 110px;
-}
-
-/* Status */
-th:nth-child(7),
-td:nth-child(7) {
-  width: 100px;
-}
-
-/* Ações */
-th:nth-child(8),
-td:nth-child(8) {
-  width: 90px;
-}
-
-
-/* =========================================================
-   DESTAQUES DOS DADOS
-   ========================================================= */
-
-td:nth-child(1) {
-  color: #9aa4b2;
-  font-variant-numeric: tabular-nums;
-}
-
-td:nth-child(2) {
+td {
+  padding: 0.75rem 1.25rem;
   color: var(--text);
-  font-weight: 650;
+  vertical-align: middle;
 }
 
-td:nth-child(3) {
-  color: var(--text);
-  font-weight: 550;
+/* placa em mono */
+td:nth-child(2) {
+  font-family: 'DM Mono', monospace;
+  font-weight: 500;
 }
 
-td:nth-child(4) {
-  font-variant-numeric: tabular-nums;
-}
-
+/* quilometragem em mono */
 td:nth-child(6) {
-  color: #4b5563;
-  font-variant-numeric: tabular-nums;
+  font-family: 'DM Mono', monospace;
+  color: var(--muted);
 }
 
+.empty-row td {
+  text-align: center;
+  padding: 3rem;
+  color: var(--muted);
+}
 
-/* =========================================================
-   STATUS BADGE
-   ========================================================= */
-
+/* ── Status badge ──────────────────────────── */
 .status-badge {
-  display: inline-block;
-  padding: 4px 10px;
-  border-radius: 12px;
-  font-size: 10px;
-  font-weight: 650;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.1875rem 0.625rem;
+  border-radius: 9999px;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  white-space: nowrap;
 }
 
 .status-badge.active {
-  color: #15803d;
-  background: #f0fdf4;
-  border: 1px solid #dcfce7;
+  background: #d1fae5;
+  color: #065f46;
 }
 
 .status-badge.inactive {
-  color: #dc2626;
-  background: #fef2f2;
-  border: 1px solid #fee2e2;
+  background: #f3f4f6;
+  color: #6b7280;
 }
 
-
-/* =========================================================
-   AÇÕES DA LINHA
-   ========================================================= */
-
-.empty-row td {
-  padding: 28px 18px;
-  color: var(--text-secondary);
-  text-align: center;
-  white-space: normal;
-}
-
+/* ── Ações ─────────────────────────────────── */
 .row-actions {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 0.25rem;
 }
 
 .icon-button {
-  width: 28px;
-  height: 28px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: #7a8493;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 0.4rem;
   background: transparent;
-  border: 1px solid transparent;
-  border-radius: 6px;
+  color: var(--muted);
   cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  transition: background .12s, color .12s;
 }
 
 .icon-button svg {
-  width: 14px;
-  height: 14px;
-  fill: none;
+  width: 13px;
+  height: 13px;
   stroke: currentColor;
+  fill: none;
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
 .icon-button:hover {
-  color: var(--primary);
-  background: #f5f3ff;
-  border-color: #e5e0fb;
+  background: #f3f4f6;
+  color: var(--text);
 }
 
 .icon-button.danger:hover {
-  color: #dc2626;
   background: #fef2f2;
-  border-color: #fee2e2;
+  color: #ef4444;
 }
 
-
-/* =========================================================
-   PAGINAÇÃO
-   ========================================================= */
-
+/* ── Paginação ─────────────────────────────── */
 .table-pagination {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 14px;
-  padding: 14px 18px;
+  padding: 0.625rem 1.25rem;
   border-top: 1px solid var(--border);
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
 .pagination-info {
-  color: var(--text-secondary);
-  font-size: 11px;
-  white-space: nowrap;
+  font-size: 0.6875rem;
+  color: var(--muted);
 }
 
 .pagination-controls {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 0.25rem;
 }
 
 .page-nav,
 .page-number {
-  min-width: 28px;
-  height: 28px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0 6px;
-  color: #4b5563;
-  background: #ffffff;
+  min-width: 30px;
+  height: 30px;
+  padding: 0 0.375rem;
   border: 1px solid var(--border);
-  border-radius: 6px;
-  font-size: 11px;
-  font-weight: 600;
+  border-radius: 0.5rem;
+  background: transparent;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: var(--text);
   cursor: pointer;
-  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  transition: background .12s, color .12s;
+  font-family: inherit;
 }
 
 .page-nav svg {
-  width: 13px;
-  height: 13px;
-  fill: none;
+  width: 14px;
+  height: 14px;
   stroke: currentColor;
+  fill: none;
   stroke-width: 2;
   stroke-linecap: round;
-  stroke-linejoin: round;
 }
 
-.page-number:hover,
-.page-nav:hover:not(:disabled) {
-  border-color: var(--primary);
-  color: var(--primary);
+.page-nav:hover:not([disabled]),
+.page-number:hover:not(.active) {
+  background: #f3f4f6;
 }
 
-.page-number.active {
-  color: #ffffff;
-  background: var(--primary);
-  border-color: var(--primary);
-}
-
-.page-nav:disabled {
-  opacity: 0.4;
+.page-nav[disabled] {
+  opacity: .4;
   cursor: not-allowed;
 }
 
-.page-ellipsis {
-  padding: 0 4px;
-  color: var(--text-secondary);
-  font-size: 11px;
+.page-number.active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
 }
 
-
-/* =========================================================
-   RESPONSIVO
-   ========================================================= */
-
-@media (max-width: 700px) {
-  .page-header {
-    align-items: flex-start;
-    gap: 15px;
-    flex-direction: column;
-  }
-
-  .primary-button {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .table-header {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-  }
-
-  .search-box {
-    max-width: 100%;
-  }
+.page-ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 30px;
+  height: 30px;
+  font-size: 0.6875rem;
+  color: var(--muted);
 }

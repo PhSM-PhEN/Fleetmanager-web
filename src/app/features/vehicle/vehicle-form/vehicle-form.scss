@@ -1,286 +1,245 @@
-/* =========================================================
-   VEHICLE FORM (página cheia)
-   ========================================================= */
-
+/* ── Variáveis (se ainda não tiver) ───────── */
 :host {
-  display: block;
-
-  --primary: #5b45e6;
-  --primary-dark: #4935c9;
-
-  --text: #182230;
-  --text-secondary: #6b7280;
-
-  --border: #e5e9f0;
+  --accent: #6366f1;
+  --accent-fg: #ffffff;
+  --bg: #f0f2f5;
+  --card: #ffffff;
+  --border: #e5e7eb;
+  --text: #1a1f37;
+  --muted: #6b7280;
+  --radius: 0.75rem;
+  --shadow: 0 1px 3px rgba(0, 0, 0, .08), 0 1px 2px rgba(0, 0, 0, .04);
+  font-family: 'Inter', sans-serif;
 }
 
-
-/* =========================================================
-   PÁGINA
-   ========================================================= */
-
+/* ── Página ────────────────────────────────── */
 .page {
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.25rem;
+  background: var(--bg);
+  min-height: 100%;
 }
 
-
-/* =========================================================
-   HEADER
-   ========================================================= */
-
+/* ── Page header com back button ───────────── */
 .page-header {
   display: flex;
   align-items: center;
-  gap: 14px;
-  margin-bottom: 25px;
+  gap: 0.75rem;
 }
 
 .page-header h1 {
-  margin: 0 0 5px;
+  font-size: 0.9375rem;
+  font-weight: 600;
   color: var(--text);
-  font-size: 22px;
-  font-weight: 750;
-  letter-spacing: -0.4px;
+  margin: 0 0 0.125rem;
+  line-height: 1.3;
 }
 
 .page-header p {
+  font-size: 0.75rem;
+  color: var(--muted);
   margin: 0;
-  color: var(--text-secondary);
-  font-size: 12px;
 }
 
+/* ── Botão voltar ──────────────────────────── */
 .back-button {
-  width: 36px;
-  height: 36px;
-  flex-shrink: 0;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: #4b5563;
-  background: #ffffff;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 0.5rem;
+  background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  color: var(--muted);
   cursor: pointer;
-  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  flex-shrink: 0;
+  transition: background .12s, color .12s;
+  box-shadow: var(--shadow);
+}
+
+.back-button:hover {
+  background: #f3f4f6;
+  color: var(--text);
 }
 
 .back-button svg {
   width: 16px;
   height: 16px;
-  fill: none;
   stroke: currentColor;
+  fill: none;
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
-.back-button:hover {
-  color: var(--primary);
-  border-color: var(--primary);
-  background: #f5f3ff;
-}
-
-
-/* =========================================================
-   CARD
-   ========================================================= */
-
+/* ── Content card ──────────────────────────── */
 .content-card {
-  width: 100%;
-  padding: 26px;
-  background: #ffffff;
+  background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.035);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
 }
 
-
-/* =========================================================
-   FORM
-   ========================================================= */
-
-form {
+.content-card form {
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 1.25rem;
 }
 
-
-/* =========================================================
-   LINHAS
-   ========================================================= */
-
+/* ── Form rows ─────────────────────────────── */
 .form-row {
   display: grid;
-  gap: 16px;
-}
-
-.form-row.three-columns {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
 }
 
 .form-row.four-columns {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(4, 1fr);
 }
 
+.form-row.three-columns {
+  grid-template-columns: repeat(3, 1fr);
+}
 
-/* =========================================================
-   GRUPO DO CAMPO
-   ========================================================= */
+@media (max-width: 900px) {
+  .form-row.four-columns {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
+  .form-row.three-columns {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+
+  .form-row.four-columns,
+  .form-row.three-columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Form group ────────────────────────────── */
 .form-group {
   display: flex;
   flex-direction: column;
+  gap: 0.3125rem;
 }
 
 .form-group label {
-  margin-bottom: 6px;
-  color: #374151;
-  font-size: 10px;
-  font-weight: 650;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text);
 }
 
-
-/* =========================================================
-   INPUTS E SELECTS
-   ========================================================= */
-
+/* ── Inputs e selects ──────────────────────── */
 .form-group input,
 .form-group select {
-  width: 100%;
-  height: 38px;
-  padding: 0 11px;
-  color: #182230;
-  background: #ffffff;
-  border: 1px solid #dfe4ec;
-  border-radius: 7px;
-  outline: none;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8125rem;
   font-family: inherit;
-  font-size: 11px;
-  transition:
-    border-color 0.15s ease,
-    box-shadow 0.15s ease,
-    background 0.15s ease;
+  color: var(--text);
+  background: #f9fafb;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
+  width: 100%;
+  box-sizing: border-box;
+  appearance: none;
+  -webkit-appearance: none;
 }
 
-.form-group input::placeholder {
-  color: #a3aab5;
+.form-group input::placeholder,
+.form-group select option[value=""] {
+  color: #9ca3af;
 }
 
 .form-group input:focus,
 .form-group select:focus {
-  border-color: #5b45e6;
-  box-shadow: 0 0 0 3px rgba(91, 69, 230, 0.09);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, .15);
+  background: #fff;
 }
 
+/* select — ícone de chevron customizado */
 .form-group select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.625rem center;
+  background-size: 14px;
+  padding-right: 2rem;
   cursor: pointer;
-  appearance: auto;
 }
 
+/* input inválido depois de tocado */
+.form-group input.ng-invalid.ng-touched,
+.form-group select.ng-invalid.ng-touched {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, .12);
+}
 
-/* =========================================================
-   MENSAGEM DE VALIDAÇÃO
-   ========================================================= */
-
+/* ── Mensagem de erro ──────────────────────── */
 .field-error {
-  margin-top: 5px;
-  color: #b42318;
-  font-size: 9px;
-  line-height: 1.3;
+  font-size: 0.6875rem;
+  color: #ef4444;
+  margin-top: 0.125rem;
 }
 
-
-/* =========================================================
-   AÇÕES
-   ========================================================= */
-
+/* ── Form actions ──────────────────────────── */
 .form-actions {
   display: flex;
-  justify-content: flex-end;
   align-items: center;
-  gap: 9px;
-  padding-top: 20px;
-  margin-top: 4px;
-  border-top: 1px solid #edf0f4;
+  justify-content: flex-end;
+  gap: 0.625rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+  margin-top: 0.25rem;
 }
 
-.form-actions button {
-  height: 38px;
-  padding: 0 18px;
-  border-radius: 7px;
-  font-family: inherit;
-  font-size: 11px;
-  font-weight: 650;
-  cursor: pointer;
-  transition:
-    background 0.15s ease,
-    box-shadow 0.15s ease,
-    opacity 0.15s ease;
-}
-
-/* Cancelar */
-
+/* botão Cancelar */
 .form-actions button[type="button"] {
-  color: #667085;
-  background: #ffffff;
-  border: 1px solid #dfe4ec;
+  padding: 0.5rem 1rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  font-family: inherit;
+  color: var(--text);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background .12s;
 }
 
 .form-actions button[type="button"]:hover {
-  background: #f8f9fb;
+  background: #f3f4f6;
 }
 
-/* Salvar */
-
+/* botão Salvar */
 .form-actions button[type="submit"] {
-  color: #ffffff;
-  background: linear-gradient(135deg, #6650ee, #4d38d1);
+  padding: 0.5rem 1.125rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  font-family: inherit;
+  color: var(--accent-fg);
+  background: var(--accent);
   border: none;
-  box-shadow: 0 5px 12px rgba(91, 69, 230, 0.18);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(99, 102, 241, .25);
+  transition: opacity .15s;
 }
 
-.form-actions button[type="submit"]:hover {
-  box-shadow: 0 7px 16px rgba(91, 69, 230, 0.25);
+.form-actions button[type="submit"]:hover:not([disabled]) {
+  opacity: .88;
 }
 
-.form-actions button[type="submit"]:disabled {
-  opacity: 0.5;
+.form-actions button[type="submit"][disabled] {
+  opacity: .45;
   cursor: not-allowed;
-  box-shadow: none;
-}
-
-
-/* =========================================================
-   RESPONSIVO
-   ========================================================= */
-
-@media (max-width: 860px) {
-  .form-row.four-columns {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 700px) {
-  .page-header {
-    align-items: flex-start;
-  }
-
-  .content-card {
-    padding: 18px;
-  }
-
-  .form-row.two-columns,
-  .form-row.three-columns,
-  .form-row.four-columns {
-    grid-template-columns: 1fr;
-  }
-
-  .form-actions {
-    flex-direction: column-reverse;
-  }
-
-  .form-actions button {
-    width: 100%;
-  }
 }
