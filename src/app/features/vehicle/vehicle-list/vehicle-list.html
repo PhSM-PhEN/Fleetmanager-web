@@ -1,15 +1,64 @@
 <div class="page">
 
-  <div class="page-header">
-    <div>
-      
-      <p>Gerencie a frota de veículos.</p>
+  <div class="summary-cards">
+    <div class="summary-card">
+      <div class="summary-icon summary-icon--total">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M5 17h14M5 17a2 2 0 0 1-2-2v-2.5a1 1 0 0 1 .2-.6l2.1-2.8A2 2 0 0 1 7 8h10a2 2 0 0 1 1.7.9l2.1 2.8a1 1 0 0 1 .2.6V15a2 2 0 0 1-2 2M5 17a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2M17 17a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2"></path>
+          <path d="M7 11h10"></path>
+        </svg>
+      </div>
+      <div class="summary-info">
+        <span class="summary-label">Frota Total</span>
+        <span class="summary-value">{{ resumoFrotaTotal() }}</span>
+      </div>
     </div>
 
-    <button class="primary-button" type="button" (click)="abrirNovo()">
-      <span>+</span>
-      Novo veículo
-    </button>
+    <div class="summary-card">
+      <div class="summary-icon summary-icon--available">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+          <path d="m9 11 3 3L22 4"></path>
+        </svg>
+      </div>
+      <div class="summary-info">
+        <span class="summary-label">Disponíveis</span>
+        <span class="summary-value">{{ resumoDisponiveis() }}</span>
+        <span class="summary-sub">prontos para locação</span>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-icon summary-icon--rented">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path>
+          <path d="m3.3 7 8.7 5 8.7-5"></path>
+          <path d="M12 22V12"></path>
+        </svg>
+      </div>
+      <div class="summary-info">
+        <span class="summary-label">Alugados</span>
+        <span class="summary-value">{{ resumoAlugados() }}</span>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-icon summary-icon--maintenance">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L2 19l3 3 7.3-7.3a4 4 0 0 0 5.4-5.4l-3.1 3.1-2-2Z"></path>
+        </svg>
+      </div>
+      <div class="summary-info">
+        <span class="summary-label">Em Manutenção</span>
+        <span class="summary-value">{{ resumoManutencao() }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-header">
+    <div>
+      <p>Gerencie a frota de veículos.</p>
+    </div>
   </div>
 
   <div class="content-card">
@@ -20,17 +69,24 @@
         <span>Consulte e gerencie os veículos da frota.</span>
       </div>
 
-      <div class="search-box">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <circle cx="11" cy="11" r="7"></circle>
-          <path d="m21 21-4.3-4.3"></path>
-        </svg>
-        <input
-          type="text"
-          placeholder="Buscar veículo por placa, modelo ou marca..."
-          [ngModel]="termoBusca()"
-          (ngModelChange)="onBuscar($event)"
-        />
+      <div class="table-header-actions">
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="m21 21-4.3-4.3"></path>
+          </svg>
+          <input
+            type="text"
+            placeholder="Buscar veículo por placa, modelo ou marca..."
+            [ngModel]="termoBusca()"
+            (ngModelChange)="onBuscar($event)"
+          />
+        </div>
+
+        <button class="primary-button" type="button" (click)="abrirNovo()">
+          <span>+</span>
+          Novo veículo
+        </button>
       </div>
     </div>
 
@@ -45,12 +101,11 @@
             <th>Cor</th>
             <th>Quilometragem</th>
             <th>Status</th>
-            <th>Ações</th>
           </tr>
         </thead>
         <tbody>
           @for (veiculo of veiculosFiltrados(); track veiculo.id) {
-            <tr (click)="abrirDetalhe(veiculo.id)" class="clickable-row">
+            <tr (click)="abrirDetalhe(veiculo.id)" class="clickable-row" title="Ver detalhes do veículo">
               <td>{{ veiculo.id }}</td>
               <td>{{ veiculo.licensePlate }}</td>
               <td>{{ veiculo.brand }} {{ veiculo.model }}</td>
@@ -62,40 +117,10 @@
                   {{ veiculo.isActive ? 'Ativo' : 'Inativo' }}
                 </span>
               </td>
-              <td>
-                <div class="row-actions">
-                  <button
-                    type="button"
-                    class="icon-button"
-                    title="Ver / editar veículo"
-                    (click)="$event.stopPropagation(); abrirDetalhe(veiculo.id)"
-                  >
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                      <path d="M12 20h9"></path>
-                      <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path>
-                    </svg>
-                  </button>
-
-                  <button
-                    type="button"
-                    class="icon-button danger"
-                    title="Excluir veículo"
-                    (click)="excluirVeiculo($event, veiculo)"
-                  >
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                      <path d="M3 6h18"></path>
-                      <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                      <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
-                      <path d="M10 11v6"></path>
-                      <path d="M14 11v6"></path>
-                    </svg>
-                  </button>
-                </div>
-              </td>
             </tr>
           } @empty {
             <tr class="empty-row">
-              <td colspan="8">Nenhum veículo encontrado.</td>
+              <td colspan="7">Nenhum veículo encontrado.</td>
             </tr>
           }
         </tbody>
@@ -115,24 +140,13 @@
         <div class="pagination-controls">
           <button type="button" class="page-nav" [disabled]="paginaAtual() === 1" (click)="paginaAnterior()">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg>
+            Anterior
           </button>
 
-          @for (pagina of paginasVisiveis(); track $index) {
-            @if (pagina === '...') {
-              <span class="page-ellipsis">…</span>
-            } @else {
-              <button
-                type="button"
-                class="page-number"
-                [class.active]="pagina === paginaAtual()"
-                (click)="irParaPagina(pagina)"
-              >
-                {{ pagina }}
-              </button>
-            }
-          }
+          <span class="page-current">{{ paginaAtual() }}</span>
 
           <button type="button" class="page-nav" [disabled]="paginaAtual() === totalPaginas()" (click)="proximaPagina()">
+            Próximo
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg>
           </button>
         </div>
