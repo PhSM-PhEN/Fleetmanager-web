@@ -1,4 +1,5 @@
 import { CompanyResponse } from './company-response';
+import { StatusResponse } from './status-response';
 
 export interface VehicleShortResponse {
   id: number;
@@ -9,6 +10,6 @@ export interface VehicleShortResponse {
   chassiNumber: string;
   licensePlate: string;
   currentMileage: number;
-  isActive: boolean;
   company: CompanyResponse;
+  status: StatusResponse;
 }

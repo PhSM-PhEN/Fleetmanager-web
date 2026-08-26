@@ -1,10 +1,10 @@
 import { VehicleShortResponse } from './vehicle-short-response';
 import { TenantResponse } from './tenant-response';
+import { StatusResponse } from './status-response';
 
 export interface ContractResponse {
     id: number;
     rentalType: string;
-    contractStatus: string;
     pickupDateTime: string;
     returnDueDateTime: string;
     actualReturnDateTime?: string;
@@ -20,4 +20,5 @@ export interface ContractResponse {
     totalAmount: number;
     vehicle: VehicleShortResponse;
     tenant: TenantResponse;
+    status: StatusResponse;
 }

@@ -1,3 +1,5 @@
+import { StatusResponse } from "./status-response";
+
 export interface IncidentReportShortResponse {
     id: number;
     contractId: number;
@@ -5,5 +7,5 @@ export interface IncidentReportShortResponse {
     description: string;
     incidentRisk: string;
     reportedAt: string;
-    status: string;
+    status: StatusResponse;
 }

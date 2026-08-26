@@ -1,3 +1,5 @@
+import { StatusResponse } from "./status-response";
+
 export interface ContractFinishUpResponse {
     contractId: number;
     actualReturnDateTime: string;
@@ -6,4 +8,5 @@ export interface ContractFinishUpResponse {
     daysLate: number;
     lateFee?: number;
     totalCharged: number;
+    status: StatusResponse;
 }
