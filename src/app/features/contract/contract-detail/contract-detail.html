@@ -18,8 +18,8 @@
             <p>Detalhes do contrato de locação.</p>
         </div>
 
-        <span class="status-badge status-{{ c.contractStatus }}">
-            {{ c.contractStatus }}
+        <span class="status-badge status-{{ c.status?.label.toLowerCase()  }}">
+            {{ c.status?.label. }}
         </span>
     </div>
 
@@ -337,7 +337,7 @@
 
         <div class="detail-actions">
 
-            @if (c.contractStatus === 'Reserved') {
+            @if (c.status.label === 'Reserved') {
 
             <button type="button" class="primary" (click)="ativar()">
                 Ativar
@@ -350,15 +350,15 @@
             }
 
             @if (
-            c.contractStatus === 'Active' ||
-            c.contractStatus === 'Overdue'
+            c.status.label === 'Active' ||
+            c.status.label === 'Overdue'
             ) {
 
             <button type="button" class="primary" (click)="abrirFinalizacao()">
                 Finalizar contrato
             </button>
 
-            @if (c.contractStatus === 'Active') {
+            @if (c.status.label === 'Active') {
 
             <button type="button" class="secondary" (click)="abrirRenovacao()">
                 Renovar
