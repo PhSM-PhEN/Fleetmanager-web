@@ -7,11 +7,6 @@ import { VehicleShortResponse } from '../../../shared/models/vehicle-short-respo
 
 const TAMANHO_PAGINA = 5;
 
-// TODO: quando o backend adicionar o campo "Status" em VehicleShortResponse,
-// mover este tipo para shared/models e trocar VehicleComStatus por VehicleShortResponse direto.
-export type VehicleStatus = 'Available' | 'Rented' | 'Maintenance';
-type VehicleComStatus = VehicleShortResponse & { status: VehicleStatus };
-
 
 @Component({
   selector: 'app-vehicle-list',
@@ -32,21 +27,21 @@ export class VehicleList implements OnInit {
   totalPaginas = signal(1);
 
   // Dados para os cards de resumo (frota total / disponíveis / alugados / em manutenção)
-  resumoVeiculos = signal<VehicleComStatus[]>([]);
+  resumoVeiculos = signal<VehicleShortResponse[]>([]);
   carregandoResumo = signal(true);
 
   resumoFrotaTotal = computed(() => this.resumoVeiculos().length);
 
   resumoDisponiveis = computed(() =>
-    this.resumoVeiculos().filter((v) => v.status === 'Available').length
+    this.resumoVeiculos().filter((v) => v.status?.label === 'Available').length
   );
 
   resumoAlugados = computed(() =>
-    this.resumoVeiculos().filter((v) => v.status === 'Rented').length
+    this.resumoVeiculos().filter((v) => v.status?.label === 'Rented').length
   );
 
   resumoManutencao = computed(() =>
-    this.resumoVeiculos().filter((v) => v.status === 'Maintenance').length
+    this.resumoVeiculos().filter((v) => v.status?.label === 'Maintenance').length
   );
 
   veiculosFiltrados = computed(() => {
@@ -91,7 +86,7 @@ export class VehicleList implements OnInit {
     this.carregandoResumo.set(true);
     this.vehicleService.listar(1, 1000).subscribe({
       next: (response) => {
-        this.resumoVeiculos.set(response.data as VehicleComStatus[]);
+        this.resumoVeiculos.set(response.data);
         this.carregandoResumo.set(false);
       },
       error: () => this.carregandoResumo.set(false)
@@ -121,4 +116,4 @@ export class VehicleList implements OnInit {
   abrirDetalhe(id: number) {
     this.router.navigate(['/vehicles', id]);
   }
-}
+}
