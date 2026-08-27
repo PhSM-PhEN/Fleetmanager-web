@@ -1,5 +1,6 @@
 import { VehicleShortResponse } from './vehicle-short-response';
 import { TenantResponse } from './tenant-response';
+import { StatusResponse } from './status-response';
 
 export interface ContractResponse {
     id: number;
@@ -20,4 +21,5 @@ export interface ContractResponse {
     totalAmount: number;
     vehicle: VehicleShortResponse;
     tenant: TenantResponse;
+    status: StatusResponse;
 }

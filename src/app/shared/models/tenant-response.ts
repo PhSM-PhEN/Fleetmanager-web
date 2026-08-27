@@ -1,4 +1,5 @@
 import { AddressResponse } from './address-response';
+import { StatusResponse } from './status-response';
 
 export interface TenantResponse {
     id: number;
@@ -8,7 +9,7 @@ export interface TenantResponse {
     driverLicenseNumber: string;
     driverLicenseCategory: string;
     phoneNumber: string;
-    isActive: boolean;
     email?: string;
     address: AddressResponse;
+    status: StatusResponse;
 }

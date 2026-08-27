@@ -44,7 +44,7 @@
       </div>
 
       <div class="detail-actions">
-        @if (o.status === 'Reported') {
+        @if (o.status.id === 1) {
           <button type="button" class="resolve" (click)="resolver()">Marcar como resolvido</button>
         }
         <button type="button" class="danger" (click)="excluir()">Excluir ocorrência</button>

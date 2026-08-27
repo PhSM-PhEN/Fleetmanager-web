@@ -1,5 +1,6 @@
 import { CompanyResponse } from './company-response';
 import { RentalPlanResponse } from './rental-plan-response';
+import { StatusResponse } from './status-response';
 
 export interface VehicleResponse {
   id: number;
@@ -11,8 +12,8 @@ export interface VehicleResponse {
   chassiNumber: string;
   licensePlate: string;
   currentMileage: number;
-  isActive: boolean;
   company: CompanyResponse;
   rentalPlan: RentalPlanResponse;
+  status: StatusResponse;
 
 }

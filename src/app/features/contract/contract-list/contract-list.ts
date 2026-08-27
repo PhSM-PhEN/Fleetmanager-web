@@ -26,7 +26,7 @@ export class ContractList implements OnInit {
 
     return this.contratos().filter(
       (contrato) =>
-        contrato.contractStatus?.toLowerCase().includes(termo) ||
+        contrato.status.label.toLowerCase().includes(termo) ||
         String(contrato.id).includes(termo) ||
         String(contrato.totalAmount).includes(termo)
     );

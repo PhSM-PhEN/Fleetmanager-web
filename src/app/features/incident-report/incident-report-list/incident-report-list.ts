@@ -30,7 +30,7 @@ export class IncidentReportList implements OnInit {
       const riscoTexto = ocorrencia.incidentRisk === 'Low' ? 'baixo' : 'alto';
       return (
         String(ocorrencia.contractId).includes(termo) ||
-        ocorrencia.status?.toLowerCase().includes(termo) ||
+        ocorrencia.status.label.toLowerCase().includes(termo) ||
         ocorrencia.incidentRisk?.toLowerCase().includes(termo) ||
         riscoTexto.includes(termo)
       );
