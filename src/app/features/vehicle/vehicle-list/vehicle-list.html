@@ -113,9 +113,9 @@
             <td>{{ veiculo.color }}</td>
             <td>{{ veiculo.currentMileage }} km</td>
             <td>
-              <span class="status-badge" [class.active]="veiculo.status?.label === 'Available'"
-                [class.inactive]="veiculo.status?.label !== 'Available'">
-                {{ veiculo.status?.label }}
+              <span class="status-badge" [class.active]="veiculo.status.label === 'Available'"
+                [class.inactive]="veiculo.status.label !== 'Available'">
+                {{ veiculo.status.label }}
               </span>
             </td>
           </tr>
@@ -160,4 +160,4 @@
 
   </div>
 
-</div>
+</div>

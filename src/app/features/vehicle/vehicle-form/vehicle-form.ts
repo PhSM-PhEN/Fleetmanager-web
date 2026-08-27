@@ -30,8 +30,7 @@ export class VehicleForm implements OnInit {
     model: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     color: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     manufacturingYear: new FormControl('', {
-    nonNullable: true, validators: [Validators.required, Validators.pattern(/^\d{4}\/\d{4}$/)]
-}),
+    nonNullable: true, validators: [Validators.required, Validators.pattern(/^\d{4}\/\d{4}$/)]}),
     renavam: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     chassiNumber: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     licensePlate: new FormControl('', { nonNullable: true, validators: [Validators.required] }),

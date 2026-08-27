@@ -48,9 +48,9 @@
                         <td>{{ cliente.name }}</td>
                         <td>{{ cliente.phoneNumber }}</td>
                         <td>
-                            <span class="status-badge" [class.active]="cliente.isActive"
-                                [class.inactive]="!cliente.isActive">
-                                {{ cliente.isActive ? 'Ativo' : 'Inativo' }}
+                            <span class="status-badge" [class.active]="cliente.status"
+                                [class.inactive]="!cliente.status">
+                                {{ cliente.status ? 'Ativo' : 'Inativo' }}
                             </span>
                         </td>
                     </tr>

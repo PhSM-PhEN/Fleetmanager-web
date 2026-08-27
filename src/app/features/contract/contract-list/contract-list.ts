@@ -54,4 +54,4 @@ export class ContractList implements OnInit {
   abrirDetalhe(id: number) {
     this.router.navigate(['/contracts', id]);
   }
-}
+}

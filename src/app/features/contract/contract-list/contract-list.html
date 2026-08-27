@@ -52,7 +52,7 @@
             <td>{{ contrato.totalDays }}</td>
             <td>{{ contrato.totalAmount | currency:'BRL' }}</td>
             <td>
-              <span class="status-badge status-{{ contrato.status?.label }}">{{ contrato.status?.label }}</span>
+              <span class="status-badge status-{{ contrato.status.label }}">{{ contrato.status.label }}</span>
             </td>
           </tr>
           } @empty {
@@ -65,4 +65,4 @@
     </div>
   </div>
 
-</div>
+</div>

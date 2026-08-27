@@ -49,9 +49,9 @@
           <span class="value">
             <span
               class="status-badge"
-              [class.active]="c.isActive"
-              [class.inactive]="!c.isActive">
-              {{ c.isActive ? 'Ativo' : 'Inativo' }}
+              [class.active]="c.status"
+              [class.inactive]="!c.status">
+              {{ c.status ? 'Ativo' : 'Inativo' }}
             </span>
           </span>
         </div>

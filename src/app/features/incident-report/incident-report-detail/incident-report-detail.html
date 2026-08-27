@@ -12,7 +12,7 @@
         <p>Detalhes da ocorrência reportada.</p>
       </div>
 
-      <span class="status-badge status-{{ o.status?.label }}">{{ o.status?.label }}</span>
+      <span class="status-badge status-{{ o.status.label }}">{{ o.status.label }}</span>
     </div>
 
     <div class="content-card">
@@ -44,11 +44,11 @@
       </div>
 
       <div class="detail-actions">
-        @if (o.status?.label === 'Reported') {
+        @if (o.status.label === 'Reported') {
           <button type="button" class="resolve" (click)="resolver()">Marcar como resolvido</button>
         }
         <button type="button" class="danger" (click)="excluir()">Excluir ocorrência</button>
       </div>
     </div>
   }
-</div>
+</div>
