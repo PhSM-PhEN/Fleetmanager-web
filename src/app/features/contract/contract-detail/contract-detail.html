@@ -18,8 +18,8 @@
             <p>Detalhes do contrato de locação.</p>
         </div>
 
-        <span class="status-badge status-{{ c.contractStatus }}">
-            {{ c.contractStatus }}
+        <span class="status-badge status-{{ c.status.label }}">
+            {{ c.status.label }}
         </span>
     </div>
 
@@ -330,6 +330,33 @@
 
 
         <!-- =====================================================
+                 DOCUMENTO GERADO
+                 ===================================================== -->
+
+        } @else if (documento(); as doc) {
+
+        <div class="document-view">
+
+            <div class="document-view-header">
+                <h3>Contrato gerado (v{{ doc.templateVersion }})</h3>
+                <span class="value">Gerado em {{ doc.generatedAt | date:'dd/MM/yyyy HH:mm' }}</span>
+            </div>
+
+            <pre class="document-content">{{ doc.content }}</pre>
+
+            <div class="detail-actions">
+                <button type="button" class="secondary" (click)="baixarDocumento()">
+                    Baixar (.txt)
+                </button>
+
+                <button type="button" class="primary" (click)="fecharDocumento()">
+                    Fechar
+                </button>
+            </div>
+
+        </div>
+
+        <!-- =====================================================
                  AÇÕES
                  ===================================================== -->
 
@@ -371,6 +398,10 @@
             </button>
 
             }
+
+            <button type="button" class="secondary" (click)="gerarDocumento()" [disabled]="gerandoDocumento()">
+                {{ gerandoDocumento() ? 'Gerando...' : 'Gerar contrato' }}
+            </button>
 
             <button type="button" class="danger-outline" (click)="excluir()">
                 Excluir contrato

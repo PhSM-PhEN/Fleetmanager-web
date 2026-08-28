@@ -1,17 +1,18 @@
 import { Component, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Contract } from '../services/contract';
 import { RentalPlan } from '../../rental-plan/services/rental-plan';
 import { ContractResponse } from '../../../shared/models/contract-response';
 import { RentalPlanResponse } from '../../../shared/models/rental-plan-response';
+import { ContractDocumentResponse } from '../../../shared/models/contract-document';
 import { NotificationService } from '../../../core/services/notification';
 
 @Component({
   selector: 'app-contract-detail',
-  imports: [ReactiveFormsModule, CurrencyPipe],
+  imports: [ReactiveFormsModule, CurrencyPipe, DatePipe],
   templateUrl: './contract-detail.html',
   styleUrl: './contract-detail.scss',
 })
@@ -27,6 +28,9 @@ export class ContractDetail {
 
   editandoFinalizacao = signal(false);
   editandoRenovacao = signal(false);
+
+  documento = signal<ContractDocumentResponse | null>(null);
+  gerandoDocumento = signal(false);
 
   finalMileageControl = new FormControl(0, { nonNullable: true, validators: [Validators.required, Validators.min(0)] });
 
@@ -119,6 +123,40 @@ export class ContractDetail {
       },
       error: (err: HttpErrorResponse) => this.tratarErro(err)
     });
+  }
+
+  gerarDocumento() {
+    const contrato = this.contrato();
+    if (!contrato) return;
+
+    this.gerandoDocumento.set(true);
+    this.contractService.gerarDocumento(contrato.id).subscribe({
+      next: (resultado) => {
+        this.documento.set(resultado);
+        this.gerandoDocumento.set(false);
+      },
+      error: (err: HttpErrorResponse) => {
+        this.gerandoDocumento.set(false);
+        this.tratarErro(err);
+      }
+    });
+  }
+
+  fecharDocumento() {
+    this.documento.set(null);
+  }
+
+  baixarDocumento() {
+    const documento = this.documento();
+    if (!documento) return;
+
+    const blob = new Blob([documento.content], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `contrato-${documento.contractId}.txt`;
+    link.click();
+    URL.revokeObjectURL(url);
   }
 
   excluir() {

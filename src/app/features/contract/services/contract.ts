@@ -9,6 +9,7 @@ import { ContractResponse } from '../../../shared/models/contract-response';
 import { ContractFinishUpRequest } from '../../../shared/models/contract-finishup-request';
 import { ContractFinishUpResponse } from '../../../shared/models/contract-finishup-response';
 import { ContractRenewRequest } from '../../../shared/models/contract-renew-request';
+import { ContractDocumentResponse } from '../../../shared/models/contract-document';
 
 @Injectable({ providedIn: 'root' })
 export class Contract {
@@ -46,7 +47,12 @@ export class Contract {
     return this.api.post<ContractShortResponse>(`Contract/${id}/Renew`, dados);
   }
 
+  gerarDocumento(id: number) {
+    return this.api.post<ContractDocumentResponse>(`Contract/${id}/Document`, {});
+  }
   excluir(id: number) {
     return this.api.delete<void>(`Contract/${id}`);
   }
+
+
 }

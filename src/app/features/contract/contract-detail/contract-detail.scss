@@ -38,7 +38,7 @@
     gap: 14px;
     margin-bottom: 25px;
 
-    > div {
+    >div {
         flex: 1;
     }
 
@@ -258,7 +258,7 @@
     border-radius: 10px;
 }
 
-.inline-form > label {
+.inline-form>label {
     display: block;
     margin-bottom: 8px;
     font-size: 12px;
@@ -457,6 +457,65 @@ button.inline-cancel:hover {
     border-color: #fecaca;
 }
 
+/* =========================================================
+   DOCUMENTO DO CONTRATO
+   ========================================================= */
+
+.document-view {
+    width: 100%;
+    margin-top: 24px;
+}
+
+.document-view-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.document-view-header h3 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.document-view-header .value {
+    color: var(--text-secondary);
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+/* Área onde o contrato é exibido */
+.document-content {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+
+    margin: 0;
+    padding: 28px 32px;
+
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+
+    color: #222222;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    line-height: 1.6;
+
+    /* Mantém as quebras do template,
+       mas permite quebrar linhas longas */
+    white-space: pre-wrap;
+
+    /* Impede o texto de estourar horizontalmente */
+    overflow-wrap: anywhere;
+    word-break: break-word;
+
+    overflow-x: hidden;
+}
 
 /* =========================================================
    RESPONSIVO
