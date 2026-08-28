@@ -1,12 +1,72 @@
 <div class="page">
   @if (cliente(); as c) {
-    <div class="page-header">
-      <button type="button" class="back-button" (click)="fechar()" aria-label="Voltar">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="m15 18-6-6 6-6"></path>
-        </svg>
+  <div class="page-header">
+    <button type="button" class="back-button" (click)="fechar()" aria-label="Voltar">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="m15 18-6-6 6-6"></path>
+      </svg>
+    </button>
+
+    <div>
+      <h1>{{ c.name }}</h1>
+      <p>Detalhes do cliente.</p>
+    </div>
+  </div>
+
+  <div class="content-card">
+    <div class="detail-grid">
+      <div class="detail-item">
+        <span class="label">CPF</span>
+        <span class="value">{{ c.cpf }}</span>
+      </div>
+
+      <div class="detail-item">
+        <span class="label">RG</span>
+        <span class="value">{{ c.rg }}</span>
+      </div>
+
+      <div class="detail-item">
+        <span class="label">CNH</span>
+        <span class="value">
+          {{ c.driverLicenseNumber }} ({{ c.driverLicenseCategory }})
+        </span>
+      </div>
+
+      <div class="detail-item">
+        <span class="label">Telefone</span>
+        <span class="value">{{ c.phoneNumber }}</span>
+      </div>
+
+      <div class="detail-item">
+        <span class="label">Email</span>
+        <span class="value">
+          {{ c.email || '—' }}
+        </span>
+      </div>
+
+      <div class="detail-item">
+        <span class="label">Status</span>
+        <span class="value">
+          <span class="status-badge" [class.active]="c.status.id === 1" [class.inactive]="c.status.id !== 1">
+            {{ c.status.label }}
+          </span>
+        </span>
+      </div>
+
+      <div class="detail-item full-width">
+        <span class="label">Endereço</span>
+        <span class="value">
+          {{ c.address.street }}, {{ c.address.number }} — {{ c.address.city }}/{{ c.address.state }}
+        </span>
+      </div>
+    </div>
+
+    <div class="detail-actions">
+      <button type="button" class="edit" (click)="abrirEdicao()">
+        Editar contato
       </button>
 
+<<<<<<< HEAD
       <div>
         <h1>{{ c.name }}</h1>
         <p>Detalhes do cliente.</p>
@@ -93,10 +153,24 @@
           Excluir cliente
         </button>
       </div>
+=======
+      <button type="button" class="activate" (click)="ativar()">
+        Ativar
+      </button>
+
+      <button type="button" class="deactivate" (click)="desativar()">
+        Desativar
+      </button>
+
+      <button type="button" class="danger" (click)="excluir()">
+        Excluir cliente
+      </button>
+>>>>>>> restaurado
     </div>
+  </div>
   }
 
   @if (clienteParaEditar(); as cliente) {
-    <app-tenant-edit-form [clienteParaEditar]="cliente" (salvo)="onEditarSalvo()" (cancelado)="onEditarCancelado()" />
+  <app-tenant-edit-form [clienteParaEditar]="cliente" (salvo)="onEditarSalvo()" (cancelado)="onEditarCancelado()" />
   }
 </div>
