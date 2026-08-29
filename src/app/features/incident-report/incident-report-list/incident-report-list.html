@@ -24,12 +24,8 @@
                     <circle cx="11" cy="11" r="7"></circle>
                     <path d="m21 21-4.3-4.3"></path>
                 </svg>
-                <input
-                    type="text"
-                    placeholder="Buscar ocorrência por contrato ou status..."
-                    [ngModel]="termoBusca()"
-                    (ngModelChange)="onBuscar($event)"
-                />
+                <input type="text" placeholder="Buscar ocorrência por contrato ou status..." [ngModel]="termoBusca()"
+                    (ngModelChange)="onBuscar($event)" />
             </div>
         </div>
 
@@ -50,7 +46,8 @@
                         <td>{{ ocorrencia.incidentRisk === 'Low' ? 'Baixo' : 'Alto' }}</td>
                         <td>{{ ocorrencia.reportedAt | date:'dd/MM/yyyy HH:mm' }}</td>
                         <td>
-                            <span class="status-badge status-{{ ocorrencia.status?.label }}">{{ ocorrencia.status?.label }}</span>
+                            <span class="status-badge status-{{ ocorrencia.status.label }}">{{ ocorrencia.status.label
+                                }}</span>
                         </td>
                     </tr>
                     } @empty {
@@ -67,4 +64,4 @@
     <app-incident-report-form (salvo)="onSalvo()" (cancelado)="onCancelado()" />
     }
 
-</div>
+</div>
