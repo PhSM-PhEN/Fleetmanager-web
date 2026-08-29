@@ -3,7 +3,6 @@ export interface ContractRequest {
     tenantId: number;
     rentalPlanId: number;
     rentalType: string;
-    mileageContracted: number;
     totalAmount: number;
     pickupDateTime: string;
     returnDueDateTime?: string;

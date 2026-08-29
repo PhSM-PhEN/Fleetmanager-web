@@ -15,8 +15,4 @@ export interface VehicleResponse {
   company: CompanyResponse;
   rentalPlan: RentalPlanResponse;
   status: StatusResponse;
-<<<<<<< HEAD
-=======
-
->>>>>>> restaurado
 }

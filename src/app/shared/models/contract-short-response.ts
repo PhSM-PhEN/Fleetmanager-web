@@ -6,9 +6,5 @@ export interface ContractShortResponse {
     returnDueDateTime: string;
     totalDays: number;
     totalAmount: number;
-<<<<<<< HEAD
-    status: StatusResponse; 
-=======
     status: StatusResponse;
->>>>>>> restaurado
 }

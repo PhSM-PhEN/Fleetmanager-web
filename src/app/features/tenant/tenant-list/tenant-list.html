@@ -44,15 +44,10 @@
                         <td>{{ cliente.name }}</td>
                         <td>{{ cliente.phoneNumber }}</td>
                         <td>
-<<<<<<< HEAD
-                            <span class="status-badge" [class.active]="cliente.status"
-                                [class.inactive]="!cliente.status">
-                                {{ cliente.status ? 'Ativo' : 'Inativo' }}
-=======
+
                             <span class="status-badge" [class.active]="cliente.status.id === 1"
                                 [class.inactive]="cliente.status.id !== 1">
                                 {{ cliente.status.label }}
->>>>>>> restaurado
                             </span>
                         </td>
                     </tr>
