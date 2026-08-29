@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Vehicle } from '../services/vehicle';
 import { VehicleShortResponse } from '../../../shared/models/vehicle-short-response';
+import { NotificationService } from '../../../core/services/notification';
 
 
 const TAMANHO_PAGINA = 5;
@@ -16,6 +17,7 @@ const TAMANHO_PAGINA = 5;
 })
 export class VehicleList implements OnInit {
   private vehicleService = inject(Vehicle);
+  private notification = inject(NotificationService);
   private router = inject(Router);
 
 
@@ -25,24 +27,6 @@ export class VehicleList implements OnInit {
   paginaAtual = signal(1);
   totalRegistros = signal(0);
   totalPaginas = signal(1);
-
-  // Dados para os cards de resumo (frota total / disponíveis / alugados / em manutenção)
-  resumoVeiculos = signal<VehicleShortResponse[]>([]);
-  carregandoResumo = signal(true);
-
-  resumoFrotaTotal = computed(() => this.resumoVeiculos().length);
-
-  resumoDisponiveis = computed(() =>
-    this.resumoVeiculos().filter((v) => v.status?.label === 'Available').length
-  );
-
-  resumoAlugados = computed(() =>
-    this.resumoVeiculos().filter((v) => v.status?.label === 'Rented').length
-  );
-
-  resumoManutencao = computed(() =>
-    this.resumoVeiculos().filter((v) => v.status?.label === 'Maintenance').length
-  );
 
   veiculosFiltrados = computed(() => {
     const termo = this.termoBusca().trim().toLowerCase();
@@ -64,9 +48,28 @@ export class VehicleList implements OnInit {
     return Math.min(this.paginaAtual() * TAMANHO_PAGINA, this.totalRegistros());
   });
 
+  paginasVisiveis = computed(() => {
+    const total = this.totalPaginas();
+    const atual = this.paginaAtual();
+    const paginas: (number | '...')[] = [];
+
+    for (let pagina = 1; pagina <= total; pagina++) {
+      const proximoAoInicio = pagina <= 2;
+      const proximoAoFim = pagina > total - 2;
+      const proximoAtual = Math.abs(pagina - atual) <= 1;
+
+      if (proximoAoInicio || proximoAoFim || proximoAtual) {
+        paginas.push(pagina);
+      } else if (paginas[paginas.length - 1] !== '...') {
+        paginas.push('...');
+      }
+    }
+
+    return paginas;
+  });
+
   ngOnInit() {
     this.carregarVeiculos();
-    this.carregarResumo();
   }
 
   carregarVeiculos() {
@@ -79,22 +82,14 @@ export class VehicleList implements OnInit {
     });
   }
 
-  // Busca a frota completa apenas para calcular os totais do card de resumo.
-  // TODO: trocar por um endpoint de resumo dedicado (ex: Vehicle/Summary) quando existir no backend,
-  // para não precisar carregar todos os veículos no front.
-  carregarResumo() {
-    this.carregandoResumo.set(true);
-    this.vehicleService.listar(1, 1000).subscribe({
-      next: (response) => {
-        this.resumoVeiculos.set(response.data);
-        this.carregandoResumo.set(false);
-      },
-      error: () => this.carregandoResumo.set(false)
-    });
-  }
-
   onBuscar(termo: string) {
     this.termoBusca.set(termo);
+  }
+
+  irParaPagina(pagina: number | '...') {
+    if (pagina === '...' || pagina === this.paginaAtual()) return;
+    this.paginaAtual.set(pagina);
+    this.carregarVeiculos();
   }
 
   paginaAnterior() {
@@ -116,4 +111,20 @@ export class VehicleList implements OnInit {
   abrirDetalhe(id: number) {
     this.router.navigate(['/vehicles', id]);
   }
-}
+
+  excluirVeiculo(event: Event, veiculo: VehicleShortResponse) {
+    event.stopPropagation();
+
+    if (!confirm(`Tem certeza que deseja excluir o veículo ${veiculo.licensePlate}? Essa ação não pode ser desfeita.`)) {
+      return;
+    }
+
+    this.vehicleService.excluir(veiculo.id).subscribe({
+      next: () => {
+        this.notification.show('Veículo excluído!', 'success');
+        this.carregarVeiculos();
+      },
+      error: () => this.notification.show('Erro ao excluir veículo.')
+    });
+  }
+}
