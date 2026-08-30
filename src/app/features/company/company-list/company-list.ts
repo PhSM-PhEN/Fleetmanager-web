@@ -1,24 +1,22 @@
 import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Company } from '../services/company';
 import { CompanyShortResponse } from '../../../shared/models/company-short-response';
-import { CompanyResponse } from '../../../shared/models/company-response';
-import { CompanyForm } from '../company-form/company-form';
 import { NotificationService } from '../../../core/services/notification';
 
 @Component({
   selector: 'app-company-list',
-  imports: [CompanyForm, FormsModule],
+  imports: [FormsModule],
   templateUrl: './company-list.html',
   styleUrl: './company-list.scss'
 })
 export class CompanyList implements OnInit {
   private companyService = inject(Company);
   private notification = inject(NotificationService);
+  private router = inject(Router);
 
   empresas = signal<CompanyShortResponse[]>([]);
-  modalAberto = signal(false);
-  empresaSelecionada = signal<CompanyResponse | null>(null);
   termoBusca = signal('');
 
   empresasFiltradas = computed(() => {
@@ -46,27 +44,12 @@ export class CompanyList implements OnInit {
     this.termoBusca.set(termo);
   }
 
-  abrirModalCriar() {
-    this.empresaSelecionada.set(null);
-    this.modalAberto.set(true);
+  abrirNovo() {
+    this.router.navigate(['/companies/new']);
   }
 
-  abrirModalEditar(empresa: CompanyShortResponse) {
-    this.companyService.buscarPorId(empresa.id).subscribe({
-      next: (empresaCompleta) => {
-        this.empresaSelecionada.set(empresaCompleta);
-        this.modalAberto.set(true);
-      }
-    });
-  }
-
-  onSalvo() {
-    this.modalAberto.set(false);
-    this.carregarEmpresas();
-  }
-
-  onCancelado() {
-    this.modalAberto.set(false);
+  abrirEdicao(empresa: CompanyShortResponse) {
+    this.router.navigate(['/companies', empresa.id, 'edit']);
   }
 
   excluir(id: number) {

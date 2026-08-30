@@ -1,550 +1,488 @@
 :host {
+  display: block;
+
   --primary: #5b45e6;
   --primary-dark: #4935c9;
 
   --text: #182230;
   --text-secondary: #6b7280;
 
-  --border: #dfe4ec;
+  --border: #e5e9f0;
+
+  --success: #15803d;
+  --danger: #dc2626;
 }
 
 
-// ======================================================
-// OVERLAY
-// ======================================================
+/* =========================================================
+   PÁGINA
+   ========================================================= */
 
-.modal-overlay {
-
-  position: fixed;
-
-  inset: 0;
-
-  z-index: 1000;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  padding: 20px;
-
-  background: rgba(15, 23, 42, 0.45);
-
-  backdrop-filter: blur(2px);
-}
-
-
-// ======================================================
-// MODAL
-// ======================================================
-
-.modal-content {
-
+.page {
   width: 100%;
-
-  max-width: 720px;
-
-  max-height: 90vh;
-
-  overflow-y: auto;
-
-  background: #ffffff;
-
-  border-radius: 14px;
-
-  box-shadow:
-    0 25px 60px rgba(15, 23, 42, 0.18);
 }
 
 
-// ======================================================
-// CABEÇALHO
-// ======================================================
+/* =========================================================
+   HEADER
+   ========================================================= */
 
-.modal-header {
-
+.page-header {
   display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 25px;
 
-  align-items: flex-start;
+  >div {
+    flex: 1;
+  }
 
-  justify-content: space-between;
+  h1 {
+    margin: 0 0 5px;
+    color: var(--text);
+    font-size: 22px;
+    font-weight: 750;
+    letter-spacing: -0.4px;
+  }
 
-  padding: 23px 25px;
-
-  border-bottom: 1px solid #edf0f4;
+  p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 12px;
+  }
 }
 
-
-.modal-header h2 {
-
-  margin: 0 0 5px;
-
-  color: var(--text);
-
-  font-size: 17px;
-
-  font-weight: 700;
-}
-
-
-.modal-header p {
-
-  margin: 0;
-
-  color: var(--text-secondary);
-
-  font-size: 10px;
-}
-
-
-.close-button {
-
-  width: 30px;
-  height: 30px;
-
+.back-button {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
   display: flex;
-
   align-items: center;
   justify-content: center;
-
-  color: #8b95a3;
-
-  background: transparent;
-
-  border: none;
-
-  border-radius: 6px;
-
-  font-size: 23px;
-
+  color: #4b5563;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
   cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.back-button svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.back-button:hover {
+  color: var(--primary);
+  border-color: var(--primary);
+  background: #f5f3ff;
 }
 
 
-.close-button:hover {
+/* =========================================================
+   CARD
+   ========================================================= */
 
-  color: #374151;
+.content-card {
+  width: 100%;
+  padding: 26px;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.035);
 
-  background: #f3f4f6;
+  h2 {
+    margin: 0 0 20px;
+    color: var(--text);
+    font-size: 18px;
+    font-weight: 750;
+    letter-spacing: -0.3px;
+  }
 }
 
 
-// ======================================================
-// FORMULÁRIO
-// ======================================================
+/* =========================================================
+   FORMULÁRIO
+   ========================================================= */
 
 form {
-
-  padding: 24px 25px;
+  width: 100%;
 }
 
 
-.form-grid {
+/* =========================================================
+   LINHAS
+   ========================================================= */
 
+.form-row {
   display: grid;
-
-  grid-template-columns: 1fr 1fr;
-
-  gap: 18px 16px;
+  gap: 12px;
+  margin-bottom: 14px;
 }
 
+.form-row.two-columns {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+
+/* =========================================================
+   GRUPO DO CAMPO
+   ========================================================= */
 
 .form-group {
-
+  min-width: 0;
   display: flex;
-
   flex-direction: column;
+  gap: 6px;
 }
-
-
-.form-group.full {
-
-  grid-column: span 2;
-}
-
 
 .form-group label {
-
-  margin-bottom: 7px;
-
-  color: #374151;
-
+  color: #596474;
   font-size: 10px;
-
   font-weight: 650;
 }
 
-
-.form-group input {
-
+.form-group input,
+.form-group select {
   width: 100%;
-
-  height: 40px;
-
-  box-sizing: border-box;
-
+  height: 38px;
   padding: 0 11px;
-
   color: var(--text);
-
   background: #ffffff;
-
-  border: 1px solid var(--border);
-
+  border: 1px solid #dfe3e8;
   border-radius: 7px;
-
   outline: none;
-
+  font-family: inherit;
   font-size: 11px;
-
   transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease;
 }
 
-
-.form-group input::placeholder {
-
-  color: #a5adba;
-}
-
-
-.form-group input:focus {
-
+.form-group input:focus,
+.form-group select:focus {
   border-color: var(--primary);
-
-  box-shadow:
-    0 0 0 3px rgba(91, 69, 230, 0.10);
+  box-shadow: 0 0 0 2px rgba(91, 69, 230, 0.10);
 }
 
 
 .form-group textarea {
-
   width: 100%;
-
   box-sizing: border-box;
-
   padding: 10px 11px;
-
   color: var(--text);
-
   background: #ffffff;
-
-  border: 1px solid var(--border);
-
+  border: 1px solid #dfe3e8;
   border-radius: 7px;
-
   outline: none;
-
   font-size: 11px;
-
   font-family: 'Courier New', monospace;
-
   line-height: 1.5;
-
   resize: vertical;
-
   transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
-
 .form-group textarea::placeholder {
-
   color: #a5adba;
-
   font-family: inherit;
 }
 
-
 .form-group textarea:focus {
-
   border-color: var(--primary);
-
-  box-shadow:
-    0 0 0 3px rgba(91, 69, 230, 0.10);
+  box-shadow: 0 0 0 2px rgba(91, 69, 230, 0.10);
 }
 
 
-.form-group textarea:disabled,
-.form-group input:disabled {
-
-  color: #9aa2ae;
-
-  background: #f6f7f9;
-
-  cursor: not-allowed;
-}
-
-
-// ======================================================
-// AVISO
-// ======================================================
+/* =========================================================
+   AVISO
+   ========================================================= */
 
 .warning {
-
-  margin: 0 25px;
-
-  margin-top: 18px;
-
+  margin-bottom: 18px;
   padding: 10px 12px;
-
   color: #92400e;
-
   background: #fffbeb;
-
   border: 1px solid #fde68a;
-
   border-radius: 7px;
-
   font-size: 10px;
 }
 
 
-// ======================================================
-// PLACEHOLDERS
-// ======================================================
+/* =========================================================
+   PLACEHOLDERS
+   ========================================================= */
 
 .placeholder-groups {
-
   display: flex;
-
   flex-direction: column;
-
   gap: 10px;
-
   max-height: 180px;
-
   overflow-y: auto;
-
   padding: 10px;
-
   background: #f8f9fb;
-
-  border: 1px solid var(--border);
-
+  border: 1px solid #dfe3e8;
   border-radius: 7px;
 }
 
-
 .placeholder-group-title {
-
   display: block;
-
   margin-bottom: 6px;
-
   color: #374151;
-
   font-size: 9px;
-
   font-weight: 700;
-
   text-transform: uppercase;
-
   letter-spacing: 0.03em;
 }
 
-
 .placeholder-chips {
-
   display: flex;
-
   flex-wrap: wrap;
-
   gap: 6px;
 }
 
-
 .placeholder-chip {
-
   padding: 4px 8px;
-
   color: var(--primary-dark);
-
   background: #ffffff;
-
   border: 1px solid #d9d3fb;
-
   border-radius: 999px;
-
   font-size: 9px;
-
   font-family: 'Courier New', monospace;
-
   cursor: pointer;
-
   transition:
     background 0.15s ease,
     border-color 0.15s ease;
 }
 
-
 .placeholder-chip:hover:not(:disabled) {
-
   background: #f2effe;
-
   border-color: var(--primary);
 }
 
-
 .placeholder-chip:disabled {
-
   opacity: 0.5;
-
   cursor: not-allowed;
 }
 
-
-// ======================================================
-// ERRO
-// ======================================================
-
-.error {
-
-  margin-top: 18px;
-
-  padding: 10px 12px;
-
-  color: #dc2626;
-
-  background: #fef2f2;
-
-  border: 1px solid #fecaca;
-
-  border-radius: 7px;
-
-  font-size: 10px;
-
+.form-group input:hover,
+.form-group select:hover {
+  border-color: #cfd5dd;
 }
 
-
-// ======================================================
-// AÇÕES
-// ======================================================
-
-.modal-actions {
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: flex-end;
-
-  gap: 9px;
-
-  margin-top: 25px;
-
-  padding-top: 18px;
-
-  border-top: 1px solid #edf0f4;
-}
-
-
-.cancel-button,
-.save-button {
-
-  height: 38px;
-
-  padding: 0 17px;
-
-  border-radius: 7px;
-
-  font-size: 11px;
-
-  font-weight: 650;
-
+.form-group select {
   cursor: pointer;
 }
 
+.form-group select:invalid {
+  color: #9ca3af;
+}
 
-.cancel-button {
+.form-group input[type="number"] {
+  font-variant-numeric: tabular-nums;
+}
 
-  color: #667085;
+.form-group input[type="number"]::-webkit-outer-spin-button,
+.form-group input[type="number"]::-webkit-inner-spin-button {
+  margin: 0;
+  appearance: none;
+}
 
+
+/* =========================================================
+   CAMPOS DE DATA / HORA
+   ========================================================= */
+
+.date-time-group {
+  position: relative;
+  margin-bottom: 14px;
+}
+
+.date-time-group>label {
+  display: block;
+  margin-bottom: 6px;
+  color: #596474;
+  font-size: 10px;
+  font-weight: 650;
+}
+
+.optional {
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+
+/* =========================================================
+   PREVIEW
+   ========================================================= */
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.detail-item {
+  min-width: 0;
+  min-height: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 13px 15px;
+  background: #fafbfc;
+  border: 1px solid #eef1f5;
+  border-radius: 8px;
+}
+
+.detail-item .label {
+  margin-bottom: 6px;
+  color: #7a8493;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.detail-item .value {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 650;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.detail-item:nth-child(3) .value {
+  font-variant-numeric: tabular-nums;
+}
+
+
+/* =========================================================
+   VALOR TOTAL
+   ========================================================= */
+
+.total-amount-group {
+  margin-top: 18px;
+}
+
+.hint {
+  margin-top: 5px;
+  color: #7a8493;
+  font-size: 10px;
+}
+
+
+/* =========================================================
+   AÇÕES DO FORMULÁRIO
+   ========================================================= */
+
+.form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+}
+
+.form-actions button {
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  border-radius: 7px;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 650;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.form-actions button:hover {
+  transform: translateY(-1px);
+}
+
+/* Secundário */
+.form-actions button.secondary {
+  color: #4b5563;
   background: #ffffff;
-
-  border: 1px solid var(--border);
+  border: 1px solid #dfe3e8;
 }
 
-
-.cancel-button:hover {
-
-  background: #f8f9fb;
+.form-actions button.secondary:hover {
+  background: #f8fafc;
+  border-color: #cfd5dd;
 }
 
-
-.save-button {
-
+/* Primário */
+.form-actions button.primary {
   color: #ffffff;
-
-  background:
-    linear-gradient(
-      135deg,
-      #6650ee,
-      #4d38d1
-    );
-
-  border: none;
-
-  box-shadow:
-    0 5px 12px rgba(91, 69, 230, 0.18);
+  background: linear-gradient(135deg, #6650ee, #4d38d1);
+  border: 1px solid transparent;
+  box-shadow: 0 4px 10px rgba(91, 69, 230, 0.16);
 }
 
-
-.save-button:hover:not(:disabled) {
-
-  background:
-    linear-gradient(
-      135deg,
-      #5b45df,
-      #4530c3
-    );
+.form-actions button.primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #5f49df, #4935c9);
+  box-shadow: 0 6px 14px rgba(91, 69, 230, 0.22);
 }
 
-
-.save-button:disabled {
-
-  opacity: 0.5;
-
+.form-actions button:disabled {
+  opacity: 0.55;
   cursor: not-allowed;
-
+  transform: none;
   box-shadow: none;
 }
 
 
-// ======================================================
-// RESPONSIVO
-// ======================================================
+/* =========================================================
+   RESPONSIVO
+   ========================================================= */
 
-@media (max-width: 600px) {
-
-  .modal-content {
-
-    max-height: 95vh;
-
-  }
-
-
-  .form-grid {
-
-    grid-template-columns: 1fr;
-
-  }
-
-
-  .form-group.full {
-
-    grid-column: span 1;
-
-  }
-
-
-  form {
-
+@media (max-width: 650px) {
+  .content-card {
     padding: 20px;
-
   }
 
+  .form-row.two-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .form-actions button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 420px) {
+  .page-header {
+    align-items: flex-start;
+  }
+
+  .content-card {
+    padding: 17px;
+  }
 }

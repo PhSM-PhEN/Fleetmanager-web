@@ -1,24 +1,23 @@
 import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ContractTemplate } from '../services/contract-template';
 import { ContractTemplateResponse } from '../../../shared/models/contract-template-response';
-import { ContractTemplateForm } from '../contract-template-form/contract-template-form';
 import { NotificationService } from '../../../core/services/notification';
 
 @Component({
   selector: 'app-contract-template-list',
-  imports: [ContractTemplateForm, FormsModule],
+  imports: [FormsModule],
   templateUrl: './contract-template-list.html',
   styleUrl: './contract-template-list.scss'
 })
 export class ContractTemplateList implements OnInit {
   private contractTemplateService = inject(ContractTemplate);
   private notification = inject(NotificationService);
+  private router = inject(Router);
 
   templates = signal<ContractTemplateResponse[]>([]);
-  modalAberto = signal(false);
-  templateSelecionado = signal<ContractTemplateResponse | null>(null);
   termoBusca = signal('');
 
   templatesFiltrados = computed(() => {
@@ -44,24 +43,12 @@ export class ContractTemplateList implements OnInit {
     this.termoBusca.set(termo);
   }
 
-  abrirModalCriar() {
-    this.templateSelecionado.set(null);
-    this.modalAberto.set(true);
+  abrirNovo() {
+    this.router.navigate(['/contract-templates/new']);
   }
 
-  abrirModalEditar(template: ContractTemplateResponse) {
-    this.templateSelecionado.set(template);
-    this.modalAberto.set(true);
-  }
-
-  onSalvo() {
-    this.modalAberto.set(false);
-    this.carregarTemplates();
-    this.notification.show('Template salvo com sucesso!', 'success');
-  }
-
-  onCancelado() {
-    this.modalAberto.set(false);
+  abrirEdicao(template: ContractTemplateResponse) {
+    this.router.navigate(['/contract-templates', template.id, 'edit']);
   }
 
   ativar(template: ContractTemplateResponse) {

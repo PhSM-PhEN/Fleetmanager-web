@@ -11,7 +11,7 @@
     <button
       class="primary-button"
       type="button"
-      (click)="abrirModalCriar()"
+      (click)="abrirNovo()"
     >
       <span>+</span>
       Novo plano
@@ -109,7 +109,7 @@
                   <button
                     class="action-button edit"
                     type="button"
-                    (click)="abrirModalEditar(plano)"
+                    (click)="abrirEdicao(plano)"
                   >
                     Editar
                   </button>
@@ -143,17 +143,5 @@
     </div>
 
   </div>
-
-
-  <!-- Modal -->
-  @if (modalAberto()) {
-
-    <app-rental-plan-form
-      [planoParaEditar]="planoSelecionado()"
-      (salvo)="onSalvo()"
-      (cancelado)="onCancelado()"
-    />
-
-  }
 
 </div>

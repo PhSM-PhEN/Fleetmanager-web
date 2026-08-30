@@ -1,75 +1,63 @@
 <div class="page">
 
-    <div class="page-header">
-      <div>
-        <p>Gerencie as empresas donas da frota.</p>
-      </div>
-  
-      <button class="primary-button" type="button" (click)="abrirModalCriar()">
-        <span>+</span>
-        Nova empresa
-      </button>
+  <div class="page-header">
+    <div>
+      <p>Gerencie as empresas donas da frota.</p>
     </div>
-  
-    <div class="content-card">
 
-      <div class="table-header">
-        <div class="table-header-info">
-          <h2>Empresas cadastradas</h2>
-          <span>Consulte e gerencie as empresas proprietárias.</span>
-        </div>
-
-        <div class="search-box">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="11" cy="11" r="7"></circle>
-            <path d="m21 21-4.3-4.3"></path>
-          </svg>
-          <input
-            type="text"
-            placeholder="Buscar empresa por nome ou CNPJ..."
-            [ngModel]="termoBusca()"
-            (ngModelChange)="onBuscar($event)"
-          />
-        </div>
-      </div>
-
-      <div class="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>Nome</th>
-              <th>CNPJ</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (empresa of empresasFiltradas(); track empresa.id) {
-              <tr>
-                <td>{{ empresa.name }}</td>
-                <td>{{ empresa.cnpj }}</td>
-                <td>
-                  <div class="actions">
-                    <button class="action-button edit" type="button" (click)="abrirModalEditar(empresa)">Editar</button>
-                    <button class="action-button delete" type="button" (click)="excluir(empresa.id)">Excluir</button>
-                  </div>
-                </td>
-              </tr>
-            } @empty {
-              <tr class="empty-row">
-                <td colspan="3">Nenhuma empresa encontrada.</td>
-              </tr>
-            }
-          </tbody>
-        </table>
-      </div>
-    </div>
-  
-    @if (modalAberto()) {
-      <app-company-form
-        [empresaParaEditar]="empresaSelecionada()"
-        (salvo)="onSalvo()"
-        (cancelado)="onCancelado()"
-      />
-    }
-  
+    <button class="primary-button" type="button" (click)="abrirNovo()">
+      <span>+</span>
+      Nova empresa
+    </button>
   </div>
+
+  <div class="content-card">
+
+    <div class="table-header">
+      <div class="table-header-info">
+        <h2>Empresas cadastradas</h2>
+        <span>Consulte e gerencie as empresas proprietárias.</span>
+      </div>
+
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"></circle>
+          <path d="m21 21-4.3-4.3"></path>
+        </svg>
+        <input type="text" placeholder="Buscar empresa por nome ou CNPJ..." [ngModel]="termoBusca()"
+          (ngModelChange)="onBuscar($event)" />
+      </div>
+    </div>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>CNPJ</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (empresa of empresasFiltradas(); track empresa.id) {
+          <tr>
+            <td>{{ empresa.name }}</td>
+            <td>{{ empresa.cnpj }}</td>
+            <td>
+              <div class="actions">
+                <button class="action-button edit" type="button" (click)="abrirEdicao(empresa)">Editar</button>
+                <button class="action-button delete" type="button" (click)="excluir(empresa.id)">Excluir</button>
+              </div>
+            </td>
+          </tr>
+          } @empty {
+          <tr class="empty-row">
+            <td colspan="3">Nenhuma empresa encontrada.</td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

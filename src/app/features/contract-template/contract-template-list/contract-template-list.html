@@ -9,11 +9,7 @@
       </p>
     </div>
 
-    <button
-      class="primary-button"
-      type="button"
-      (click)="abrirModalCriar()"
-    >
+    <button class="primary-button" type="button" (click)="abrirNovo()">
       <span>+</span>
       Novo template
     </button>
@@ -39,12 +35,8 @@
           <circle cx="11" cy="11" r="7"></circle>
           <path d="m21 21-4.3-4.3"></path>
         </svg>
-        <input
-          type="text"
-          placeholder="Buscar template por nome..."
-          [ngModel]="termoBusca()"
-          (ngModelChange)="onBuscar($event)"
-        />
+        <input type="text" placeholder="Buscar template por nome..." [ngModel]="termoBusca()"
+          (ngModelChange)="onBuscar($event)" />
       </div>
 
     </div>
@@ -69,63 +61,55 @@
 
           @for (template of templatesFiltrados(); track template.id) {
 
-            <tr>
+          <tr>
 
-              <td>
-                <div class="template-name">
-                  {{ template.name }}
-                </div>
-              </td>
+            <td>
+              <div class="template-name">
+                {{ template.name }}
+              </div>
+            </td>
 
-              <td>
-                <span class="version">
-                  v{{ template.version }}
-                </span>
-              </td>
+            <td>
+              <span class="version">
+                v{{ template.version }}
+              </span>
+            </td>
 
-              <td>
-                @if (template.isActive) {
-                  <span class="status active">Ativo</span>
-                } @else {
-                  <span class="status inactive">Inativo</span>
+            <td>
+              @if (template.isActive) {
+              <span class="status active">Ativo</span>
+              } @else {
+              <span class="status inactive">Inativo</span>
+              }
+            </td>
+
+            <td>
+
+              <div class="actions">
+
+                <button class="action-button edit" type="button" [disabled]="template.isActive"
+                  [title]="template.isActive ? 'Templates ativos não podem ser editados' : ''"
+                  (click)="abrirEdicao(template)">
+                  Editar
+                </button>
+
+                @if (!template.isActive) {
+                <button class="action-button activate" type="button" (click)="ativar(template)">
+                  Ativar
+                </button>
                 }
-              </td>
 
-              <td>
+              </div>
 
-                <div class="actions">
+            </td>
 
-                  <button
-                    class="action-button edit"
-                    type="button"
-                    [disabled]="template.isActive"
-                    [title]="template.isActive ? 'Templates ativos não podem ser editados' : ''"
-                    (click)="abrirModalEditar(template)"
-                  >
-                    Editar
-                  </button>
-
-                  @if (!template.isActive) {
-                    <button
-                      class="action-button activate"
-                      type="button"
-                      (click)="ativar(template)"
-                    >
-                      Ativar
-                    </button>
-                  }
-
-                </div>
-
-              </td>
-
-            </tr>
+          </tr>
 
           } @empty {
 
-            <tr class="empty-row">
-              <td colspan="4">Nenhum template encontrado.</td>
-            </tr>
+          <tr class="empty-row">
+            <td colspan="4">Nenhum template encontrado.</td>
+          </tr>
 
           }
 
@@ -136,17 +120,5 @@
     </div>
 
   </div>
-
-
-  <!-- Modal -->
-  @if (modalAberto()) {
-
-    <app-contract-template-form
-      [templateParaEditar]="templateSelecionado()"
-      (salvo)="onSalvo()"
-      (cancelado)="onCancelado()"
-    />
-
-  }
 
 </div>
