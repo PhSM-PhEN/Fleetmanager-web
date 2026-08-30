@@ -48,14 +48,7 @@
             <td>{{ contrato.totalDays }}</td>
             <td>{{ contrato.totalAmount | currency:'BRL' }}</td>
             <td>
-<<<<<<< HEAD
               <span class="status-badge status-{{ contrato.status.label }}">{{ contrato.status.label }}</span>
-=======
-              <span class="status-badge" [class.active]="contrato.status.id === 1"
-                [class.inactive]="contrato.status.id !== 1">
-                {{ contrato.status.label }}
-              </span>
->>>>>>> restaurado
             </td>
           </tr>
           } @empty {

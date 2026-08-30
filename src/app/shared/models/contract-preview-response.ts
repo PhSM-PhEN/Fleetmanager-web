@@ -1,10 +1,11 @@
-export interface ContractRequest {
+export interface ContractPreviewResponse {
     vehicleId: number;
     tenantId: number;
     rentalPlanId: number;
     rentalType: string;
-    totalAmount: number;
     pickupDateTime: string;
+    returnDueDateTime: string;
+    totalDays: number;
     mileageContracted: number;
-    returnDueDateTime?: string;
+    totalAmount: number;
 }

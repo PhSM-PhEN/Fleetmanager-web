@@ -16,6 +16,7 @@ import { ContractDetail } from './features/contract/contract-detail/contract-det
 import { Dashboard } from './features/dashboard/dashboard/dashboard';
 import { IncidentReportList } from './features/incident-report/incident-report-list/incident-report-list';
 import { IncidentReportDetail } from './features/incident-report/incident-report-detail/incident-report-detail';
+import { ContractTemplateList } from './features/contract-template/contract-template-list/contract-template-list';
 
 export const routes: Routes = [
   { path: 'login', component: Login },
@@ -37,7 +38,8 @@ export const routes: Routes = [
       { path: 'contracts/:id', component: ContractDetail },
       { path: 'dashboard', component: Dashboard },
       { path: 'incident-reports', component: IncidentReportList },
-      { path: 'incident-reports/:id', component: IncidentReportDetail }
+      { path: 'incident-reports/:id', component: IncidentReportDetail },
+      { path: 'contract-templates', component: ContractTemplateList }
     ]
   }
 ];

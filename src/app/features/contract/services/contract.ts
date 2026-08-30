@@ -8,6 +8,8 @@ import { ContractFinishUpRequest } from '../../../shared/models/contract-finishu
 import { ContractFinishUpResponse } from '../../../shared/models/contract-finishup-response';
 import { ContractRenewRequest } from '../../../shared/models/contract-renew-request';
 import { ContractDocumentResponse } from '../../../shared/models/contract-document';
+import { ContractPreviewRequest } from '../../../shared/models/contract-preview-request';
+import { ContractPreviewResponse } from '../../../shared/models/contract-preview-response';
 
 @Injectable({ providedIn: 'root' })
 export class Contract {
@@ -20,6 +22,11 @@ export class Contract {
   buscarPorId(id: number) {
     return this.api.get<ContractResponse>(`Contract/${id}`);
   }
+
+  preview(dados: ContractPreviewRequest) {
+    return this.api.post<ContractPreviewResponse>('Contract/Preview', dados);
+  }
+
   criar(dados: ContractRequest) {
     return this.api.post<ContractShortResponse>('Contract', dados);
   }

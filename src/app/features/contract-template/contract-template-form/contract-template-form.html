@@ -1,0 +1,173 @@
+<div class="modal-overlay">
+
+  <div class="modal-content">
+
+    <!-- Cabeçalho -->
+
+    <div class="modal-header">
+
+      <div>
+
+        <h2>
+          {{ templateParaEditar() ? 'Editar template' : 'Novo template' }}
+        </h2>
+
+        <p>
+          {{ templateParaEditar()
+            ? 'Atualize o texto do template de contrato.'
+            : 'Cadastre um novo template de contrato.'
+          }}
+        </p>
+
+      </div>
+
+      <button
+        type="button"
+        class="close-button"
+        (click)="onCancelar()"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <!-- Aviso: template ativo não pode ser editado -->
+
+    @if (bloqueadoPorEstarAtivo) {
+
+      <div class="warning">
+        Este template está ativo e não pode ser editado. Ative outro template ou cadastre uma nova versão.
+      </div>
+
+    }
+
+
+    <!-- Formulário -->
+
+    <form
+      [formGroup]="templateForm"
+      (ngSubmit)="onSubmit()"
+    >
+
+      <div class="form-grid">
+
+        <!-- Nome -->
+
+        <div class="form-group full">
+
+          <label for="name">
+            Nome do template
+          </label>
+
+          <input
+            id="name"
+            type="text"
+            formControlName="name"
+            placeholder="Ex.: Contrato de Locação Padrão"
+          />
+
+        </div>
+
+
+        <!-- Conteúdo -->
+
+        <div class="form-group full">
+
+          <label for="content">
+            Conteúdo do contrato
+          </label>
+
+          <textarea
+            #contentField
+            id="content"
+            rows="12"
+            formControlName="content"
+            placeholder="Digite o texto do contrato e insira os placeholders clicando nas opções abaixo."
+          ></textarea>
+
+        </div>
+
+
+        <!-- Placeholders disponíveis -->
+
+        <div class="form-group full">
+
+          <label>
+            Placeholders disponíveis
+          </label>
+
+          <div class="placeholder-groups">
+
+            @for (grupo of grupos; track grupo.label) {
+
+              <div class="placeholder-group">
+
+                <span class="placeholder-group-title">{{ grupo.label }}</span>
+
+                <div class="placeholder-chips">
+
+                  @for (placeholder of grupo.placeholders; track placeholder) {
+
+                    <button
+                      type="button"
+                      class="placeholder-chip"
+                      [disabled]="bloqueadoPorEstarAtivo"
+                      (click)="inserirPlaceholder(placeholder)"
+                    >
+                      {{ placeholder }}
+                    </button>
+
+                  }
+
+                </div>
+
+              </div>
+
+            }
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- Erro da API -->
+
+      @if (errorMessage()) {
+
+        <div class="error">
+          {{ errorMessage() }}
+        </div>
+
+      }
+
+
+      <!-- Ações -->
+
+      <div class="modal-actions">
+
+        <button
+          type="button"
+          class="cancel-button"
+          (click)="onCancelar()"
+        >
+          Cancelar
+        </button>
+
+        <button
+          type="submit"
+          class="save-button"
+          [disabled]="templateForm.invalid || bloqueadoPorEstarAtivo"
+        >
+          Salvar
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>

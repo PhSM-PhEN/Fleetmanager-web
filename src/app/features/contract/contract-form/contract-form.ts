@@ -1,87 +1,98 @@
-import { Component, signal, inject, OnInit } from "@angular/core";
-import { ReactiveFormsModule, FormGroup, FormControl, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
-import { Contract } from "../services/contract";
-import { Company } from "../../company/services/company";
-import { RentalPlan } from "../../rental-plan/services/rental-plan";
-import { NotificationService } from "../../../core/services/notification";
-import { RentalPlanResponse } from "../../../shared/models/rental-plan-response";
-import { CompanyShortResponse } from "../../../shared/models/company-short-response";
-import { HttpErrorResponse } from "@angular/common/http";
-import { TenantShortResponse } from "../../../shared/models/tenant-short-response";
-import { VehicleShortResponse } from "../../../shared/models/vehicle-short-response";
-import { Vehicle } from "../../vehicle/services/vehicle";
+import { Component, inject, signal, OnInit } from '@angular/core';
+import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
+import { CurrencyPipe } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { Contract } from '../services/contract';
+import { Vehicle } from '../../vehicle/services/vehicle';
+import { Tenant } from '../../tenant/services/tenant';
+import { VehicleShortResponse } from '../../../shared/models/vehicle-short-response';
+import { TenantShortResponse } from '../../../shared/models/tenant-short-response';
+import { ContractPreviewResponse } from '../../../shared/models/contract-preview-response'
+import { NotificationService } from '../../../core/services/notification';
+import { DateTimePickerComponent } from '../../../shared/date-time-picker/date-time-picker';
 
 @Component({
-    standalone: true,
-    imports: [ReactiveFormsModule],
     selector: 'app-contract-form',
+    imports: [ReactiveFormsModule, CurrencyPipe, DateTimePickerComponent],
     templateUrl: './contract-form.html',
     styleUrl: './contract-form.scss'
 })
 export class ContractForm implements OnInit {
-
-    private router = inject(Router);
     private contractService = inject(Contract);
-    private companyService = inject(Company);
-    private rentalPlanService = inject(RentalPlan);
-    private veiculoService = inject(Vehicle);
+    private vehicleService = inject(Vehicle);
+    private tenantService = inject(Tenant);
     private notification = inject(NotificationService);
+    private router = inject(Router);
 
-    empresas = signal<CompanyShortResponse[]>([]);
-    planos = signal<RentalPlanResponse[]>([]);
-
-    clientes = signal<TenantShortResponse[]>([]);
     veiculos = signal<VehicleShortResponse[]>([]);
+    clientes = signal<TenantShortResponse[]>([]);
+    preview = signal<ContractPreviewResponse | null>(null);
 
-    contractForm = new FormGroup({
-        vehicleId: new FormControl<number | null>(null, { nonNullable: true, validators: [Validators.required] }),
-        tenantId: new FormControl<number | null>(null, { nonNullable: true, validators: [Validators.required] }),
-        rentalPlanId: new FormControl<number | null>(null, { nonNullable: true, validators: [Validators.required] }),
-        startDate: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-        endDate: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-        totalValue: new FormControl(0, { nonNullable: true, validators: [Validators.required, Validators.min(0)] }),
-        status: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-        mileageContracated: new FormControl(0, { nonNullable: true, validators: [Validators.required, Validators.min(0)] }),
-
+    previewForm = new FormGroup({
+        vehicleId: new FormControl<number | null>(null, { validators: [Validators.required] }),
+        tenantId: new FormControl<number | null>(null, { validators: [Validators.required] }),
+        rentalType: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+        pickupDateTime: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+        returnDueDateTime: new FormControl(''),
+        desiredExcessMileage: new FormControl(0, { nonNullable: true, validators: [Validators.required, Validators.min(0)] })
     });
 
+    totalAmountControl = new FormControl(0, { nonNullable: true, validators: [Validators.required, Validators.min(0)] });
+
     ngOnInit() {
-        this.companyService.listar().subscribe({
-            next: (empresas) => this.empresas.set(empresas)
-        });
-
-        this.rentalPlanService.listar(1, 100).subscribe({
-            next: (response) => this.planos.set(response.data)
-        });
-        this.veiculoService.listar(1, 100).subscribe({
+        this.vehicleService.listar(1, 100).subscribe({
             next: (response) => this.veiculos.set(response.data)
-        })
+        });
+
+        this.tenantService.listar(1, 100).subscribe({
+            next: (response) => this.clientes.set(response.data)
+        });
     }
 
-    onFormSubmit(event: Event) {
-        event.preventDefault();
-        this.onSubmit();
-    }
+    gerarPreview() {
+        const dados = this.previewForm.getRawValue();
 
-    onSubmit() {
-        const dados = this.contractForm.getRawValue();
-
-        this.contractService.criar({
-            ...dados,
-            rentalType: "",
-            totalAmount: dados.totalValue!,
-            pickupDateTime: dados.endDate!,
+        this.contractService.preview({
             vehicleId: dados.vehicleId!,
             tenantId: dados.tenantId!,
-            rentalPlanId: dados.rentalPlanId!
+            rentalType: dados.rentalType,
+            pickupDateTime: dados.pickupDateTime,
+            returnDueDateTime: dados.returnDueDateTime || undefined,
+            desiredExcessMileage: dados.desiredExcessMileage
+        }).subscribe({
+            next: (resultado) => {
+                this.preview.set(resultado);
+                this.totalAmountControl.setValue(resultado.totalAmount);
+            },
+            error: (err: HttpErrorResponse) => this.tratarErro(err)
+        });
+    }
+
+    confirmarContrato() {
+        const p = this.preview();
+        if (!p || this.totalAmountControl.invalid) return;
+
+        this.contractService.criar({
+            vehicleId: p.vehicleId,
+            tenantId: p.tenantId,
+            rentalPlanId: p.rentalPlanId,
+            rentalType: p.rentalType,
+            mileageContracted: p.mileageContracted,
+            totalAmount: this.totalAmountControl.getRawValue(),
+            pickupDateTime: p.pickupDateTime,
+            returnDueDateTime: p.returnDueDateTime
         }).subscribe({
             next: () => {
-                this.notification.show('Contrato cadastrado com sucesso!', 'success');
+                this.notification.show('Contrato criado com sucesso!', 'success');
                 this.router.navigate(['/contracts']);
             },
             error: (err: HttpErrorResponse) => this.tratarErro(err)
         });
+    }
+
+    voltarParaEdicao() {
+        this.preview.set(null);
     }
 
     private tratarErro(err: HttpErrorResponse) {
@@ -89,7 +100,7 @@ export class ContractForm implements OnInit {
             this.notification.show('Você não tem permissão para realizar esta ação.');
             return;
         }
-        const mensagens = (err.error?.errorMessage as string[]) ?? ['Erro ao cadastrar contrato'];
+        const mensagens = (err.error?.errorMessage as string[]) ?? ['Erro ao processar contrato'];
         this.notification.show(mensagens.join(', '));
     }
 
