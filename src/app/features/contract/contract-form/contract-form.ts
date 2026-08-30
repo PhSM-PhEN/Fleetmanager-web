@@ -10,11 +10,11 @@ import { VehicleShortResponse } from '../../../shared/models/vehicle-short-respo
 import { TenantShortResponse } from '../../../shared/models/tenant-short-response';
 import { ContractPreviewResponse } from '../../../shared/models/contract-preview-response'
 import { NotificationService } from '../../../core/services/notification';
-import { DateTimePickerComponent } from '../../../shared/date-time-picker/date-time-picker';
+import { DateTimePicker } from '../../../shared/date-time-picker/date-time-picker';
 
 @Component({
     selector: 'app-contract-form',
-    imports: [ReactiveFormsModule, CurrencyPipe, DateTimePickerComponent],
+    imports: [ReactiveFormsModule, CurrencyPipe, DateTimePicker],
     templateUrl: './contract-form.html',
     styleUrl: './contract-form.scss'
 })

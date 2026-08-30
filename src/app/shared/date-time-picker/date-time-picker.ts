@@ -35,12 +35,12 @@ interface CalendarDay {
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => DateTimePickerComponent),
+      useExisting: forwardRef(() => DateTimePicker),
       multi: true
     }
   ]
 })
-export class DateTimePickerComponent implements ControlValueAccessor, AfterViewInit, OnDestroy {
+export class DateTimePicker implements ControlValueAccessor, AfterViewInit, OnDestroy {
 
   @Input() placeholder = 'dd/mm/aaaa --:--';
 
