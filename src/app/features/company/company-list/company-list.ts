@@ -1,24 +1,22 @@
 import { Component, inject, signal, computed, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Company } from '../services/company';
 import { CompanyShortResponse } from '../../../shared/models/company-short-response';
-import { CompanyResponse } from '../../../shared/models/company-response';
-import { CompanyForm } from '../company-form/company-form';
 import { NotificationService } from '../../../core/services/notification';
 
 @Component({
   selector: 'app-company-list',
-  imports: [CompanyForm, FormsModule],
+  imports: [FormsModule],
   templateUrl: './company-list.html',
   styleUrl: './company-list.scss'
 })
 export class CompanyList implements OnInit {
   private companyService = inject(Company);
   private notification = inject(NotificationService);
+  private router = inject(Router);
 
   empresas = signal<CompanyShortResponse[]>([]);
-  modalAberto = signal(false);
-  empresaSelecionada = signal<CompanyResponse | null>(null);
   termoBusca = signal('');
 
   empresasFiltradas = computed(() => {
@@ -27,7 +25,7 @@ export class CompanyList implements OnInit {
 
     return this.empresas().filter(
       (empresa) =>
-        empresa.name?.toLowerCase().includes(termo) ||
+        empresa.TradeName?.toLowerCase().includes(termo) ||
         empresa.cnpj?.toLowerCase().includes(termo)
     );
   });
@@ -38,7 +36,8 @@ export class CompanyList implements OnInit {
 
   carregarEmpresas() {
     this.companyService.listar().subscribe({
-      next: (response) => this.empresas.set(response)
+      next: (response) => this.empresas.set(response),
+      error: () => this.notification.show('Erro ao carregar empresas.')
     });
   }
 
@@ -46,27 +45,12 @@ export class CompanyList implements OnInit {
     this.termoBusca.set(termo);
   }
 
-  abrirModalCriar() {
-    this.empresaSelecionada.set(null);
-    this.modalAberto.set(true);
+  abrirNova() {
+    this.router.navigate(['/companies/new']);
   }
 
-  abrirModalEditar(empresa: CompanyShortResponse) {
-    this.companyService.buscarPorId(empresa.id).subscribe({
-      next: (empresaCompleta) => {
-        this.empresaSelecionada.set(empresaCompleta);
-        this.modalAberto.set(true);
-      }
-    });
-  }
-
-  onSalvo() {
-    this.modalAberto.set(false);
-    this.carregarEmpresas();
-  }
-
-  onCancelado() {
-    this.modalAberto.set(false);
+  abrirEditar(id: number) {
+    this.router.navigate(['/companies', id, 'edit']);
   }
 
   excluir(id: number) {

@@ -2,7 +2,7 @@ import { StatusResponse } from "./status-response";
 
 export interface CompanyShortResponse {
     id: number;
-    name: string;
+    TradeName: string;
     cnpj: string;
     status: StatusResponse;
   }

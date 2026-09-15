@@ -9,10 +9,6 @@ export interface TenantResponse {
     driverLicenseNumber: string;
     driverLicenseCategory: string;
     phoneNumber: string;
-<<<<<<< HEAD
-    status: StatusResponse;
-=======
->>>>>>> restaurado
     email?: string;
     address: AddressResponse;
     status: StatusResponse;

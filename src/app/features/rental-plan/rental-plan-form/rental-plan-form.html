@@ -1,187 +1,63 @@
-<div class="modal-overlay">
+<div class="page">
 
-  <div class="modal-content">
+  <div class="page-header">
+    <button type="button" class="back-button" (click)="onCancelar()" aria-label="Voltar">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="m15 18-6-6 6-6"></path>
+      </svg>
+    </button>
 
-    <!-- Cabeçalho -->
-
-    <div class="modal-header">
-
-      <div>
-
-        <h2>
-          {{ planoParaEditar() ? 'Editar plano' : 'Novo plano' }}
-        </h2>
-
-        <p>
-          {{ planoParaEditar()
-            ? 'Atualize as informações do plano.'
-            : 'Cadastre um novo plano de locação.'
-          }}
-        </p>
-
-      </div>
-
-      <button
-        type="button"
-        class="close-button"
-        (click)="onCancelar()"
-      >
-        ×
-      </button>
-
+    <div>
+      <h1>{{ isEditMode() ? 'Editar plano' : 'Novo plano' }}</h1>
+      <p>{{ isEditMode() ? 'Atualize as informações e condições do plano.' : 'Cadastre um novo plano de locação.' }}</p>
     </div>
+  </div>
 
+  <div class="content-card">
 
-    <!-- Formulário -->
+    <form [formGroup]="planoForm" (ngSubmit)="onSubmit()">
 
-    <form
-      [formGroup]="planoForm"
-      (ngSubmit)="onSubmit()"
-    >
+      <h2>Condições do plano</h2>
 
-      <div class="form-grid">
-
-        <!-- Nome -->
-
-        <div class="form-group full">
-
-          <label for="name">
-            Nome do plano
-          </label>
-
-          <input
-            id="name"
-            type="text"
-            formControlName="name"
-            placeholder="Ex.: Plano Básico"
-          />
-
-        </div>
-
-
-        <!-- Preço diário -->
-
-        <div class="form-group">
-
-          <label for="dailyPrice">
-            Preço diário
-          </label>
-
-          <input
-            id="dailyPrice"
-            type="number"
-            formControlName="dailyPrice"
-            placeholder="0,00"
-          />
-
-        </div>
-
-
-        <!-- Preço mensal -->
-
-        <div class="form-group">
-
-          <label for="monthlyPrice">
-            Preço mensal
-          </label>
-
-          <input
-            id="monthlyPrice"
-            type="number"
-            formControlName="monthlyPrice"
-            placeholder="0,00"
-          />
-
-        </div>
-
-
-        <!-- Taxa excedente -->
-
-        <div class="form-group full">
-
-          <label for="excessMileageRate">
-            Taxa por km excedente
-          </label>
-
-          <input
-            id="excessMileageRate"
-            type="number"
-            formControlName="excessMileageRate"
-            placeholder="0,00"
-          />
-
-        </div>
-
-
-        <!-- Km diário -->
-
-        <div class="form-group">
-
-          <label for="mileagePerDay">
-            Km incluídos por dia
-          </label>
-
-          <input
-            id="mileagePerDay"
-            type="number"
-            formControlName="mileagePerDay"
-            placeholder="Ex.: 200"
-          />
-
-        </div>
-
-
-        <!-- Km mensal -->
-
-        <div class="form-group">
-
-          <label for="mileagePerMonthly">
-            Km incluídos por mês
-          </label>
-
-          <input
-            id="mileagePerMonthly"
-            type="number"
-            formControlName="mileagePerMonthly"
-            placeholder="Ex.: 5000"
-          />
-
-        </div>
-
+      <div class="form-group">
+        <label for="name">Nome do plano</label>
+        <input id="name" type="text" formControlName="name" placeholder="Ex: Plano Básico Diário" />
       </div>
 
-
-      <!-- Erro da API -->
-
-      @if (errorMessage()) {
-
-        <div class="error">
-          {{ errorMessage() }}
+      <div class="form-row two-columns">
+        <div class="form-group">
+          <label for="dailyPrice">Preço diário (R$)</label>
+          <input id="dailyPrice" type="number" step="0.01" formControlName="dailyPrice" placeholder="0.00" />
         </div>
 
-      }
+        <div class="form-group">
+          <label for="monthlyPrice">Preço mensal (R$)</label>
+          <input id="monthlyPrice" type="number" step="0.01" formControlName="monthlyPrice" placeholder="0.00" />
+        </div>
+      </div>
 
+      <div class="form-row three-columns">
+        <div class="form-group">
+          <label for="excessMileageRate">Taxa por km excedente (R$)</label>
+          <input id="excessMileageRate" type="number" step="0.01" formControlName="excessMileageRate" placeholder="0.00" />
+        </div>
 
-      <!-- Ações -->
+        <div class="form-group">
+          <label for="mileagePerDay">Km incluídos por dia</label>
+          <input id="mileagePerDay" type="number" formControlName="mileagePerDay" placeholder="Ex: 200" />
+        </div>
 
-      <div class="modal-actions">
+        <div class="form-group">
+          <label for="mileagePerMonthly">Km incluídos por mês</label>
+          <input id="mileagePerMonthly" type="number" formControlName="mileagePerMonthly" placeholder="Ex: 5000" />
+        </div>
+      </div>
 
-        <button
-          type="button"
-          class="cancel-button"
-          (click)="onCancelar()"
-        >
-          Cancelar
+      <div class="form-actions">
+        <button type="button" (click)="onCancelar()">Cancelar</button>
+        <button type="submit" [disabled]="planoForm.invalid">
+          {{ isEditMode() ? 'Salvar alterações' : 'Cadastrar plano' }}
         </button>
-
-        <button
-          type="submit"
-          class="save-button"
-          [disabled]="planoForm.invalid"
-        >
-          Salvar
-        </button>
-
       </div>
 
     </form>

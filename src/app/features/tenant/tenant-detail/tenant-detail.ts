@@ -3,12 +3,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Tenant } from '../services/tenant';
 import { TenantResponse } from '../../../shared/models/tenant-response';
-import { TenantEditForm } from '../tenant-edit-form/tenant-edit-form';
 import { NotificationService } from '../../../core/services/notification';
 
 @Component({
   selector: 'app-tenant-detail',
-  imports: [TenantEditForm],
+  imports: [],
   templateUrl: './tenant-detail.html',
   styleUrl: './tenant-detail.scss'
 })
@@ -19,7 +18,6 @@ export class TenantDetail {
   private router = inject(Router);
 
   cliente = signal<TenantResponse | null>(null);
-  clienteParaEditar = signal<TenantResponse | null>(null);
 
   constructor() {
     this.recarregarDetalhe();
@@ -38,16 +36,9 @@ export class TenantDetail {
   }
 
   abrirEdicao() {
-    this.clienteParaEditar.set(this.cliente());
-  }
-
-  onEditarSalvo() {
-    this.clienteParaEditar.set(null);
-    this.recarregarDetalhe();
-  }
-
-  onEditarCancelado() {
-    this.clienteParaEditar.set(null);
+    const c = this.cliente();
+    if (!c) return;
+    this.router.navigate(['/clients', c.id, 'edit']);
   }
 
   ativar() {

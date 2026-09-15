@@ -5,7 +5,7 @@
             <p>Gerencie as ocorrências reportadas.</p>
         </div>
 
-        <button class="primary-button" type="button" (click)="abrirModalCriar()">
+        <button class="primary-button" type="button" (click)="abrirNova()">
             <span>+</span>
             Nova ocorrência
         </button>
@@ -59,9 +59,5 @@
             </table>
         </div>
     </div>
-
-    @if (modalAberto()) {
-    <app-incident-report-form (salvo)="onSalvo()" (cancelado)="onCancelado()" />
-    }
 
 </div>

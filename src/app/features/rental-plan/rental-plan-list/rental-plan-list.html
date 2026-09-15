@@ -1,36 +1,26 @@
 <div class="page">
   <!-- Cabeçalho -->
   <div class="page-header">
-
     <div>
-      <p>
-        Gerencie os planos e condições de locação da sua frota.
-      </p>
+      <p>Gerencie os planos e condições de locação da sua frota.</p>
     </div>
 
     <button
       class="primary-button"
       type="button"
-      (click)="abrirModalCriar()"
+      (click)="abrirNovo()"
     >
       <span>+</span>
       Novo plano
     </button>
-
   </div>
-
 
   <!-- Conteúdo -->
   <div class="content-card">
-
     <div class="table-header">
-
       <div class="table-header-info">
         <h2>Planos cadastrados</h2>
-
-        <span>
-          Consulte e gerencie os planos disponíveis.
-        </span>
+        <span>Consulte e gerencie os planos disponíveis.</span>
       </div>
 
       <div class="search-box">
@@ -45,16 +35,11 @@
           (ngModelChange)="onBuscar($event)"
         />
       </div>
-
     </div>
 
-
     <div class="table-container">
-
       <table>
-
         <thead>
-
           <tr>
             <th>Nome</th>
             <th>Preço diário</th>
@@ -63,15 +48,11 @@
             <th>Km / mês</th>
             <th>Ações</th>
           </tr>
-
         </thead>
 
         <tbody>
-
           @for (plano of planosFiltrados(); track plano.id) {
-
             <tr>
-
               <td>
                 <div class="plan-name">
                   {{ plano.name }}
@@ -103,13 +84,11 @@
               </td>
 
               <td>
-
                 <div class="actions">
-
                   <button
                     class="action-button edit"
                     type="button"
-                    (click)="abrirModalEditar(plano)"
+                    (click)="abrirEditar(plano.id)"
                   >
                     Editar
                   </button>
@@ -121,39 +100,17 @@
                   >
                     Excluir
                   </button>
-
                 </div>
-
               </td>
-
             </tr>
-
           } @empty {
-
             <tr class="empty-row">
               <td colspan="6">Nenhum plano encontrado.</td>
             </tr>
-
           }
-
         </tbody>
-
       </table>
-
     </div>
-
   </div>
-
-
-  <!-- Modal -->
-  @if (modalAberto()) {
-
-    <app-rental-plan-form
-      [planoParaEditar]="planoSelecionado()"
-      (salvo)="onSalvo()"
-      (cancelado)="onCancelado()"
-    />
-
-  }
 
 </div>

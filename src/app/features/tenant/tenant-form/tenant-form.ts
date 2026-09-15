@@ -1,5 +1,6 @@
-import { Component, inject, output, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Tenant } from '../services/tenant';
 import { NotificationService } from '../../../core/services/notification';
@@ -13,9 +14,7 @@ import { NotificationService } from '../../../core/services/notification';
 export class TenantForm {
   private tenantService = inject(Tenant);
   private notification = inject(NotificationService);
-
-  salvo = output<void>();
-  cancelado = output<void>();
+  private router = inject(Router);
 
   clienteForm = new FormGroup({
     name: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
@@ -30,6 +29,7 @@ export class TenantForm {
   enderecoForm = new FormGroup({
     street: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     number: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+    neighborhood: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     city: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     state: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     zipCode: new FormControl('', { nonNullable: true, validators: [Validators.required] })
@@ -41,6 +41,7 @@ export class TenantForm {
   }
 
   onSubmit() {
+    if (this.clienteForm.invalid || this.enderecoForm.invalid) return;
     const dados = this.clienteForm.getRawValue();
 
     this.tenantService.criar(
@@ -48,8 +49,8 @@ export class TenantForm {
       this.enderecoForm.getRawValue()
     ).subscribe({
       next: () => {
-        this.salvo.emit();
         this.notification.show('Cliente cadastrado com sucesso!', 'success');
+        this.router.navigate(['/clients']);
       },
       error: (err: HttpErrorResponse) => this.tratarErro(err)
     });
@@ -65,6 +66,6 @@ export class TenantForm {
   }
 
   onCancelar() {
-    this.cancelado.emit();
+    this.router.navigate(['/clients']);
   }
 }

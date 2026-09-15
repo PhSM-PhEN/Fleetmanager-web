@@ -1,11 +1,12 @@
-import { Component, inject, output, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
 import { IncidentReport } from '../services/incident-report';
 import { Contract } from '../../contract/services/contract';
 import { ContractShortResponse } from '../../../shared/models/contract-short-response';
 import { NotificationService } from '../../../core/services/notification';
-import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-incident-report-form',
@@ -17,9 +18,7 @@ export class IncidentReportForm implements OnInit {
   private incidentReportService = inject(IncidentReport);
   private contractService = inject(Contract);
   private notification = inject(NotificationService);
-
-  salvo = output<void>();
-  cancelado = output<void>();
+  private router = inject(Router);
 
   contratos = signal<ContractShortResponse[]>([]);
 
@@ -41,6 +40,7 @@ export class IncidentReportForm implements OnInit {
   }
 
   onSubmit() {
+    if (this.incidentForm.invalid) return;
     const dados = this.incidentForm.getRawValue();
 
     this.incidentReportService.criar({
@@ -49,8 +49,8 @@ export class IncidentReportForm implements OnInit {
       incidentRisk: dados.incidentRisk
     }).subscribe({
       next: () => {
-        this.salvo.emit();
         this.notification.show('Ocorrência registrada com sucesso!', 'success');
+        this.router.navigate(['/incident-reports']);
       },
       error: (err: HttpErrorResponse) => this.tratarErro(err)
     });
@@ -66,6 +66,6 @@ export class IncidentReportForm implements OnInit {
   }
 
   onCancelar() {
-    this.cancelado.emit();
+    this.router.navigate(['/incident-reports']);
   }
 }

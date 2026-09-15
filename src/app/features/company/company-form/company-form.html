@@ -1,65 +1,128 @@
-<div class="modal-overlay">
-    <div class="modal-content">
+<div class="page">
 
-<form (submit)="onFormSubmit($event)">
+  <div class="page-header">
+    <button type="button" class="back-button" (click)="onCancelar()" aria-label="Voltar">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="m15 18-6-6 6-6"></path>
+      </svg>
+    </button>
 
-  <h3>Dados da empresa</h3>
-  <div [formGroup]="empresaForm">
-    <div class="form-group">
-      <label for="name">Nome da empresa</label>
-      <input id="name" type="text" formControlName="name" placeholder="Digite o nome da empresa" />
-    </div>
-
-    <div class="form-row two-columns">
-      <div class="form-group">
-        <label for="cnpj">CNPJ</label>
-        <input id="cnpj" type="text" formControlName="cnpj" placeholder="00.000.000/0000-00" />
-      </div>
-
-      <div class="form-group">
-        <label for="phoneNumber">Telefone</label>
-        <input id="phoneNumber" type="text" formControlName="phoneNumber" placeholder="(00) 00000-0000" />
-      </div>
+    <div>
+      <h1>{{ isEditMode() ? 'Editar empresa' : 'Nova empresa' }}</h1>
+      <p>{{ isEditMode() ? 'Atualize as informações da empresa proprietária.' : 'Cadastre uma nova empresa dona da
+        frota.' }}</p>
     </div>
   </div>
 
-  <h3>Endereço</h3>
-  <div [formGroup]="enderecoForm">
-    <div class="form-row cep-street-number">
-      <div class="form-group">
-        <label for="zipCode">CEP</label>
-        <input id="zipCode" type="text" formControlName="zipCode" placeholder="00.000-000" />
+  <div class="content-card">
+
+    <form (submit)="onFormSubmit($event)">
+
+      <h2>Dados da empresa</h2>
+
+      <div [formGroup]="empresaForm">
+        <div class="form-row two-columns">
+          <div class="form-group">
+            <label for="tradeName">Nome Fantasia *</label>
+            <input id="tradeName" type="text" formControlName="tradeName" placeholder="Digite o nome fantasia" />
+          </div>
+
+          <div class="form-group">
+            <label for="legalName">Razão Social</label>
+            <input id="legalName" type="text" formControlName="legalName" placeholder="Digite a razão social" />
+          </div>
+        </div>
+
+        <div class="form-row two-columns">
+          <div class="form-group">
+            <label for="cnpj">CNPJ *</label>
+            <input id="cnpj" type="text" formControlName="cnpj" placeholder="00.000.000/0000-00" />
+          </div>
+
+          <div class="form-group">
+            <label for="phoneNumber">Telefone *</label>
+            <input id="phoneNumber" type="text" formControlName="phoneNumber" placeholder="(00) 00000-0000" />
+          </div>
+        </div>
+
+        <div class="form-row two-columns">
+          <div class="form-group">
+            <label for="email">E-mail</label>
+            <input id="email" type="email" formControlName="email" placeholder="empresa@email.com" />
+          </div>
+
+          <div class="form-group">
+            <label for="primaryCnae">CNAE Principal</label>
+            <input id="primaryCnae" type="text" formControlName="primaryCnae" placeholder="0000-0/00" />
+          </div>
+        </div>
+
+        <div class="form-row three-columns">
+          <div class="form-group">
+            <label for="stateRegistration">Inscrição Estadual</label>
+            <input id="stateRegistration" type="text" formControlName="stateRegistration" placeholder="Digite a IE" />
+          </div>
+
+          <div class="form-group">
+            <label for="municipalRegistration">Inscrição Municipal</label>
+            <input id="municipalRegistration" type="text" formControlName="municipalRegistration"
+              placeholder="Digite a IM" />
+          </div>
+
+          <div class="form-group">
+            <label for="taxRegime">Regime Tributário</label>
+            <input id="taxRegime" type="text" formControlName="taxRegime" placeholder="Ex: Simples Nacional" />
+          </div>
+        </div>
       </div>
 
-      <div class="form-group">
-        <label for="street">Logradouro</label>
-        <input id="street" type="text" formControlName="street" placeholder="Rua, Avenida..." />
+      <h2>Endereço</h2>
+
+      <div [formGroup]="enderecoForm">
+        <div class="form-row three-columns">
+          <div class="form-group">
+            <label for="zipCode">CEP *</label>
+            <input id="zipCode" type="text" formControlName="zipCode" placeholder="00000-000" />
+          </div>
+
+          <div class="form-group">
+            <label for="street">Logradouro *</label>
+            <input id="street" type="text" formControlName="street" placeholder="Rua, Avenida..." />
+          </div>
+
+          <div class="form-group">
+            <label for="number">Número *</label>
+            <input id="number" type="text" formControlName="number" placeholder="123" />
+          </div>
+        </div>
+
+        <div class="form-row three-columns">
+          <div class="form-group">
+            <label for="neighborhood">Bairro *</label>
+            <input id="neighborhood" type="text" formControlName="neighborhood" placeholder="Digite o bairro" />
+          </div>
+
+          <div class="form-group">
+            <label for="city">Cidade *</label>
+            <input id="city" type="text" formControlName="city" placeholder="Cidade" />
+          </div>
+
+          <div class="form-group">
+            <label for="state">Estado *</label>
+            <input id="state" type="text" formControlName="state" placeholder="UF" />
+          </div>
+        </div>
       </div>
 
-      <div class="form-group">
-        <label for="number">Número</label>
-        <input id="number" type="text" formControlName="number" placeholder="123" />
-      </div>
-    </div>
-
-    <div class="form-row two-columns">
-      <div class="form-group">
-        <label for="city">Cidade</label>
-        <input id="city" type="text" formControlName="city" placeholder="Cidade" />
+      <div class="form-actions">
+        <button type="button" (click)="onCancelar()">Cancelar</button>
+        <button type="submit" [disabled]="empresaForm.invalid || enderecoForm.invalid">
+          {{ isEditMode() ? 'Salvar alterações' : 'Cadastrar empresa' }}
+        </button>
       </div>
 
-      <div class="form-group">
-        <label for="state">Estado</label>
-        <input id="state" type="text" formControlName="state" placeholder="UF" />
-      </div>
-    </div>
+    </form>
+
   </div>
 
-  <div class="modal-actions">
-    <button type="button" (click)="onCancelar()">Cancelar</button>
-    <button type="submit" [disabled]="empresaForm.invalid || enderecoForm.invalid">Salvar</button>
-  </div>
-
-</form>
-    </div>
 </div>
