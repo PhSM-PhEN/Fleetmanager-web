@@ -27,6 +27,7 @@ import { RentalPlanForm } from './features/rental-plan/rental-plan-form/rental-p
 import { IncidentReportList } from './features/incident-report/incident-report-list/incident-report-list';
 import { IncidentReportForm } from './features/incident-report/incident-report-form/incident-report-form';
 import { IncidentReportDetail } from './features/incident-report/incident-report-detail/incident-report-detail';
+import { ContractTemplateList } from './features/contract-template/contract-template-list/contract-template-list';
 
 export const routes: Routes = [
   { path: 'login', component: Login },
@@ -60,8 +61,10 @@ export const routes: Routes = [
       { path: 'rental-plans/:id/edit', component: RentalPlanForm },
 
       { path: 'incident-reports', component: IncidentReportList },
-      { path: 'incident-reports/new', component: IncidentReportForm },
-      { path: 'incident-reports/:id', component: IncidentReportDetail }
+
+      { path: 'incident-reports/:id', component: IncidentReportDetail },
+      { path: 'contract-templates', component: ContractTemplateList }
+
     ]
   }
 ];

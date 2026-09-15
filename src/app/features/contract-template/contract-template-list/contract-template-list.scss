@@ -1,0 +1,464 @@
+:host {
+  display: block;
+
+  --primary: #5b45e6;
+  --primary-dark: #4935c9;
+
+  --text: #182230;
+  --text-secondary: #6b7280;
+
+  --border: #e5e9f0;
+
+  --background: #f5f7fb;
+}
+
+
+// ======================================================
+// PÁGINA
+// ======================================================
+
+.page {
+  width: 100%;
+}
+
+
+// ======================================================
+// CABEÇALHO
+// ======================================================
+
+.page-header {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  margin-bottom: 25px;
+}
+
+
+.page-header h1 {
+
+  margin: 0 0 5px;
+
+  color: var(--text);
+
+  font-size: 22px;
+
+  font-weight: 750;
+
+  letter-spacing: -0.4px;
+}
+
+
+.page-header p {
+
+  margin: 0;
+
+  color: var(--text-secondary);
+
+  font-size: 12px;
+}
+
+
+// ======================================================
+// BOTÃO PRINCIPAL
+// ======================================================
+
+.primary-button {
+
+  height: 40px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  padding: 0 16px;
+
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #6650ee,
+      #4d38d1
+    );
+
+  border: none;
+
+  border-radius: 8px;
+
+  font-size: 12px;
+
+  font-weight: 650;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 5px 14px rgba(91, 69, 230, 0.18);
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.primary-button span {
+
+  font-size: 18px;
+
+  line-height: 1;
+}
+
+
+.primary-button:hover {
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 7px 18px rgba(91, 69, 230, 0.25);
+}
+
+
+// ======================================================
+// CARD
+// ======================================================
+
+.content-card {
+
+  background: #ffffff;
+
+  border: 1px solid var(--border);
+
+  border-radius: 12px;
+
+  box-shadow:
+    0 4px 16px rgba(15, 23, 42, 0.035);
+
+  overflow: hidden;
+}
+
+
+// ======================================================
+// CABEÇALHO DA TABELA & BUSCA
+// ======================================================
+
+.table-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 22px;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.table-header-info h2,
+.table-header h2 {
+  margin: 0 0 4px;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.table-header-info span,
+.table-header span {
+  color: var(--text-secondary);
+  font-size: 11px;
+}
+
+.search-box {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+}
+
+.search-box svg {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  width: 15px;
+  height: 15px;
+  color: #9aa4b2;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.search-box input {
+  width: 100%;
+  height: 36px;
+  padding: 0 12px 0 34px;
+  color: var(--text);
+  background: #ffffff;
+  border: 1px solid #dfe3e8;
+  border-radius: 7px;
+  outline: none;
+  font-family: inherit;
+  font-size: 12px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.search-box input::placeholder {
+  color: #9aa4b2;
+}
+
+.search-box input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(91, 69, 230, 0.1);
+}
+
+
+// ======================================================
+// TABELA
+// ======================================================
+
+.table-container {
+
+  width: 100%;
+
+  overflow-x: auto;
+}
+
+
+table {
+
+  width: 100%;
+
+  border-collapse: collapse;
+
+  min-width: 700px;
+}
+
+
+thead {
+
+  background: #fafbfc;
+}
+
+
+th {
+
+  padding: 13px 20px;
+
+  color: #7a8493;
+
+  font-size: 9px;
+
+  font-weight: 700;
+
+  text-align: left;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.4px;
+
+  border-bottom: 1px solid var(--border);
+}
+
+
+td {
+
+  padding: 15px 20px;
+
+  color: #4b5563;
+
+  font-size: 11px;
+
+  border-bottom: 1px solid #eef1f5;
+}
+
+
+tbody tr:last-child td {
+
+  border-bottom: none;
+}
+
+
+tbody tr {
+
+  transition: background 0.15s ease;
+}
+
+
+tbody tr:hover {
+
+  background: #fafaff;
+}
+
+
+// ======================================================
+// DADOS
+// ======================================================
+
+.template-name {
+
+  color: var(--text);
+
+  font-weight: 650;
+}
+
+
+.version {
+
+  color: #667085;
+
+  font-weight: 600;
+}
+
+
+.status {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  padding: 3px 9px;
+
+  border-radius: 999px;
+
+  font-size: 9px;
+
+  font-weight: 700;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.3px;
+}
+
+
+.status.active {
+
+  color: #16794f;
+
+  background: #e8f8f0;
+
+  border: 1px solid #cdeedd;
+}
+
+
+.status.inactive {
+
+  color: #667085;
+
+  background: #f2f4f7;
+
+  border: 1px solid #e5e9f0;
+}
+
+
+// ======================================================
+// AÇÕES
+// ======================================================
+
+.actions {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+}
+
+
+.action-button {
+
+  height: 29px;
+
+  padding: 0 10px;
+
+  border-radius: 6px;
+
+  font-size: 10px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: background 0.15s ease;
+}
+
+
+.action-button.edit {
+
+  color: var(--primary);
+
+  background: #f0edff;
+
+  border: 1px solid #e4dfff;
+}
+
+
+.action-button.edit:hover {
+
+  background: #e5e0ff;
+}
+
+
+.action-button.activate {
+
+  color: #16794f;
+
+  background: #e8f8f0;
+
+  border: 1px solid #cdeedd;
+}
+
+
+.action-button.activate:hover {
+
+  background: #d7f2e5;
+}
+
+
+.action-button:disabled {
+
+  opacity: 0.5;
+
+  cursor: not-allowed;
+}
+
+
+.empty-row td {
+  padding: 28px 18px;
+  color: var(--text-secondary);
+  text-align: center;
+  white-space: normal;
+}
+
+
+// ======================================================
+// RESPONSIVO
+// ======================================================
+
+@media (max-width: 700px) {
+
+  .page-header {
+    align-items: flex-start;
+    gap: 15px;
+    flex-direction: column;
+  }
+
+  .primary-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .table-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .search-box {
+    max-width: 100%;
+  }
+
+}

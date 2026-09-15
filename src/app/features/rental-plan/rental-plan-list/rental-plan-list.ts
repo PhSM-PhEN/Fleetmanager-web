@@ -13,6 +13,7 @@ import { NotificationService } from '../../../core/services/notification';
   styleUrl: './rental-plan-list.scss'
 })
 export class RentalPlanList implements OnInit {
+
   private rentalPlanService = inject(RentalPlan);
   private notification = inject(NotificationService);
   private router = inject(Router);
@@ -22,14 +23,13 @@ export class RentalPlanList implements OnInit {
 
   planosFiltrados = computed(() => {
     const termo = this.termoBusca().trim().toLowerCase();
-    if (!termo) return this.planos();
 
     return this.planos().filter(
       (plano) => plano.name?.toLowerCase().includes(termo)
     );
   });
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.carregarPlanos();
   }
 
@@ -40,7 +40,7 @@ export class RentalPlanList implements OnInit {
     });
   }
 
-  onBuscar(termo: string) {
+  onBuscar(termo: string): void {
     this.termoBusca.set(termo);
   }
 
@@ -58,11 +58,17 @@ export class RentalPlanList implements OnInit {
     this.rentalPlanService.excluir(id).subscribe({
       next: () => {
         this.carregarPlanos();
-        this.notification.show('Plano excluído com sucesso!', 'success');
+
+        this.notification.show(
+          'Plano excluído com sucesso!',
+          'success'
+        );
       },
       error: (err) => {
         if (err.status === 403) {
-          this.notification.show('Você não tem permissão para excluir planos.');
+          this.notification.show(
+            'Você não tem permissão para excluir planos.'
+          );
         } else {
           const mensagens = err.error?.errorMessage ?? ['Erro ao excluir plano'];
           this.notification.show(mensagens.join(', '));
